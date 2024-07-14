@@ -30,7 +30,7 @@ export default function StackedBarChart() {
         backgroundColor: "#7eb8d9",
         datalabels: {
           color: "black",
-          anchor: "end",
+          anchor: "middle",
           align: "start",
           offset: -10,
           font: {
@@ -45,7 +45,7 @@ export default function StackedBarChart() {
         backgroundColor: "#d9edf8",
         datalabels: {
           color: "black",
-          anchor: "end",
+          anchor: "middle",
           align: "start",
           offset: -10,
           font: {
