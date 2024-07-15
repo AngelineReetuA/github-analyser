@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Divider from "@mui/material/Divider";
 import Doughnut from "../components/Doughnut";
 import StackedBarChart from "../components/StackedBar";
 import StatCard from "../components/StatCard";
@@ -12,17 +13,18 @@ export default function InitialAnalysis() {
   const [data, setData] = useState({
     head: {
       photoURL:
-        "https://lh3.googleusercontent.com/a-/ALV-UjXDEBPTzmwZfbW1GCPpLKO6VGLJtB7osFYGEEgU1gsFRbOImwhrq_UN6x1sTr96Y3Oir_ar0Tl3ZCNTZMm-dzwCin-wWnDgRtlgry4SF0zYlraCd3j7IQMTMlKR2o3t65aqqvQNo3RpN84pFhIp_LR2eK9CnZdMngX_s_dvmk-P6NiDrsxXrILiB6CGHazimm4V_P_UpSX-XTiCjnqnE2jbjxWi1O_kCYIC8bQFIlSj2f6JPHqO65HSfH-k6kuDCKaGwBG0lQ5nxd4BcIM7noBAD3XPG1WcCsGr_cMYRdGcKbYeZxLjwTM40R_cPJgVRWDcIEHK3DgckUzJqsavttbxiZWpJsp184mYrcyf9tesobASVQpPFkPQJGYKg6v7Xq_1qRl_ryGfU3bUj8C0u5Ui3b3p8zoRqx1QDYR1N8u2SdR3wpg2X2qaJ9vSSMWqM8T_f9JSHqFPnqUM6I3venvEJLeoZpvfmaertEvNvG1IY2F7wyS_OT_J_1i-A6f1A1BWprI3kcbAedtrlWfu7KtsMRN_kxa9qQu85KbJevbFD6Ih-bXSh-qv35aLkiz97XkNQaMmxlx2-h43V65JhiDv5He0PHAisMBTy7P2QPmFO9eyHVMFOHfQrlMmaOaar2fo6g6XwPG0jGYoYieSz1B-rIHTqkpW6hP-rqUopeUI9OBYxPB9bqkOFqCC_P2I6H5zWc6Awe71oPeB0wD8RZ-WqTMMY0tN-f0LgtX1WTtH5dDYSQQyoKoUh7q2WlLMiBfooqoGYH1N3k6BIxDu0igWaEqry0aznPkWf7WgN1cfIb8VlKwbWdO5yd0KkyGaIyc3wW1WtzUCkhQweJ2LeX4Ml3aJRXRtgT_dZ4GqAqdxDWPoa67BdJNgCNb0-l15cLS0l0DhHeqws9MZtctnGpnB_9lkNvd9E-TlTzkCHEzLVGX7iBxk6SujFwmLUxICWTjlPpdVTOb7dzNIC_yMod2lvpWU=s288-c-no",
-      name: "Angeline Reetu A",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsPJ9cm0-r5p50py0yUzvM5ZtEB-xWoJRPRA&s",
+      name: "github name",
       bio: "Software Engineer",
       followers: "5",
-      emp: "Sysvine Technologies",
+      emp: "company",
       link: "https://www.google.com",
     },
     repositories: "",
     commits: "",
     repos: [
       {
+        repoLink: "",
         repoName: "",
         repoDesc: "",
         repoLang: "",
@@ -43,20 +45,18 @@ export default function InitialAnalysis() {
           emp={data.head.emp}
           link={data.head.link}
         />
-        <hr />
+        <Divider sx={{ bgcolor: "#545454" }} />
         <div className="row d-flex justify-content-center">
           <div className="d-flex">
-            <StatCard statName="ACTIVITY" cardPadding="p-4">
+            <StatCard statName="ACTIVITY">
               <Doughnut />
             </StatCard>
             <div className="vr"></div>
-            <StatCard statName="REPOSITORIES" cardPadding="p-5">
-              300+
-            </StatCard>
+            <StatCard statName="REPOSITORIES">300+</StatCard>
             <div className="vr"></div>
-            <StatCard statName="COMMITS" cardPadding="p-5">
-              40+
-            </StatCard>
+            <StatCard statName="COMMITS">40+</StatCard>
+            <div className="vr"></div>
+            <StatCard statName="LANGUAGES">6+</StatCard>
           </div>
         </div>
         <hr />
@@ -71,6 +71,7 @@ export default function InitialAnalysis() {
                 <div className="row">
                   <div className="col">
                     <GithubCard
+                      repoLink="https://www.google.com"
                       repoName="GithubRepoName"
                       repoDesc="GithubRepoDesc"
                       repoLang="Java"
@@ -79,6 +80,7 @@ export default function InitialAnalysis() {
                   </div>
                   <div className="col">
                     <GithubCard
+                      repoLink="https://www.google.com"
                       repoName="GithubRepoName"
                       repoDesc="GithubRepoDesc"
                       repoLang="Java"
@@ -90,9 +92,7 @@ export default function InitialAnalysis() {
             </div>
           </div>
           <div className="col-md-4">
-            <Releases
-              links={data.links.link1}
-            />
+            <Releases links={data.links} />
           </div>
         </div>
       </div>
