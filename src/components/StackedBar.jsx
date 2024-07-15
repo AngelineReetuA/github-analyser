@@ -9,6 +9,7 @@ import {
   Legend,
 } from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
+import { Box } from "@mui/material";
 
 ChartJS.register(
   BarElement,
@@ -81,8 +82,8 @@ export default function StackedBarChart() {
   };
 
   return (
-    <div style={{ height: "290px", width: "180px" }}>
+    <Box style={{ height: "290px", width: "180px" }}>
       <Bar data={data2} options={options2} />
-    </div>
+    </Box>
   );
 }

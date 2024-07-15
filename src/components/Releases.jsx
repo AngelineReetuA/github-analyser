@@ -1,32 +1,36 @@
 import PropTypes from "prop-types";
+import {
+  Box,
+  Typography,
+  Table,
+  TableBody,
+  TableCell,
+  TableRow,
+  Link,
+} from "@mui/material";
 
-export default function Releases({link1, link2, link3, link4}) {
+export default function Releases({ links }) {
   return (
     <>
-      <h3>Releases</h3>
-      <a href={link1} className="fs-5" target="_blank">
-        {link1}
-      </a>
-      <br />
-      <a href={link2} className="fs-5" target="_blank">
-        {link2}
-      </a>
-      <br />
-      <a href={link3} className="fs-5" target="_blank">
-        {link3}
-      </a>
-      <br />
-      <a href={link4} className="fs-5" target="_blank">
-        {link4}
-      </a>
+      <Box p={1}>
+        <Typography variant="h4">Releases</Typography>
+        <Table>
+          <TableBody>
+            <TableRow>
+              <TableCell>
+                <Link href="https://www.google.com" target="_blank">
+                  <Typography variant="h6">this is a link</Typography>
+                  {/* iterate through the links array */}
+                </Link>
+              </TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+      </Box>
     </>
   );
 }
 
 Releases.propTypes = {
-    link1: PropTypes.string,
-    link2: PropTypes.string,
-    link3: PropTypes.string,
-    link4: PropTypes.string,
-
-}
+  links: PropTypes.array,
+};

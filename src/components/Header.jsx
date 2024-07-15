@@ -1,9 +1,19 @@
+import {AppBar, Typography, Box} from "@mui/material";
+
 export default function Header() {
   return (
     <>
-      <nav className="navbar bg-dark">
-        <a className="navbar-brand text-light px-3">quickGit</a>
-      </nav>
+      <Box sx={{ flexGrow: 1 }}>
+        <AppBar position="static">
+          <Typography
+            variant="h6"
+            component="div"
+            sx={{ flexGrow: 1, bgcolor: "black", padding:"15px" }}
+          >
+            Quick Github Analyser
+          </Typography>
+        </AppBar>
+      </Box>
     </>
   );
 }
