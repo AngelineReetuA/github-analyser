@@ -1,8 +1,8 @@
 import PropTypes from "prop-types";
 import { Grid, Avatar, Typography, Link } from "@mui/material";
 import GroupIcon from "@mui/icons-material/Group";
-import BusinessIcon from '@mui/icons-material/Business';
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import BusinessIcon from "@mui/icons-material/Business";
+import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 
 export default function Headline({
   photoURL,
@@ -25,26 +25,31 @@ export default function Headline({
         <Grid item xs container direction="column">
           <Grid item paddingLeft={2}>
             <Typography variant="h4" style={{ fontWeight: "bold" }}>
-              github name
+              John Doe
             </Typography>
             <Typography style={{ fontStyle: "italic" }}>
-              bio / headline / profession
+              Software Engineer
             </Typography>
-            <Grid container spacing={3} style={{ fontStyle: "italic", paddingTop:"5px" }} alignItems="center">
-              <Grid item>
-                <Typography variant="body1">
-                  <GroupIcon style={{marginRight:"10px"}}/>8 followers
-                </Typography>
+            <Grid
+              container
+              spacing={3}
+              style={{ fontStyle: "italic", paddingTop: "5px" }}
+              alignItems="center"
+            >
+              <Grid item display="flex" flexDirection="row">
+                <GroupIcon style={{ marginRight: "10px" }} />
+                <Typography variant="body1">8 followers</Typography>
               </Grid>
-              <Grid item>
-                <Typography variant="body1">
-                  <BusinessIcon style={{marginRight:"10px"}}/>IT Company
-                </Typography>
+              <Grid item display="flex" flexDirection="row">
+                <BusinessIcon style={{ marginRight: "10px" }} />
+                <Typography variant="body1">IT Company</Typography>
               </Grid>
-              <Grid item>
+              <Grid item display="flex" flexDirection="row">
+                <OpenInNewIcon style={{ marginRight: "10px" }} />
                 <Typography variant="body1">
-                  <OpenInNewIcon style={{marginRight:"10px"}}/>
-                  <Link href="https://www.google.com">Blog</Link>
+                  <Link href="https://www.google.com" target="_blank">
+                    Blog
+                  </Link>
                 </Typography>
               </Grid>
             </Grid>

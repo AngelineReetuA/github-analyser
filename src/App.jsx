@@ -1,4 +1,6 @@
 import InitialAnalysis from "./pages/InitialAnalysis";
+import Contact from "./pages/Contact";
+import CodeAnalysis from "./pages/CodeAnalysis";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import CodeIcon from "@mui/icons-material/Code";
 import PersonIcon from "@mui/icons-material/Person";
@@ -15,27 +17,21 @@ function App() {
   return (
     <>
       <Header />
-      <Box sx={{ display: "flex" }}>
-        <Box
-          sx={{
-            flexGrow: 1,
-            bgcolor: "#d9edf8",
-            display: "flex",
-          }}
+      <Box sx={{ display: "flex", flexGrow:"1"}}>
+        <Tabs
+          orientation="vertical"
+          value={currentTabIndex}
+          onChange={handleTabChange}
+          sx={{ borderRight: 1, borderColor: "#7eb8d9", bgcolor:"#d9edf8", height:"92vh"  }}
         >
-          <Tabs
-            orientation="vertical"
-            variant="scrollable"
-            value={currentTabIndex}
-            onChange={handleTabChange}
-            sx={{ borderRight: 1, borderColor: "#7eb8d9" }}
-          >
-            <Tab icon={<RemoveRedEyeIcon />} />
-            <Tab icon={<CodeIcon />} />
-            <Tab icon={<PersonIcon />} />
-          </Tabs>
-        </Box>
+          <Tab icon={<RemoveRedEyeIcon />} />
+          <Tab icon={<CodeIcon />} />
+          <Tab icon={<PersonIcon />} />
+        </Tabs>
+
         {currentTabIndex === 0 && <InitialAnalysis />}
+        {currentTabIndex === 1 && <CodeAnalysis />}
+        {currentTabIndex === 2 && <Contact />} 
       </Box>
     </>
   );

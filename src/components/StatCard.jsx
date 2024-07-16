@@ -4,7 +4,7 @@ import { Grid, Typography } from "@mui/material";
 export default function StatCard({ statName, children }) {
   return (
     <>
-      <Grid container>
+      <Grid container py={1}>
         <Grid
           container
           display="flex"

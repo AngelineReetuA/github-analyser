@@ -13,14 +13,29 @@ export default function Releases({ links }) {
   return (
     <>
       <Box p={1}>
-        <Typography variant="h4">Releases</Typography>
+        <Typography variant="h5" sx={{ fontWeight: "bold" }}>
+          Releases
+        </Typography>
         <Table>
           <TableBody>
             <TableRow>
               <TableCell>
                 <Link href="https://www.google.com" target="_blank">
-                  <Typography variant="h6">this is a link</Typography>
-                  {/* iterate through the links array */}
+                  <Typography variant="h6">App Release Link</Typography>
+                </Link>
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>
+                <Link href="https://www.google.com" target="_blank">
+                  <Typography variant="h6">App Release Link</Typography>
+                </Link>
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>
+                <Link href="https://www.google.com" target="_blank">
+                  <Typography variant="h6">App Release Link</Typography>
                 </Link>
               </TableCell>
             </TableRow>

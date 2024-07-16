@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Divider from "@mui/material/Divider";
+import { Divider, Grid, Box, Paper, Typography } from "@mui/material";
 import Doughnut from "../components/Doughnut";
 import StackedBarChart from "../components/StackedBar";
 import StatCard from "../components/StatCard";
@@ -36,7 +36,7 @@ export default function InitialAnalysis() {
 
   return (
     <>
-      <div className="container-fluid">
+      <Grid sx={{ width: "-webkit-fill-available" }}>
         <Headline
           photoURL={data.head.photoURL}
           name={data.head.name}
@@ -45,57 +45,57 @@ export default function InitialAnalysis() {
           emp={data.head.emp}
           link={data.head.link}
         />
-        <Divider sx={{ bgcolor: "#545454" }} />
-        <div className="row d-flex justify-content-center">
-          <div className="d-flex">
-            <StatCard statName="ACTIVITY">
-              <Doughnut />
-            </StatCard>
-            <div className="vr"></div>
-            <StatCard statName="REPOSITORIES">300+</StatCard>
-            <div className="vr"></div>
-            <StatCard statName="COMMITS">40+</StatCard>
-            <div className="vr"></div>
-            <StatCard statName="LANGUAGES">6+</StatCard>
-          </div>
-        </div>
-        <hr />
-        <div className="row">
-          <div className="col-md-2">
+        <Divider sx={{ bgcolor: "rgba(84,84,84,0.6)" }} />
+        <Box display="flex" flexDirection="row" justifyContent="space-evenly">
+          <StatCard statName="ACTIVITY">
+            <Doughnut />
+          </StatCard>
+          <Divider sx={{ bgcolor: "rgba(84,84,84,0.6)", width: "1px" }} />
+          <StatCard statName="REPOSITORIES">300+</StatCard>
+          <Divider sx={{ bgcolor: "rgba(84,84,84,0.6)", width: "1px" }} />
+          <StatCard statName="COMMITS">40+</StatCard>
+          <Divider sx={{ width: "1px", bgcolor: "rgba(84,84,84,0.6)" }} />
+          <StatCard statName="LANGUAGES">6+</StatCard>
+        </Box>
+        <Divider sx={{ bgcolor: "rgba(84,84,84,0.6)" }} />
+        <Box display="flex" flexDirection="row" p={2}>
+          <Grid item px={1} md={2}>
             <StackedBarChart />
-          </div>
-          <div className="col-md-6">
-            <div className="card bg-light border-dark px-3 pt-1">
-              <div className="card-title fs-3 fw-bold">Highlights</div>
-              <div className="card-body">
-                <div className="row">
-                  <div className="col">
+          </Grid>
+          <Grid item p={1} px={1} md={6}>
+            <Box p={3} pt={1}>
+              <Paper elevation={1} sx={{ padding: "20px" }}>
+                <Typography fontWeight={800} variant="h5" pb={2}>
+                  Highlights
+                </Typography>
+                <Box display="flex" flexDirection="row" gap={2}>
+                  <Box flexDirection="column">
                     <GithubCard
                       repoLink="https://www.google.com"
                       repoName="GithubRepoName"
-                      repoDesc="GithubRepoDesc"
+                      repoDesc="This is a really cool and highlighted repo pulled by maximum stars/commits"
                       repoLang="Java"
-                      repoStars="21"
+                      repoStars="213"
                     />
-                  </div>
-                  <div className="col">
+                  </Box>
+                  <Box flexDirection="column">
                     <GithubCard
                       repoLink="https://www.google.com"
                       repoName="GithubRepoName"
-                      repoDesc="GithubRepoDesc"
-                      repoLang="Java"
-                      repoStars="21"
+                      repoDesc="This is a really cool and highlighted repo pulled by maximum stars/commits"
+                      repoLang="Python"
+                      repoStars="90"
                     />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="col-md-4">
+                  </Box>
+                </Box>
+              </Paper>
+            </Box>
+          </Grid>
+          <Grid item md={4}>
             <Releases links={data.links} />
-          </div>
-        </div>
-      </div>
+          </Grid>
+        </Box>
+      </Grid>
       ;
     </>
   );

@@ -1,5 +1,11 @@
 import PropTypes from "prop-types";
-import { Link, Box, Typography, Divider, Grid } from "@mui/material";
+import {
+  Link,
+  Box,
+  Typography,
+  Divider,
+  Grid,
+} from "@mui/material";
 import DataObjectIcon from "@mui/icons-material/DataObject";
 import StarIcon from "@mui/icons-material/Star";
 
@@ -22,26 +28,28 @@ export default function GithubCard({
           sx={{ bgcolor: "#242424", color: "white" }}
           p={2}
           py={2}
+          width="350px"
+          height="150px"
         >
           <Typography variant="h7" sx={{ fontWeight: "bold" }}>
-            github-name
+            {repoName}
+          </Typography>
+          <Divider sx={{ bgcolor: "white", marginTop: "10px" }} />
+          <Typography py={1} sx={{ height: "70px" }}>
+            {repoDesc}
           </Typography>
           <Divider sx={{ bgcolor: "white" }} />
-          <Typography py={1}>
-            description description description description description
-          </Typography>
-          <Divider sx={{ bgcolor: "white" }} />
-          <Grid display="flex">
+          <Grid display="flex" alignItems="center">
+            <DataObjectIcon
+              style={{ marginRight: "10px", fontSize: "medium" }}
+            />
             <Typography variant="body2" pr={2} py={1}>
-              <DataObjectIcon
-                style={{ marginRight: "10px", fontSize: "medium" }}
-              />
-              Javascript
+              {repoLang}
             </Typography>
-            <Typography variant="body2" py={1}>
-              <StarIcon style={{ marginRight: "10px", fontSize: "medium" }} />
-              213
-            </Typography>
+
+            <StarIcon style={{ marginRight: "10px", fontSize: "medium" }} />
+            {repoStars}
+            <Typography variant="body2" py={1}></Typography>
           </Grid>
         </Box>
       </Link>

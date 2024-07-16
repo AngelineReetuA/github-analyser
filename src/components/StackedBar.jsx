@@ -27,8 +27,8 @@ export default function StackedBarChart() {
     datasets: [
       {
         label: "Javascript",
-        data: [70],
-        backgroundColor: "#7eb8d9",
+        data: [40],
+        backgroundColor: "#4e7a94",
         datalabels: {
           color: "black",
           anchor: "middle",
@@ -38,6 +38,21 @@ export default function StackedBarChart() {
             weight: "bold",
           },
           formatter: () => "Javascript",
+        },
+      },
+      {
+        label: "C++",
+        data: [30],
+        backgroundColor: "#7eb8d9",
+        datalabels: {
+          color: "black",
+          anchor: "middle",
+          align: "start",
+          offset: -10,
+          font: {
+            weight: "bold",
+          },
+          formatter: () => "C++",
         },
       },
       {
