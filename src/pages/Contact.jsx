@@ -17,8 +17,12 @@ import {
 } from "@mui/material";
 import { TextareaAutosize } from "@mui/material";
 import { useState } from "react";
+import * as yup from "yup";
 
 export default function Contact() {
+  const [show, setShow] = useState(false);
+  const [select, setSelect] = useState("");
+
   const [data, setData] = useState({
     name: "",
     email: "",
@@ -28,13 +32,35 @@ export default function Contact() {
     message: "",
     rating: "",
   });
-  const [show, setShow] = useState(false);
-  const [select, setSelect] = useState("");
 
-  function formSubmission(event) {
+  const schema = yup.object().shape({
+    name: yup.string().required(),
+    email: yup.string().email().required(),
+    phone: yup.number().required().min(10),
+    gender: yup.string().required(),
+    reason: yup.string().required(),
+    message: yup.string(),
+    rating: yup.number(),
+  });
+
+  async function formSubmission(event) {
     event.preventDefault();
-    console.log(data);
-    const values = {};
+    const formData = new FormData(event.target);
+    await setData({
+      name: `${formData.get("name")}`,
+      email: `${formData.get("email")}`,
+      phone: `${formData.get("phone")}`,
+      gender: `${formData.get("gender")}`,
+      reason: `${formData.get("reason")}`,
+      message: `${formData.get("message")}`,
+      rating: `${formData.get("rating")}`,
+    });
+    schema
+      .validate(data)
+      .then((valid) => console.log(valid))
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   return (
@@ -47,14 +73,14 @@ export default function Contact() {
           <FormControl variant="standard" sx={{ width: "50%" }}>
             <Box display="flex" flexDirection="column">
               <TextField
-                id="name"
+                name="name"
                 label="Name"
                 variant="outlined"
                 sx={{ pb: "10px" }}
                 required
               />
               <TextField
-                id="mail"
+                name="email"
                 label="Email"
                 type="email"
                 variant="outlined"
@@ -62,14 +88,14 @@ export default function Contact() {
                 required
               />
               <TextField
-                id="phone"
+                name="phone"
                 label="Phone number"
                 variant="outlined"
                 sx={{ pb: "10px" }}
                 required
               />
               <FormLabel>Gender</FormLabel>
-              <RadioGroup row id="gender" defaultValue="female" required>
+              <RadioGroup row name="gender" defaultValue="female" required>
                 <FormControlLabel
                   value="female"
                   control={<Radio />}
@@ -86,10 +112,11 @@ export default function Contact() {
                   label="Other"
                 />
               </RadioGroup>
-              <FormLabel id="reasonConnect">
+              <FormLabel name="reasonConnect">
                 What are you connecting for?
               </FormLabel>
               <Select
+                name="reason"
                 labelId="reasonConnect"
                 value={select || ""}
                 onChange={(event) => {
@@ -123,12 +150,13 @@ export default function Contact() {
                   <TextareaAutosize
                     minRows={6}
                     placeholder="Enter message here"
+                    name="message"
                   />
                 </>
               )}
               <FormGroup row padding={2}>
-                <FormLabel id="rating">Rate my Github:</FormLabel>
-                <Rating labelid="rating" />
+                <FormLabel>Rate my Github:</FormLabel>
+                <Rating name="rating" labelid="rating" />
               </FormGroup>
               <br />
               <Button type="submit" variant="contained">
