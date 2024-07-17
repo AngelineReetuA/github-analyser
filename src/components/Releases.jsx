@@ -9,7 +9,7 @@ import {
   Link,
 } from "@mui/material";
 
-export default function Releases({ links }) {
+export default function Releases() {
   return (
     <>
       <Box p={1}>
