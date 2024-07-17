@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Container,
   FormControl,
@@ -17,11 +17,7 @@ import {
   Button,
 } from "@mui/material";
 import { TextareaAutosize } from "@mui/material";
-<<<<<<< HEAD
-=======
-import { useState } from "react";
 import * as yup from "yup";
->>>>>>> 8dbfc4c0e5ea93889bb21e19c70ad1fea6f25311
 
 export default function Contact() {
   const [show, setShow] = useState(false);
@@ -31,62 +27,56 @@ export default function Contact() {
     name: "",
     email: "",
     phone: "",
-    gender: "",
+    gender: "female",
     reason: "",
     message: "",
     rating: null,
   });
 
-<<<<<<< HEAD
-  const handleInputChange = (event) => {
-    setData({
+  const onUpdateField = (e) => {
+    const updateState = {
       ...data,
-      [event.target.id]: event.target.value,
-    });
+      [e.target.name]: e.target.value,
+    };
+    setData(updateState);
   };
 
-  const handleRatingChange = (newValue) => {
-    setData({
-      ...data,
-      rating: newValue,
-    });
-  };
-
-  const formSubmission = (event) => {
-    event.preventDefault();
-    console.log(data);
-  };
-=======
   const schema = yup.object().shape({
-    name: yup.string().required(),
-    email: yup.string().email().required(),
-    phone: yup.number().required().min(10),
+    name: yup
+      .string()
+      .required()
+      .matches(/^[a-zA-Z'-\s]+$/, "Invalid name")
+      .min(2),
+    email: yup.string().email("Is this really an email?").required(),
+    phone: yup
+      .string()
+      .required()
+      .min(10).max(10),
     gender: yup.string().required(),
     reason: yup.string().required(),
-    message: yup.string(),
-    rating: yup.number(),
+    message: yup
+      .string()
+      .nullable()
+      .notRequired()
+      .max(40, "Keep your message less than 40 words"),
+    rating: yup.number().nullable().notRequired(),
   });
 
   async function formSubmission(event) {
     event.preventDefault();
-    const formData = new FormData(event.target);
-    await setData({
-      name: `${formData.get("name")}`,
-      email: `${formData.get("email")}`,
-      phone: `${formData.get("phone")}`,
-      gender: `${formData.get("gender")}`,
-      reason: `${formData.get("reason")}`,
-      message: `${formData.get("message")}`,
-      rating: `${formData.get("rating")}`,
-    });
+    console.log(data);
+
     schema
       .validate(data)
-      .then((valid) => console.log(valid))
+      .then((valid) => {
+        console.log("Validation Successful", valid);
+        alert("Validation successful");
+      })
       .catch((error) => {
-        console.log(error);
+        console.log(error + " in the data", data);
+        alert(error);
       });
   }
->>>>>>> 8dbfc4c0e5ea93889bb21e19c70ad1fea6f25311
 
   return (
     <>
@@ -102,46 +92,33 @@ export default function Contact() {
                 label="Name"
                 variant="outlined"
                 sx={{ pb: "10px" }}
+                onChange={onUpdateField}
                 required
-                value={data.name}
-                onChange={handleInputChange}
               />
               <TextField
-<<<<<<< HEAD
-                id="email"
-=======
                 name="email"
->>>>>>> 8dbfc4c0e5ea93889bb21e19c70ad1fea6f25311
                 label="Email"
-                type="email"
                 variant="outlined"
+                onChange={onUpdateField}
                 sx={{ pb: "10px" }}
                 required
-                value={data.email}
-                onChange={handleInputChange}
               />
               <TextField
                 name="phone"
                 label="Phone number"
+                onChange={onUpdateField}
                 variant="outlined"
                 sx={{ pb: "10px" }}
                 required
-                value={data.phone}
-                onChange={handleInputChange}
               />
-<<<<<<< HEAD
-              <FormLabel component="legend">Gender</FormLabel>
+              <FormLabel>Gender</FormLabel>
               <RadioGroup
                 row
-                id="gender"
-                value={data.gender}
-                onChange={handleInputChange}
+                name="gender"
+                defaultValue="female"
+                onChange={onUpdateField}
                 required
               >
-=======
-              <FormLabel>Gender</FormLabel>
-              <RadioGroup row name="gender" defaultValue="female" required>
->>>>>>> 8dbfc4c0e5ea93889bb21e19c70ad1fea6f25311
                 <FormControlLabel
                   value="female"
                   control={<Radio />}
@@ -158,19 +135,22 @@ export default function Contact() {
                   label="Other"
                 />
               </RadioGroup>
-<<<<<<< HEAD
-              <FormLabel>What are you connecting for?</FormLabel>
-=======
               <FormLabel name="reasonConnect">
                 What are you connecting for?
               </FormLabel>
->>>>>>> 8dbfc4c0e5ea93889bb21e19c70ad1fea6f25311
               <Select
                 name="reason"
                 labelId="reasonConnect"
                 id="reason"
                 value={select}
-                onChange={(event) => setSelect(event.target.value)}
+                onChange={(event) => {
+                  setSelect(event.target.value);
+                  const updateState = {
+                    ...data,
+                    [event.target.name]: event.target.value,
+                  };
+                  setData(updateState);
+                }}
                 sx={{ width: "350px" }}
               >
                 <MenuItem value="Freelance/Job">Freelance/Job</MenuItem>
@@ -192,37 +172,22 @@ export default function Contact() {
                 />
               </FormGroup>
               {show && (
-<<<<<<< HEAD
-                <TextareaAutosize
-                  minRows={6}
-                  placeholder="Enter message here"
-                  value={data.message}
-                  onChange={(event) =>
-                    setData({ ...data, message: event.target.value })
-                  }
-                />
-              )}
-              <FormGroup row padding={2}>
-                <FormLabel component="legend">Rate my Github:</FormLabel>
-                <Rating
-                  id="rating"
-                  name="rating"
-                  value={data.rating}
-                  onChange={(event, newValue) => handleRatingChange(newValue)}
-                />
-=======
                 <>
                   <TextareaAutosize
                     minRows={6}
                     placeholder="Enter message here"
                     name="message"
+                    onChange={onUpdateField}
                   />
                 </>
               )}
               <FormGroup row padding={2}>
                 <FormLabel>Rate my Github:</FormLabel>
-                <Rating name="rating" labelid="rating" />
->>>>>>> 8dbfc4c0e5ea93889bb21e19c70ad1fea6f25311
+                <Rating
+                  name="rating"
+                  labelid="rating"
+                  onChange={onUpdateField}
+                />
               </FormGroup>
               <br />
               <Button type="submit" variant="contained">
