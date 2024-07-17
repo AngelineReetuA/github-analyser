@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import {
   Container,
   FormControl,
@@ -16,7 +17,6 @@ import {
   Button,
 } from "@mui/material";
 import { TextareaAutosize } from "@mui/material";
-import { useState } from "react";
 
 export default function Contact() {
   const [data, setData] = useState({
@@ -26,16 +26,29 @@ export default function Contact() {
     gender: "",
     reason: "",
     message: "",
-    rating: "",
+    rating: null,
   });
   const [show, setShow] = useState(false);
   const [select, setSelect] = useState("");
 
-  function formSubmission(event) {
+  const handleInputChange = (event) => {
+    setData({
+      ...data,
+      [event.target.id]: event.target.value,
+    });
+  };
+
+  const handleRatingChange = (newValue) => {
+    setData({
+      ...data,
+      rating: newValue,
+    });
+  };
+
+  const formSubmission = (event) => {
     event.preventDefault();
     console.log(data);
-    const values = {};
-  }
+  };
 
   return (
     <>
@@ -52,14 +65,18 @@ export default function Contact() {
                 variant="outlined"
                 sx={{ pb: "10px" }}
                 required
+                value={data.name}
+                onChange={handleInputChange}
               />
               <TextField
-                id="mail"
+                id="email"
                 label="Email"
                 type="email"
                 variant="outlined"
                 sx={{ pb: "10px" }}
                 required
+                value={data.email}
+                onChange={handleInputChange}
               />
               <TextField
                 id="phone"
@@ -67,9 +84,17 @@ export default function Contact() {
                 variant="outlined"
                 sx={{ pb: "10px" }}
                 required
+                value={data.phone}
+                onChange={handleInputChange}
               />
-              <FormLabel>Gender</FormLabel>
-              <RadioGroup row id="gender" defaultValue="female" required>
+              <FormLabel component="legend">Gender</FormLabel>
+              <RadioGroup
+                row
+                id="gender"
+                value={data.gender}
+                onChange={handleInputChange}
+                required
+              >
                 <FormControlLabel
                   value="female"
                   control={<Radio />}
@@ -86,15 +111,12 @@ export default function Contact() {
                   label="Other"
                 />
               </RadioGroup>
-              <FormLabel id="reasonConnect">
-                What are you connecting for?
-              </FormLabel>
+              <FormLabel>What are you connecting for?</FormLabel>
               <Select
                 labelId="reasonConnect"
-                value={select || ""}
-                onChange={(event) => {
-                  setSelect(event.target.value);
-                }}
+                id="reason"
+                value={select}
+                onChange={(event) => setSelect(event.target.value)}
                 sx={{ width: "350px" }}
               >
                 <MenuItem value="Freelance/Job">Freelance/Job</MenuItem>
@@ -105,30 +127,34 @@ export default function Contact() {
               <br />
               <FormGroup row>
                 <FormControlLabel
-                  value="Add a message?"
                   control={
                     <Switch
                       checked={show}
-                      onChange={(event) => {
-                        setShow(event.target.checked);
-                      }}
+                      onChange={(event) => setShow(event.target.checked)}
                     />
                   }
                   label="Add a message?"
                   labelPlacement="start"
-                ></FormControlLabel>
+                />
               </FormGroup>
               {show && (
-                <>
-                  <TextareaAutosize
-                    minRows={6}
-                    placeholder="Enter message here"
-                  />
-                </>
+                <TextareaAutosize
+                  minRows={6}
+                  placeholder="Enter message here"
+                  value={data.message}
+                  onChange={(event) =>
+                    setData({ ...data, message: event.target.value })
+                  }
+                />
               )}
               <FormGroup row padding={2}>
-                <FormLabel id="rating">Rate my Github:</FormLabel>
-                <Rating labelid="rating" />
+                <FormLabel component="legend">Rate my Github:</FormLabel>
+                <Rating
+                  id="rating"
+                  name="rating"
+                  value={data.rating}
+                  onChange={(event, newValue) => handleRatingChange(newValue)}
+                />
               </FormGroup>
               <br />
               <Button type="submit" variant="contained">
