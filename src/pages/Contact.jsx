@@ -17,7 +17,9 @@ import {
   Button,
 } from "@mui/material";
 import { TextareaAutosize } from "@mui/material";
-import * as yup from "yup";
+import SchemaValidation from "./SchemaValidation";
+import { Formik } from "formik";
+import { SettingsInputComponentSharp } from "@mui/icons-material";
 
 export default function Contact() {
   const [show, setShow] = useState(false);
@@ -40,27 +42,6 @@ export default function Contact() {
     };
     setData(updateState);
   };
-
-  const schema = yup.object().shape({
-    name: yup
-      .string()
-      .required()
-      .matches(/^[a-zA-Z'-\s]+$/, "Invalid name")
-      .min(2),
-    email: yup.string().email("Is this really an email?").required(),
-    phone: yup
-      .string()
-      .required()
-      .min(10).max(10),
-    gender: yup.string().required(),
-    reason: yup.string().required(),
-    message: yup
-      .string()
-      .nullable()
-      .notRequired()
-      .max(40, "Keep your message less than 40 words"),
-    rating: yup.number().nullable().notRequired(),
-  });
 
   async function formSubmission(event) {
     event.preventDefault();
@@ -93,7 +74,6 @@ export default function Contact() {
                 variant="outlined"
                 sx={{ pb: "10px" }}
                 onChange={onUpdateField}
-                required
               />
               <TextField
                 name="email"
@@ -101,7 +81,6 @@ export default function Contact() {
                 variant="outlined"
                 onChange={onUpdateField}
                 sx={{ pb: "10px" }}
-                required
               />
               <TextField
                 name="phone"
@@ -109,7 +88,6 @@ export default function Contact() {
                 onChange={onUpdateField}
                 variant="outlined"
                 sx={{ pb: "10px" }}
-                required
               />
               <FormLabel>Gender</FormLabel>
               <RadioGroup
@@ -117,7 +95,6 @@ export default function Contact() {
                 name="gender"
                 defaultValue="female"
                 onChange={onUpdateField}
-                required
               >
                 <FormControlLabel
                   value="female"
@@ -200,3 +177,11 @@ export default function Contact() {
     </>
   );
 }
+
+// Things to see:
+// - uncontrolled and controlled components
+// - what we want: we want uncontrolled components which we can control manually using formik and yup
+
+// Things to be done:
+// - move schema to another file
+// - do validation using formik and yup 
