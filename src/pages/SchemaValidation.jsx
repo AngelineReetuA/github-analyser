@@ -1,6 +1,6 @@
 import * as yup from "yup";
 
-export const schema = yup.object().shape({
+export const schema = yup.object({
     name: yup
       .string()
       .required("Please enter your name")
