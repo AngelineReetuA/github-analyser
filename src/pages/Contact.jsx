@@ -17,84 +17,80 @@ import {
   Button,
 } from "@mui/material";
 import { TextareaAutosize } from "@mui/material";
-import SchemaValidation from "./SchemaValidation";
-import { Formik } from "formik";
-import { SettingsInputComponentSharp } from "@mui/icons-material";
+import { schema } from "./SchemaValidation";
+import { useFormik } from "formik";
 
 export default function Contact() {
   const [show, setShow] = useState(false);
-  const [select, setSelect] = useState("");
+  const [showErrors, setShowErrors] = useState(false);
 
-  const [data, setData] = useState({
+  const data = {
     name: "",
     email: "",
     phone: "",
-    gender: "female",
+    gender: "",
     reason: "",
     message: "",
     rating: null,
-  });
-
-  const onUpdateField = (e) => {
-    const updateState = {
-      ...data,
-      [e.target.name]: e.target.value,
-    };
-    setData(updateState);
   };
 
-  async function formSubmission(event) {
-    event.preventDefault();
-    console.log(data);
+  const { values, handleBlur, handleChange, handleSubmit, errors } = useFormik({
+    initialValues: {
+      data,
+    },
+    validationSchema: schema,
+    onSubmit: (values) => {
+      console.log(values);
+      console.log("hi inside submit");
+    },
+  });
 
-    schema
-      .validate(data)
-      .then((valid) => {
-        console.log("Validation Successful", valid);
-        alert("Validation successful");
-      })
-      .catch((error) => {
-        console.log(error + " in the data", data);
-        alert(error);
-      });
-  }
+  console.log(errors);
 
   return (
     <>
       <Container sx={{ padding: "20px" }}>
-        <form onSubmit={formSubmission}>
+        <form onSubmit={handleSubmit}>
           <Typography variant="h5" fontWeight="bold" py={2}>
             Get in touch
           </Typography>
-          <FormControl variant="standard" sx={{ width: "50%" }}>
+          <FormControl variant="standard">
             <Box display="flex" flexDirection="column">
               <TextField
                 name="name"
                 label="Name"
+                value={values.name}
                 variant="outlined"
-                sx={{ pb: "10px" }}
-                onChange={onUpdateField}
+                sx={{ pb: "15px" }}
+                onBlur={handleBlur}
+                onChange={handleChange}
               />
+
               <TextField
                 name="email"
                 label="Email"
                 variant="outlined"
-                onChange={onUpdateField}
-                sx={{ pb: "10px" }}
+                sx={{ pb: "15px" }}
+                value={values.email}
+                onBlur={handleBlur}
+                onChange={handleChange}
               />
               <TextField
                 name="phone"
                 label="Phone number"
-                onChange={onUpdateField}
                 variant="outlined"
-                sx={{ pb: "10px" }}
+                value={values.phone}
+                sx={{ pb: "15px" }}
+                onBlur={handleBlur}
+                onChange={handleChange}
               />
               <FormLabel>Gender</FormLabel>
               <RadioGroup
                 row
                 name="gender"
-                defaultValue="female"
-                onChange={onUpdateField}
+                value={values.gender}
+                onBlur={handleBlur}
+                onChange={handleChange}
               >
                 <FormControlLabel
                   value="female"
@@ -118,16 +114,10 @@ export default function Contact() {
               <Select
                 name="reason"
                 labelId="reasonConnect"
-                id="reason"
-                value={select}
-                onChange={(event) => {
-                  setSelect(event.target.value);
-                  const updateState = {
-                    ...data,
-                    [event.target.name]: event.target.value,
-                  };
-                  setData(updateState);
-                }}
+                value={values.reason}
+                defaultValue=""
+                onBlur={handleBlur}
+                onChange={handleChange}
                 sx={{ width: "350px" }}
               >
                 <MenuItem value="Freelance/Job">Freelance/Job</MenuItem>
@@ -141,7 +131,9 @@ export default function Contact() {
                   control={
                     <Switch
                       checked={show}
-                      onChange={(event) => setShow(event.target.checked)}
+                      onChange={(event) => {
+                        setShow(event.target.checked);
+                      }}
                     />
                   }
                   label="Add a message?"
@@ -154,7 +146,9 @@ export default function Contact() {
                     minRows={6}
                     placeholder="Enter message here"
                     name="message"
-                    onChange={onUpdateField}
+                    value={values.message}
+                    onBlur={handleBlur}
+                    onChange={handleChange}
                   />
                 </>
               )}
@@ -163,7 +157,9 @@ export default function Contact() {
                 <Rating
                   name="rating"
                   labelid="rating"
-                  onChange={onUpdateField}
+                  value={parseFloat(values.rating)}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
                 />
               </FormGroup>
               <br />
@@ -177,11 +173,3 @@ export default function Contact() {
     </>
   );
 }
-
-// Things to see:
-// - uncontrolled and controlled components
-// - what we want: we want uncontrolled components which we can control manually using formik and yup
-
-// Things to be done:
-// - move schema to another file
-// - do validation using formik and yup 
