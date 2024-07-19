@@ -19,5 +19,5 @@ export const schema = yup.object({
       .nullable()
       .notRequired()
       .max(40, "Keep your message less than 40 words"),
-    rating: yup.number().nullable().notRequired(),
+    rating: yup.string().nullable().notRequired(),
   });

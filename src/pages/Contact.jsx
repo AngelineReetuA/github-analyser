@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import {
   Container,
   FormControl,
@@ -18,156 +18,120 @@ import {
 } from "@mui/material";
 import { TextareaAutosize } from "@mui/material";
 import { schema } from "./SchemaValidation";
-import { useFormik } from "formik";
+import { useFormik, Formik, Form, Field } from "formik";
 
 export default function Contact() {
   const [show, setShow] = useState(false);
-  const [showErrors, setShowErrors] = useState(false);
 
-  const data = {
-    name: "",
-    email: "",
-    phone: "",
-    gender: "",
-    reason: "",
-    message: "",
-    rating: null,
-  };
+  async function handleSubmit(event) {
+    event.preventDefault();
+    let data = {
+      name: event.target.name.value,
+      email: event.target.email.value,
+      phone: event.target.phone.value,
+      gender: event.target.gender.value,
+      reason: event.target.reason.value,
+      message: event.target.message?.value || null,
+      rating: event.target.rating.value,
+    };
 
-  const { values, handleBlur, handleChange, handleSubmit, errors } = useFormik({
-    initialValues: {
-      data,
-    },
-    validationSchema: schema,
-    onSubmit: (values) => {
-      console.log(values);
-      console.log("hi inside submit");
-    },
-  });
-
-  console.log(errors);
+    const errors = await schema
+      .validate(data, { abortEarly: false })
+      .then((validatedData) => {
+        console.log("Data is valid:", validatedData);
+      })
+      .catch((validationError) => {
+        console.error("Validation error:", validationError.errors);
+      });
+  }
 
   return (
     <>
       <Container sx={{ padding: "20px" }}>
+        <Typography variant="h5" fontWeight="bold" py={2}>
+          Get in touch
+        </Typography>
         <form onSubmit={handleSubmit}>
-          <Typography variant="h5" fontWeight="bold" py={2}>
-            Get in touch
-          </Typography>
-          <FormControl variant="standard">
-            <Box display="flex" flexDirection="column">
-              <TextField
-                name="name"
-                label="Name"
-                value={values.name}
-                variant="outlined"
-                sx={{ pb: "15px" }}
-                onBlur={handleBlur}
-                onChange={handleChange}
+          <Box display="flex" flexDirection="column">
+            <TextField
+              name="name"
+              label="Name"
+              variant="outlined"
+              sx={{ pb: "15px" }}
+            />
+            <TextField
+              name="email"
+              label="Email"
+              variant="outlined"
+              sx={{ pb: "15px" }}
+            />
+            <TextField
+              name="phone"
+              label="Phone number"
+              variant="outlined"
+              sx={{ pb: "15px" }}
+            />
+            <FormLabel>Gender</FormLabel>
+            <RadioGroup row name="gender">
+              <FormControlLabel
+                value="female"
+                control={<Radio />}
+                label="Female"
               />
-
-              <TextField
-                name="email"
-                label="Email"
-                variant="outlined"
-                sx={{ pb: "15px" }}
-                value={values.email}
-                onBlur={handleBlur}
-                onChange={handleChange}
+              <FormControlLabel value="male" control={<Radio />} label="Male" />
+              <FormControlLabel
+                value="other"
+                control={<Radio />}
+                label="Other"
               />
-              <TextField
-                name="phone"
-                label="Phone number"
-                variant="outlined"
-                value={values.phone}
-                sx={{ pb: "15px" }}
-                onBlur={handleBlur}
-                onChange={handleChange}
-              />
-              <FormLabel>Gender</FormLabel>
-              <RadioGroup
-                row
-                name="gender"
-                value={values.gender}
-                onBlur={handleBlur}
-                onChange={handleChange}
-              >
-                <FormControlLabel
-                  value="female"
-                  control={<Radio />}
-                  label="Female"
-                />
-                <FormControlLabel
-                  value="male"
-                  control={<Radio />}
-                  label="Male"
-                />
-                <FormControlLabel
-                  value="other"
-                  control={<Radio />}
-                  label="Other"
-                />
-              </RadioGroup>
-              <FormLabel name="reasonConnect">
-                What are you connecting for?
-              </FormLabel>
-              <Select
-                name="reason"
-                labelId="reasonConnect"
-                value={values.reason}
-                defaultValue=""
-                onBlur={handleBlur}
-                onChange={handleChange}
-                sx={{ width: "350px" }}
-              >
-                <MenuItem value="Freelance/Job">Freelance/Job</MenuItem>
-                <MenuItem value="Likeminded/Networking">
-                  Likeminded/Networking
-                </MenuItem>
-              </Select>
-              <br />
-              <FormGroup row>
-                <FormControlLabel
-                  control={
-                    <Switch
-                      checked={show}
-                      onChange={(event) => {
-                        setShow(event.target.checked);
-                      }}
-                    />
-                  }
-                  label="Add a message?"
-                  labelPlacement="start"
-                />
-              </FormGroup>
-              {show && (
-                <>
-                  <TextareaAutosize
-                    minRows={6}
-                    placeholder="Enter message here"
-                    name="message"
-                    value={values.message}
-                    onBlur={handleBlur}
-                    onChange={handleChange}
+            </RadioGroup>
+            <FormLabel name="reasonConnect">
+              What are you connecting for?
+            </FormLabel>
+            <Select
+              name="reason"
+              labelId="reasonConnect"
+              defaultValue=""
+              sx={{ width: "350px" }}
+            >
+              <MenuItem value="Freelance/Job">Freelance/Job</MenuItem>
+              <MenuItem value="Likeminded/Networking">
+                Likeminded/Networking
+              </MenuItem>
+            </Select>
+            <br />
+            <FormGroup row>
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={show}
+                    onChange={(event) => {
+                      setShow(event.target.checked);
+                    }}
                   />
-                </>
-              )}
-              <FormGroup row padding={2}>
-                <FormLabel>Rate my Github:</FormLabel>
-                <Rating
-                  name="rating"
-                  labelid="rating"
-                  value={parseFloat(values.rating)}
-                  onBlur={handleBlur}
-                  onChange={handleChange}
+                }
+                label="Add a message?"
+                labelPlacement="start"
+              />
+            </FormGroup>
+            {show && (
+              <>
+                <TextareaAutosize
+                  minRows={6}
+                  placeholder="Enter message here"
+                  name="message"
                 />
-              </FormGroup>
-              <br />
-              <Button type="submit" variant="contained">
-                Send
-              </Button>
-            </Box>
-          </FormControl>
+              </>
+            )}
+            <FormGroup row padding={2}>
+              <FormLabel>Rate my Github:</FormLabel>
+              <Rating name="rating" labelid="rating" />
+            </FormGroup>
+            <br />
+            <Button type="submit" variant="contained">
+              Send
+            </Button>
+          </Box>
         </form>
       </Container>
     </>
