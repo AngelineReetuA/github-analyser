@@ -21,6 +21,7 @@ import { schema } from "./SchemaValidation";
 
 export default function Contact() {
   const [show, setShow] = useState(false);
+  const [errors, setErrors] = useState(false);
 
   let errorsObj = {};
 
@@ -40,6 +41,7 @@ export default function Contact() {
       .validate(data, { abortEarly: false })
       .then((validatedData) => {
         console.log("Data is valid:", validatedData);
+        setErrors(false);
       })
       .catch((validationError) => {
         if (validationError.inner) {
@@ -48,6 +50,7 @@ export default function Contact() {
               errorsObj[error[1].path] = { messages: [] };
             }
             errorsObj[error[1].path].messages.push(error[1].errors);
+            setErrors(true);
           });
           console.log("final obj", errorsObj);
         }
@@ -60,87 +63,185 @@ export default function Contact() {
         <Typography variant="h5" fontWeight="bold" py={2}>
           Get in touch
         </Typography>
-        <form onSubmit={handleSubmit}>
-          <Box display="flex" flexDirection="column">
-            <TextField
-              name="name"
-              label="Name"
-              variant="outlined"
-              sx={{ pb: "15px" }}
-            />
-            <TextField
-              name="email"
-              label="Email"
-              variant="outlined"
-              sx={{ pb: "15px" }}
-            />
-            <TextField
-              name="phone"
-              label="Phone number"
-              variant="outlined"
-              sx={{ pb: "15px" }}
-            />
-            <FormLabel>Gender</FormLabel>
-            <RadioGroup row name="gender">
-              <FormControlLabel
-                value="female"
-                control={<Radio />}
-                label="Female"
+        <form
+          onSubmit={handleSubmit}
+          onChange={() => {
+            setErrors(true);
+          }}
+        >
+          {errors ? (
+            <Box display="flex" flexDirection="column">
+              <TextField
+                name="name"
+                label="Name"
+                variant="outlined"
+                sx={{ pb: "15px" }}
               />
-              <FormControlLabel value="male" control={<Radio />} label="Male" />
-              <FormControlLabel
-                value="other"
-                control={<Radio />}
-                label="Other"
+              <TextField
+                name="email"
+                label="Email"
+                variant="outlined"
+                sx={{ pb: "15px" }}
               />
-            </RadioGroup>
-            <FormLabel name="reasonConnect">
-              What are you connecting for?
-            </FormLabel>
-            <Select
-              name="reason"
-              labelId="reasonConnect"
-              defaultValue=""
-              sx={{ width: "350px" }}
-            >
-              <MenuItem value="Freelance/Job">Freelance/Job</MenuItem>
-              <MenuItem value="Likeminded/Networking">
-                Likeminded/Networking
-              </MenuItem>
-            </Select>
-            <br />
-            <FormGroup row>
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={show}
-                    onChange={(event) => {
-                      setShow(event.target.checked);
-                    }}
-                  />
-                }
-                label="Add a message?"
-                labelPlacement="start"
+              <TextField
+                name="phone"
+                label="Phone number"
+                variant="outlined"
+                sx={{ pb: "15px" }}
               />
-            </FormGroup>
-            {show && (
-              <>
-                <TextareaAutosize
-                  minRows={6}
-                  placeholder="Enter message here"
-                  name="message"
+              <FormLabel>Gender</FormLabel>
+              <RadioGroup row name="gender">
+                <FormControlLabel
+                  value="female"
+                  control={<Radio />}
+                  label="Female"
                 />
-              </>
-            )}
-            <FormGroup row padding={2}>
-              <FormLabel>Rate my Github:</FormLabel>
-              <Rating name="rating" labelid="rating" />
-            </FormGroup>
-            <br />
-            <Button type="submit" variant="contained">
-              Send
-            </Button>
-          </Box>
+                <FormControlLabel
+                  value="male"
+                  control={<Radio />}
+                  label="Male"
+                />
+                <FormControlLabel
+                  value="other"
+                  control={<Radio />}
+                  label="Other"
+                />
+              </RadioGroup>
+              <FormLabel name="reasonConnect">
+                What are you connecting for?
+              </FormLabel>
+              <Select
+                name="reason"
+                labelId="reasonConnect"
+                defaultValue=""
+                sx={{ width: "350px" }}
+              >
+                <MenuItem value="Freelance/Job">Freelance/Job</MenuItem>
+                <MenuItem value="Likeminded/Networking">
+                  Likeminded/Networking
+                </MenuItem>
+              </Select>
+              <br />
+              <FormGroup row>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={show}
+                      onChange={(event) => {
+                        setShow(event.target.checked);
+                      }}
+                    />
+                  }
+                  label="Add a message?"
+                  labelPlacement="start"
+                />
+              </FormGroup>
+              {show && (
+                <>
+                  <TextareaAutosize
+                    minRows={6}
+                    placeholder="Enter message here"
+                    name="message"
+                  />
+                </>
+              )}
+              <FormGroup row padding={2}>
+                <FormLabel>Rate my Github:</FormLabel>
+                <Rating name="rating" labelid="rating" />
+              </FormGroup>
+              <br />
+              <Button type="submit" variant="contained">
+                Send
+              </Button>
+            </Box>
+          ) : (
+            <Box display="flex" flexDirection="column">
+              <TextField
+                name="name"
+                label="Name"
+                variant="outlined"
+                error={errorsObj.name ? true : false}
+                helperText={errorsObj.name?.messages[0]}
+                sx={{ pb: "15px" }}
+              />
+              <TextField
+                name="email"
+                label="Email"
+                variant="outlined"
+                sx={{ pb: "15px" }}
+              />
+              <TextField
+                name="phone"
+                label="Phone number"
+                variant="outlined"
+                sx={{ pb: "15px" }}
+              />
+              <FormLabel>Gender</FormLabel>
+              <RadioGroup row name="gender">
+                <FormControlLabel
+                  value="female"
+                  control={<Radio />}
+                  label="Female"
+                />
+                <FormControlLabel
+                  value="male"
+                  control={<Radio />}
+                  label="Male"
+                />
+                <FormControlLabel
+                  value="other"
+                  control={<Radio />}
+                  label="Other"
+                />
+              </RadioGroup>
+              <FormLabel name="reasonConnect">
+                What are you connecting for?
+              </FormLabel>
+              <Select
+                name="reason"
+                labelId="reasonConnect"
+                defaultValue=""
+                sx={{ width: "350px" }}
+              >
+                <MenuItem value="Freelance/Job">Freelance/Job</MenuItem>
+                <MenuItem value="Likeminded/Networking">
+                  Likeminded/Networking
+                </MenuItem>
+              </Select>
+              <br />
+              <FormGroup row>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={show}
+                      onChange={(event) => {
+                        setShow(event.target.checked);
+                      }}
+                    />
+                  }
+                  label="Add a message?"
+                  labelPlacement="start"
+                />
+              </FormGroup>
+              {show && (
+                <>
+                  <TextareaAutosize
+                    minRows={6}
+                    placeholder="Enter message here"
+                    name="message"
+                  />
+                </>
+              )}
+              <FormGroup row padding={2}>
+                <FormLabel>Rate my Github:</FormLabel>
+                <Rating name="rating" labelid="rating" />
+              </FormGroup>
+              <br />
+              <Button type="submit" variant="contained">
+                Send
+              </Button>
+            </Box>
+          )}
         </form>
       </Container>
     </>
