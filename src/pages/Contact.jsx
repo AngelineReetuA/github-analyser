@@ -18,10 +18,11 @@ import {
 } from "@mui/material";
 import { TextareaAutosize } from "@mui/material";
 import { schema } from "./SchemaValidation";
-import { useFormik, Formik, Form, Field } from "formik";
 
 export default function Contact() {
   const [show, setShow] = useState(false);
+
+  let errorsObj = {};
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -41,7 +42,15 @@ export default function Contact() {
         console.log("Data is valid:", validatedData);
       })
       .catch((validationError) => {
-        console.error("Validation error:", validationError.errors);
+        if (validationError.inner) {
+          Object.entries(validationError.inner).forEach((error) => {
+            if (!errorsObj[error[1].path]) {
+              errorsObj[error[1].path] = { messages: [] };
+            }
+            errorsObj[error[1].path].messages.push(error[1].errors);
+          });
+          console.log("final obj", errorsObj);
+        }
       });
   }
 
