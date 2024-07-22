@@ -37,10 +37,16 @@ export default function Contact() {
 
     await schema
       .validate(data, { abortEarly: false })
-      .then((validatedData) => {
+      .then(async (validatedData) => {
         console.log("Data is valid:", validatedData);
         setErrors({});
-        Swal.fire("Data is validated :)");
+        await Swal.fire({
+          icon: "success",
+          title: "Data validated",
+          showConfirmButton: false,
+          timer: 2000
+        });
+        window.location.reload();
       })
       .catch((validationError) => {
         if (validationError.inner) {
