@@ -1,34 +1,49 @@
 import PropTypes from "prop-types";
-import { Grid, Typography } from "@mui/material";
+import {
+  Box,
+  Card,
+  CardActions,
+  CardContent,
+  Grid,
+  Typography,
+} from "@mui/material";
 
 export default function StatCard({ statName, children }) {
   return (
     <>
-      <Grid container py={1}>
-        <Grid
-          container
-          display="flex"
-          direction="column"
-          alignItems="center"
-          justifyContent="center"
-        >
+      <Card
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        <CardContent sx={{ alignSelf: "center", justifyContent: "center" }}>
           <Typography
-            display="flex"
-            padding={3}
-            alignItems="center"
-            justifyContent="center"
-            fontWeight="bold"
-            fontSize="70px"
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              height: "160px",
+              width: "120px",
+              fontSize: "60px",
+              fontWeight: "bolder",
+            }}
           >
             {children}
           </Typography>
-          <Grid
-            display="flex"
-            justifyContent="center"
-            sx={{ color: "rgba(0,0,0,0.6)" }}
-          >{statName}</Grid>
-        </Grid>
-      </Grid>
+        </CardContent>
+        <CardActions>
+          <Typography
+            sx={{
+              fontSize: "15px",
+              textAlign: "center",
+              color: "rgba(0,0,0,0.6)",
+              display: "flex",
+            }}
+          >
+            {statName}
+          </Typography>
+        </CardActions>
+      </Card>
     </>
   );
 }

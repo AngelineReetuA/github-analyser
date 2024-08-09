@@ -44,7 +44,7 @@ export default function Contact() {
           icon: "success",
           title: "Data validated",
           showConfirmButton: false,
-          timer: 2000
+          timer: 2000,
         });
         window.location.reload();
       })
@@ -109,7 +109,7 @@ export default function Contact() {
                 control={<Radio />}
                 label="Other"
               />
-              <FormLabel sx={{ alignContent: "center", color: "red" }}>
+              <FormLabel sx={{ alignContent: "center", color: "#d32f2f" }}>
                 {errors.gender?.messages.flat(1).pop()}
               </FormLabel>
             </RadioGroup>
@@ -127,7 +127,7 @@ export default function Contact() {
                 Likeminded/Networking
               </MenuItem>
             </Select>
-            <FormLabel sx={{ alignContent: "center", color: "red" }}>
+            <FormLabel sx={{ alignContent: "center", color: "#d32f2f" }}>
               {errors.reason?.messages.flat(1).pop()}
             </FormLabel>
             <br />
@@ -152,9 +152,9 @@ export default function Contact() {
                   placeholder="Enter message here"
                   name="message"
                 />
-                 <FormLabel sx={{ alignContent: "center", color: "red" }}>
-              {errors.message?.messages.flat(1).pop()}
-            </FormLabel>
+                <FormLabel sx={{ alignContent: "center", color: "#d32f2f" }}>
+                  {errors.message?.messages.flat(1).pop()}
+                </FormLabel>
               </>
             )}
             <FormGroup row padding={2}>

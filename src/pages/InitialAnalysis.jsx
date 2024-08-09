@@ -1,5 +1,12 @@
 import { useState } from "react";
-import { Divider, Grid, Box, Paper, Typography } from "@mui/material";
+import {
+  Divider,
+  Grid,
+  Box,
+  Paper,
+  Typography,
+  Container,
+} from "@mui/material";
 import Doughnut from "../components/Doughnut";
 import StackedBarChart from "../components/StackedBar";
 import StatCard from "../components/StatCard";
@@ -36,65 +43,81 @@ export default function InitialAnalysis() {
 
   return (
     <>
-      <Grid sx={{ width: "-webkit-fill-available" }}>
-        <Headline
-          photoURL={data.head.photoURL}
-          name={data.head.name}
-          bio={data.head.bio}
-          followers={data.head.followers}
-          emp={data.head.emp}
-          link={data.head.link}
-        />
-        <Divider sx={{ bgcolor: "rgba(84,84,84,0.6)" }} />
-        <Box display="flex" flexDirection="row" justifyContent="space-evenly">
-          <StatCard statName="ACTIVITY">
-            <Doughnut />
-          </StatCard>
-          <Divider sx={{ bgcolor: "rgba(84,84,84,0.6)", width: "1px" }} />
-          <StatCard statName="REPOSITORIES">300+</StatCard>
-          <Divider sx={{ bgcolor: "rgba(84,84,84,0.6)", width: "1px" }} />
-          <StatCard statName="COMMITS">40+</StatCard>
-          <Divider sx={{ width: "1px", bgcolor: "rgba(84,84,84,0.6)" }} />
-          <StatCard statName="LANGUAGES">6+</StatCard>
-        </Box>
-        <Divider sx={{ bgcolor: "rgba(84,84,84,0.6)" }} />
-        <Box display="flex" flexDirection="row" p={2}>
-          <Grid item px={1} md={2}>
+      <Grid container>
+        <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+          <Headline
+            photoURL={data.head.photoURL}
+            name={data.head.name}
+            bio={data.head.bio}
+            followers={data.head.followers}
+            emp={data.head.emp}
+            link={data.head.link}
+          />
+        </Grid>
+        <Divider style={{ width: "100%" }} />
+        <Grid
+          container
+          direction="row"
+          spacing={1}
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-evenly",
+            width: "-webkit-fill-available",
+          }}
+        >
+          <Grid item xs={12} sm={6} md={3} lg={3} xl={3}>
+            <StatCard statName="ACTIVITY">
+              <Doughnut />
+            </StatCard>
+          </Grid>
+          <Grid item xs={12} sm={6} md={3} lg={3} xl={3}>
+            <StatCard statName="REPOSITORIES">300+</StatCard>
+          </Grid>
+          <Grid item xs={12} sm={6} md={3} lg={3} xl={3}>
+            <StatCard statName="COMMITS">40+</StatCard>
+          </Grid>
+          {/* <Divider sx={{ width: "1px", bgcolor: "rgba(84,84,84,0.6)" }} /> */}
+          <Grid item xs={12} sm={6} md={3} lg={3} xl={3}>
+            <StatCard statName="LANGUAGES">6+</StatCard>
+          </Grid>
+        </Grid>
+        <Divider style={{ width: "100%" }} />
+        <Grid item container display="flex" p={2}>
+          <Grid item px={1} xs={12} sm={12} md={2} lg={2} xl={2}>
             <StackedBarChart />
           </Grid>
-          <Grid item p={1} px={1} md={6}>
-            <Box p={3} pt={1}>
-              <Paper elevation={1} sx={{ padding: "20px" }}>
-                <Typography fontWeight={800} variant="h5" pb={2}>
-                  Highlights
-                </Typography>
-                <Box display="flex" flexDirection="row" gap={2}>
-                  <Box flexDirection="column">
-                    <GithubCard
-                      repoLink="https://www.google.com"
-                      repoName="GithubRepoName"
-                      repoDesc="This is a really cool and highlighted repo pulled by maximum stars/commits"
-                      repoLang="Java"
-                      repoStars="213"
-                    />
-                  </Box>
-                  <Box flexDirection="column">
-                    <GithubCard
-                      repoLink="https://www.google.com"
-                      repoName="GithubRepoName"
-                      repoDesc="This is a really cool and highlighted repo pulled by maximum stars/commits"
-                      repoLang="Python"
-                      repoStars="90"
-                    />
-                  </Box>
-                </Box>
-              </Paper>
-            </Box>
+          <Grid item p={1} px={1} xs={12} sm={12} md={8} lg={8} xl={8}>
+            <Paper elevation={3} sx={{ padding: "20px" }}>
+              <Typography fontWeight={800} variant="h5" pb={2}>
+                Highlights
+              </Typography>
+              <Grid display="flex" gap={2}>
+                <Grid item xs={6} sm={6} md={6} lg={6} xl={6}>
+                  <GithubCard
+                    repoLink="https://www.google.com"
+                    repoName="GithubRepoName"
+                    repoDesc="This is a really cool and highlighted repo pulled by maximum stars/commits"
+                    repoLang="Java"
+                    repoStars="213"
+                  />
+                </Grid>
+                <Grid item xs={6} sm={6} md={6} lg={6} xl={6}>
+                  <GithubCard
+                    repoLink="https://www.google.com"
+                    repoName="GithubRepoName"
+                    repoDesc="This is a really cool and highlighted repo pulled by maximum stars/commits"
+                    repoLang="Python"
+                    repoStars="90"
+                  />
+                </Grid>
+              </Grid>
+            </Paper>
           </Grid>
-          <Grid item md={4}>
+          <Grid item xs={12} sm={12} md={2} lg={2} xl={2}>
             <Releases links={data.links} />
           </Grid>
-        </Box>
+        </Grid>
       </Grid>
       ;
     </>
