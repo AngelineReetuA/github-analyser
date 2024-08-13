@@ -1,29 +1,10 @@
-import { Link, Typography } from "@mui/material";
-import { Container } from "@mui/material";
-import GitHubIcon from "@mui/icons-material/GitHub";
-import { DataGrid } from "@mui/x-data-grid";
+import { Box } from "@mui/material";
+import Masonry from "@mui/lab/Masonry";
+import GithubCard from "./GithubCard.jsx";
 
-export default function Repositories() {
-  const columns = [
-    { field: "id", headerName: "SNo", wdith: 70 },
-    { field: "repoName", headerName: "Name", width: 190 },
-    { field: "repoDesc", headerName: "Description", width: 350 },
-    { field: "repoLoc", headerName: "LOC", width: 100 },
-    { field: "repoLang", headerName: "Languages", width: 300},
-    {
-      field: "repoLink",
-      headerName: "Link",
-      width: 70,
-      renderCell: (cellValues) => {
-        return (
-          <Link href={`${cellValues.row.repoLink}`} target="_blank">
-            <GitHubIcon />
-          </Link>
-        );
-      },
-    },
-  ];
-
+export default function RepositoriesList() {
+  // need the repo owner name on the below repoLink
+  // supposed to be `https://www.github.com/${ownerName}/${this.repoName}`
   const data = [
     {
       id: "1",
@@ -32,7 +13,9 @@ export default function Repositories() {
         "this is a really cool description of a really cool project with a lot of buzzwords and a really cool sounding brainy paragraph",
       repoLoc: 4567,
       repoLang: "Javascript, HTML, CSS",
-      repoLink: `https://www.github.com`,
+      repoLink: function () {
+        return `https://www.github.com/${this.repoName}`;
+      },
     },
     {
       id: "2",
@@ -41,7 +24,9 @@ export default function Repositories() {
         "this is a really cool description of a really cool project with complete innovation at its finest",
       repoLoc: 12567,
       repoLang: "Hyperledger Fabric, Node, React",
-      repoLink: `https://www.github.com`,
+      repoLink: function () {
+        return `https://www.github.com/${this.repoName}`;
+      },
     },
     {
       id: "3",
@@ -50,7 +35,9 @@ export default function Repositories() {
         "this is a really cool description of a really cool project with cute puns",
       repoLoc: 632,
       repoLang: "Javascript, HTML, CSS",
-      repoLink: `https://www.github.com`,
+      repoLink: function () {
+        return `https://www.github.com/${this.repoName}`;
+      },
     },
     {
       id: "4",
@@ -58,7 +45,9 @@ export default function Repositories() {
       repoDesc: "this is a really cool description of a really cool project",
       repoLoc: 89,
       repoLang: "Node, Javascript",
-      repoLink: `https://www.github.com`,
+      repoLink: function () {
+        return `https://www.github.com/${this.repoName}`;
+      },
     },
     {
       id: "5",
@@ -67,7 +56,9 @@ export default function Repositories() {
         "this is a really cool description of a really cool project with a lot of buzzwords and a really cool sounding brainy paragraph",
       repoLoc: 4567,
       repoLang: "Javascript, HTML, CSS",
-      repoLink: `https://www.github.com`,
+      repoLink: function () {
+        return `https://www.github.com/${this.repoName}`;
+      },
     },
     {
       id: "6",
@@ -76,7 +67,9 @@ export default function Repositories() {
         "this is a really cool description of a really cool project with complete innovation at its finest",
       repoLoc: 12567,
       repoLang: "Hyperledger Fabric, Node, React",
-      repoLink: `https://www.github.com`,
+      repoLink: function () {
+        return `https://www.github.com/${this.repoName}`;
+      },
     },
     {
       id: "7",
@@ -85,7 +78,9 @@ export default function Repositories() {
         "this is a really cool description of a really cool project with cute puns",
       repoLoc: 632,
       repoLang: "Javascript, HTML, CSS",
-      repoLink: `https://www.github.com`,
+      repoLink: function () {
+        return `https://www.github.com/${this.repoName}`;
+      },
     },
     {
       id: "8",
@@ -93,7 +88,9 @@ export default function Repositories() {
       repoDesc: "this is a really cool description of a really cool project",
       repoLoc: 89,
       repoLang: "Node, Javascript",
-      repoLink: `https://www.github.com`,
+      repoLink: function () {
+        return `https://www.github.com/${this.repoName}`;
+      },
     },
     {
       id: "9",
@@ -102,7 +99,9 @@ export default function Repositories() {
         "this is a really cool description of a really cool project with a lot of buzzwords and a really cool sounding brainy paragraph",
       repoLoc: 4567,
       repoLang: "Javascript, HTML, CSS",
-      repoLink: `https://www.github.com`,
+      repoLink: function () {
+        return `https://www.github.com/${this.repoName}`;
+      },
     },
     {
       id: "10",
@@ -111,7 +110,9 @@ export default function Repositories() {
         "this is a really cool description of a really cool project with complete innovation at its finest",
       repoLoc: 12567,
       repoLang: "Hyperledger Fabric, Node, React",
-      repoLink: `https://www.github.com`,
+      repoLink: function () {
+        return `https://www.github.com/${this.repoName}`;
+      },
     },
     {
       id: "11",
@@ -120,7 +121,9 @@ export default function Repositories() {
         "this is a really cool description of a really cool project with cute puns",
       repoLoc: 632,
       repoLang: "Javascript, HTML, CSS",
-      repoLink: `https://www.github.com`,
+      repoLink: function () {
+        return `https://www.github.com/${this.repoName}`;
+      },
     },
     {
       id: "12",
@@ -128,28 +131,36 @@ export default function Repositories() {
       repoDesc: "this is a really cool description of a really cool project",
       repoLoc: 89,
       repoLang: "Node, Javascript",
-      repoLink: `https://www.github.com`,
+      repoLink: function () {
+        return `https://www.github.com/${this.repoName}`;
+      },
     },
   ];
 
   return (
     <>
-      <Container sx={{ pt: 3 }}>
-        <Typography variant="h5" sx={{ fontWeight: "bold", pb: 2 }}>
-          Repositories
-        </Typography>
-        <DataGrid
-          rows={data}
-          columns={columns}
-          initialState={{
-            pagination: {
-              paginationModel: { page: 0, pageSize: 5 },
-            },
-          }}
-          pageSizeOptions={[5]}
-        />
-      </Container>
-      ;
+      <Box pt={3}>
+        <Masonry columns={{ xs: 1, sm: 2, md: 3, lg: 4, xl: 5 }} spacing={2}>
+          {data.map((d) => (
+            <Box
+              key={d.id}
+              sx={{
+                width: "250px",
+                ":hover": {
+                  boxShadow: 20,
+                },
+              }}
+            >
+              <GithubCard
+                repoLink={d.repoLink()}
+                repoName={d.repoName}
+                repoDesc={d.repoDesc}
+                repoLang={d.repoLang}
+              />
+            </Box>
+          ))}
+        </Masonry>
+      </Box>
     </>
   );
 }

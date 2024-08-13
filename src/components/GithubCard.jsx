@@ -19,11 +19,7 @@ export default function GithubCard({
 }) {
   return (
     <>
-      <Link
-        href={repoLink}
-        target="_blank"
-        sx={{ textDecoration: "none" }}
-      >
+      <Link href={repoLink} target="_blank" sx={{ textDecoration: "none" }}>
         <Card>
           <CardContent>
             <Typography variant="h6">{repoName}</Typography>
@@ -33,8 +29,14 @@ export default function GithubCard({
             <CardActions>
               <DataObjectIcon style={{ fontSize: "medium" }} />
               <Typography variant="body2">{repoLang}</Typography>
-              <StarIcon style={{ marginRight: "10px", fontSize: "medium" }} />
-              {repoStars}
+              {repoStars && (
+                <>
+                  <StarIcon
+                    style={{ marginRight: "10px", fontSize: "medium" }}
+                  />
+                  <Typography>repoStars</Typography>
+                </>
+              )}
             </CardActions>
           </CardContent>
         </Card>
@@ -48,5 +50,5 @@ GithubCard.propTypes = {
   repoName: PropTypes.string.isRequired,
   repoDesc: PropTypes.string.isRequired,
   repoLang: PropTypes.string.isRequired,
-  repoStars: PropTypes.string.isRequired,
+  repoStars: PropTypes.string,
 };

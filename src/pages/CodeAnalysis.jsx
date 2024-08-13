@@ -1,7 +1,8 @@
-import { Tabs, Tab, Container } from "@mui/material";
+import { Tabs, Tab, Container, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import Repositories from "../components/Repositories";
+import RepositoriesList from "../components/RepositoriesList";
 
 export default function CodeAnalysis() {
   const [tabIndex, setTabIndex] = useState(0);
@@ -13,17 +14,26 @@ export default function CodeAnalysis() {
   return (
     <>
       <Container>
+        <Typography variant="h5" fontWeight="800" pt={1}>Repositories</Typography>
         <Tabs
           onChange={handleTabChange}
           value={tabIndex}
           orientation="horizontal"
         >
-          <Tab component={Link} to="/user/code-analysis/repositories" label="Repositories" />
-          <Tab component={Link} to="/user/code-analysis/something" label="Something" />
+          <Tab
+            component={Link}
+            to="/user/code-analysis/repositories"
+            label="Table view"
+          />
+          <Tab
+            component={Link}
+            to="/user/code-analysis/something"
+            label="Card view"
+          />
         </Tabs>
 
         {tabIndex === 0 && <Repositories />}
-        {tabIndex === 1 && <>under contruction</>}
+        {tabIndex === 1 && <RepositoriesList />}
       </Container>
     </>
   );
