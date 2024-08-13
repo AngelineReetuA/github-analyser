@@ -70,6 +70,7 @@ export default function Contact() {
         <Typography variant="h5" fontWeight="bold" py={2}>
           Get in touch
         </Typography>
+        
         <form onSubmit={handleSubmit}>
           <Box display="flex" flexDirection="column">
             <TextField

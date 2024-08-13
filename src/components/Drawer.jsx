@@ -9,7 +9,6 @@ export default function NavBar() {
   const [value, setValue] = useState(0);
   const handleChange = (event, newVal) => {
     setValue(newVal);
-    console.log("tab value", value)
   };
   
   const drawerWidth = 90;
