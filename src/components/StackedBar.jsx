@@ -97,7 +97,7 @@ export default function StackedBarChart() {
   };
 
   return (
-    <Box style={{ height: "290px", width: "180px" }}>
+    <Box style={{ height: "230px", width: "180px" }}>
       <Bar data={data2} options={options2} />
     </Box>
   );

@@ -1,56 +1,32 @@
 import InitialAnalysis from "./pages/InitialAnalysis";
 import Contact from "./pages/Contact";
 import CodeAnalysis from "./pages/CodeAnalysis";
-import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
-import CodeIcon from "@mui/icons-material/Code";
-import PersonIcon from "@mui/icons-material/Person";
 import Header from "./components/Header";
-import { Box, Tabs, Tab, Grid } from "@mui/material";
-import { useState } from "react";
+import NavBar from "./components/Drawer.jsx";
 import FirstPage from "./pages/FirstPage.jsx";
 import { Routes, Route } from "react-router-dom";
-
-function GitDisplay() {
-  const [currentTabIndex, setCurrentTabIndex] = useState(0);
-
-  const handleTabChange = (e, tabIndex) => {
-    setCurrentTabIndex(tabIndex);
-  };
-  return (
-    <>
-      <Header />
-      <Box sx={{ display: "flex", flexGrow: "1" }}>
-        <Tabs
-          orientation="vertical"
-          value={currentTabIndex}
-          onChange={handleTabChange}
-          sx={{
-            borderRight: 1,
-            borderColor: "#7eb8d9",
-            bgcolor: "#d9edf8",
-            height: "92vh",
-          }}
-        >
-          <Tab icon={<RemoveRedEyeIcon />} />
-          <Tab icon={<CodeIcon />} />
-          <Tab icon={<PersonIcon />} />
-        </Tabs>
-
-        {currentTabIndex === 0 && <InitialAnalysis />}
-        {currentTabIndex === 1 && <CodeAnalysis />}
-        {currentTabIndex === 2 && <Contact />}
-      </Box>
-    </>
-  );
-}
+import { Box, Container } from "@mui/material";
 
 function App() {
   return (
     <>
-      <Routes>
-        <Route path="" element={<FirstPage />} />
-        <Route path="/user" element={<GitDisplay />} />
-      </Routes>
+      <Header />
+      <NavBar />
+      <Box sx={{ marginTop: "60px", marginLeft: "90px" }}>
+        <Routes>
+          <Route path="" element={<FirstPage />} />
+          <Route path="/user/user-analysis" element={<InitialAnalysis />} />
+          <Route
+            path="/user/code-analysis/repositories"
+            element={<CodeAnalysis />}
+          />
+          <Route
+            path="/user/code-analysis/something"
+            element={<CodeAnalysis />}
+          />
+          <Route path="/user/contact" element={<Contact />} />
+        </Routes>
+      </Box>
     </>
   );
 }

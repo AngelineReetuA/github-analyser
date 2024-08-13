@@ -1,4 +1,5 @@
 import { Tabs, Tab, Container } from "@mui/material";
+import { Link } from "react-router-dom";
 import { useState } from "react";
 import Repositories from "../components/Repositories";
 
@@ -17,8 +18,8 @@ export default function CodeAnalysis() {
           value={tabIndex}
           orientation="horizontal"
         >
-          <Tab label="Repositories" />
-          <Tab label="Something" />
+          <Tab component={Link} to="/user/code-analysis/repositories" label="Repositories" />
+          <Tab component={Link} to="/user/code-analysis/something" label="Something" />
         </Tabs>
 
         {tabIndex === 0 && <Repositories />}

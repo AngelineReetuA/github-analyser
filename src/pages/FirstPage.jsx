@@ -8,7 +8,7 @@ export default function FirstPage() {
   return (
     <>
       <Container
-        maxWidth={false}
+    
         sx={{
           height: "100vh",
           backgroundColor: "linear-gradient(to right, #430089, #82ffa1)",

@@ -63,7 +63,6 @@ export default function InitialAnalysis() {
             display: "flex",
             flexDirection: "row",
             justifyContent: "space-evenly",
-            width: "-webkit-fill-available",
           }}
         >
           <Grid item xs={12} sm={6} md={3} lg={3} xl={3}>
@@ -77,23 +76,27 @@ export default function InitialAnalysis() {
           <Grid item xs={12} sm={6} md={3} lg={3} xl={3}>
             <StatCard statName="COMMITS">40+</StatCard>
           </Grid>
-          {/* <Divider sx={{ width: "1px", bgcolor: "rgba(84,84,84,0.6)" }} /> */}
           <Grid item xs={12} sm={6} md={3} lg={3} xl={3}>
             <StatCard statName="LANGUAGES">6+</StatCard>
           </Grid>
         </Grid>
-        <Divider style={{ width: "100%" }} />
         <Grid item container display="flex" p={2}>
           <Grid item px={1} xs={12} sm={12} md={2} lg={2} xl={2}>
+            <Typography fontWeight={800} py={2} variant="h5">
+              Languages
+            </Typography>
             <StackedBarChart />
           </Grid>
           <Grid item p={1} px={1} xs={12} sm={12} md={8} lg={8} xl={8}>
-            <Paper elevation={3} sx={{ padding: "20px" }}>
+            <Paper
+              elevation={3}
+              sx={{ padding: { xs: "10px", sm: "15px", md: "20px" } }}
+            >
               <Typography fontWeight={800} variant="h5" pb={2}>
                 Highlights
               </Typography>
-              <Grid display="flex" gap={2}>
-                <Grid item xs={6} sm={6} md={6} lg={6} xl={6}>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={6} md={12} lg={6} xl={6}>
                   <GithubCard
                     repoLink="https://www.google.com"
                     repoName="GithubRepoName"
@@ -102,7 +105,7 @@ export default function InitialAnalysis() {
                     repoStars="213"
                   />
                 </Grid>
-                <Grid item xs={6} sm={6} md={6} lg={6} xl={6}>
+                <Grid item xs={12} sm={6} md={12} lg={6} xl={6}>
                   <GithubCard
                     repoLink="https://www.google.com"
                     repoName="GithubRepoName"
@@ -114,6 +117,7 @@ export default function InitialAnalysis() {
               </Grid>
             </Paper>
           </Grid>
+
           <Grid item xs={12} sm={12} md={2} lg={2} xl={2}>
             <Releases links={data.links} />
           </Grid>

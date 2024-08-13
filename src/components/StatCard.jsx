@@ -31,11 +31,10 @@ export default function StatCard({ statName, children }) {
             {children}
           </Typography>
         </CardContent>
-        <CardActions>
+        <CardActions sx={{ alignSelf: "center" }}>
           <Typography
             sx={{
               fontSize: "15px",
-              textAlign: "center",
               color: "rgba(0,0,0,0.6)",
               display: "flex",
             }}
