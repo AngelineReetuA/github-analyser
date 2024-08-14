@@ -6,7 +6,7 @@ export const schema = yup.object({
       .required("Please enter your name")
       .matches(/^[a-zA-Z'-\s]+$/, "Invalid name")
       .min(2,"Please enter more than two alphabets"),
-    email: yup.string().email("Is this really an email?").required("Your email is required"),
+    email: yup.string().required("Your email is required").email("Is this really an email?"),
     phone: yup
       .string()
       .required("Please enter a phone number")
@@ -16,8 +16,6 @@ export const schema = yup.object({
     reason: yup.string().required("Please select the reason for connection"),
     message: yup
       .string()
-      .nullable()
-      .notRequired()
-      .max(40, "Keep your message less than 40 words"),
+      .nullable(),
     rating: yup.string().nullable().notRequired(),
   });
