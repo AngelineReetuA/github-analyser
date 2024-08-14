@@ -10,14 +10,14 @@ export default function Repositories() {
     { field: "repoName", headerName: "Name", width: 190 },
     { field: "repoDesc", headerName: "Description", width: 350 },
     { field: "repoLoc", headerName: "LOC", width: 100 },
-    { field: "repoLang", headerName: "Languages", width: 300},
+    { field: "repoLang", headerName: "Languages", width: 300 },
     {
       field: "repoLink",
       headerName: "Link",
       width: 70,
       renderCell: (cellValues) => {
         return (
-          <Link href={`${cellValues.row.repoLink}`} target="_blank">
+          <Link href={`${cellValues.row.repoLink()}`} target="_blank">
             <GitHubIcon />
           </Link>
         );
@@ -148,7 +148,6 @@ export default function Repositories() {
           pageSizeOptions={[5]}
         />
       </Container>
-      ;
     </>
   );
 }

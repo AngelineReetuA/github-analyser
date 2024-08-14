@@ -14,7 +14,9 @@ export default function CodeAnalysis() {
   return (
     <>
       <Container>
-        <Typography variant="h5" fontWeight="800" pt={1}>Repositories</Typography>
+        <Typography variant="h5" fontWeight="800" pt={1}>
+          Repositories
+        </Typography>
         <Tabs
           onChange={handleTabChange}
           value={tabIndex}
