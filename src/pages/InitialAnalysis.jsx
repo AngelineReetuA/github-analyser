@@ -123,7 +123,6 @@ export default function InitialAnalysis() {
           </Grid>
         </Grid>
       </Grid>
-      ;
     </>
   );
 }

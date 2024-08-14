@@ -28,7 +28,7 @@ function App() {
         </Routes>
       </Box>
     </>
-  );
+  )
 }
 
 export default App;
