@@ -10,7 +10,7 @@ const data = [
     repoLoc: 4567,
     repoLang: "Javascript, HTML, CSS",
     repoLink: function () {
-      return `https://www.github.com/${this.repoName}`;
+      return `https://www.github.com/AngelineReetuA/${this.repoName}`;
     },
   },
   {
@@ -21,7 +21,7 @@ const data = [
     repoLoc: 12567,
     repoLang: "Hyperledger Fabric, Node, React",
     repoLink: function () {
-      return `https://www.github.com/${this.repoName}`;
+      return `https://www.github.com/AngelineReetuA/${this.repoName}`;
     },
   },
   {
@@ -32,7 +32,7 @@ const data = [
     repoLoc: 632,
     repoLang: "Javascript, HTML, CSS",
     repoLink: function () {
-      return `https://www.github.com/${this.repoName}`;
+      return `https://www.github.com/AngelineReetuA/${this.repoName}`;
     },
   },
   {
@@ -42,7 +42,7 @@ const data = [
     repoLoc: 89,
     repoLang: "Node, Javascript",
     repoLink: function () {
-      return `https://www.github.com/${this.repoName}`;
+      return `https://www.github.com/AngelineReetuA/${this.repoName}`;
     },
   },
   {
@@ -53,7 +53,7 @@ const data = [
     repoLoc: 4567,
     repoLang: "Javascript, HTML, CSS",
     repoLink: function () {
-      return `https://www.github.com/${this.repoName}`;
+      return `https://www.github.com/AngelineReetuA/${this.repoName}`;
     },
   },
   {
@@ -64,7 +64,7 @@ const data = [
     repoLoc: 12567,
     repoLang: "Hyperledger Fabric, Node, React",
     repoLink: function () {
-      return `https://www.github.com/${this.repoName}`;
+      return `https://www.github.com/AngelineReetuA/${this.repoName}`;
     },
   },
   {
@@ -75,7 +75,7 @@ const data = [
     repoLoc: 632,
     repoLang: "Javascript, HTML, CSS",
     repoLink: function () {
-      return `https://www.github.com/${this.repoName}`;
+      return `https://www.github.com/AngelineReetuA/${this.repoName}`;
     },
   },
   {
@@ -85,7 +85,7 @@ const data = [
     repoLoc: 89,
     repoLang: "Node, Javascript",
     repoLink: function () {
-      return `https://www.github.com/${this.repoName}`;
+      return `https://www.github.com/AngelineReetuA/${this.repoName}`;
     },
   },
   {
@@ -96,7 +96,7 @@ const data = [
     repoLoc: 4567,
     repoLang: "Javascript, HTML, CSS",
     repoLink: function () {
-      return `https://www.github.com/${this.repoName}`;
+      return `https://www.github.com/AngelineReetuA/${this.repoName}`;
     },
   },
   {
@@ -107,7 +107,7 @@ const data = [
     repoLoc: 12567,
     repoLang: "Hyperledger Fabric, Node, React",
     repoLink: function () {
-      return `https://www.github.com/${this.repoName}`;
+      return `https://www.github.com/AngelineReetuA/${this.repoName}`;
     },
   },
   {
@@ -118,7 +118,7 @@ const data = [
     repoLoc: 632,
     repoLang: "Javascript, HTML, CSS",
     repoLink: function () {
-      return `https://www.github.com/${this.repoName}`;
+      return `https://www.github.com/AngelineReetuA/${this.repoName}`;
     },
   },
   {
@@ -128,7 +128,7 @@ const data = [
     repoLoc: 89,
     repoLang: "Node, Javascript",
     repoLink: function () {
-      return `https://www.github.com/${this.repoName}`;
+      return `https://www.github.com/AngelineReetuA/${this.repoName}`;
     },
   },
 ];
