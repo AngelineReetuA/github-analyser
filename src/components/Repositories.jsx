@@ -1,4 +1,4 @@
-import { Link, Typography } from "@mui/material";
+import { Link, Typography, Chip } from "@mui/material";
 import { Container } from "@mui/material";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import { DataGrid } from "@mui/x-data-grid";
@@ -6,11 +6,15 @@ import data from "../../dummy-data";
 
 export default function Repositories() {
   const columns = [
-    { field: "id", headerName: "SNo", wdith: 70 },
+    { field: "id", headerName: "SNo", width: 30 },
     { field: "repoName", headerName: "Name", width: 190 },
     { field: "repoDesc", headerName: "Description", width: 350 },
     { field: "repoLoc", headerName: "LOC", width: 100 },
-    { field: "repoLang", headerName: "Languages", width: 300 },
+    { field: "repoLang", headerName: "Languages", width: 300, renderCell: (cellValues) => {
+      return (
+        <Chip label={cellValues.row.repoLang} />
+      )
+    } },
     {
       field: "repoLink",
       headerName: "Link",
@@ -134,9 +138,7 @@ export default function Repositories() {
   return (
     <>
       <Container sx={{ pt: 3 }}>
-        <Typography variant="h5" sx={{ fontWeight: "bold", pb: 2 }}>
-          Repositories
-        </Typography>
+       
         <DataGrid
           rows={data}
           columns={columns}
