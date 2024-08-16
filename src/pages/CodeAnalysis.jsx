@@ -29,7 +29,7 @@ export default function CodeAnalysis() {
           />
           <Tab
             component={Link}
-            to="/user/code-analysis/something"
+            to="/user/code-analysis/repositories"
             label="Card view"
           />
         </Tabs>

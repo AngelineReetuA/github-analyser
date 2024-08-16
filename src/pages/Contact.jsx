@@ -85,7 +85,7 @@ export default function Contact() {
       console.log("Validation completed", values);
     },
   });
-  
+
   return (
     <>
       <Container sx={{ padding: "20px" }}>
@@ -113,8 +113,8 @@ export default function Contact() {
                   value={formik.values.name || ""}
                   variant="outlined"
                   error={
-                    (formik.errors?.name && formik.touched.name) ||
-                    (formik.errors?.name && formik.touched.data?.name)
+                    formik.errors?.name &&
+                    (formik.touched.name || formik.touched.data?.name)
                       ? true
                       : false
                   }
@@ -123,6 +123,7 @@ export default function Contact() {
                       ? formik.errors?.name
                       : ""
                   }
+                  autoComplete="on"
                 />
               )}
             />
@@ -144,8 +145,8 @@ export default function Contact() {
                   value={formik.values.email || ""}
                   variant="outlined"
                   error={
-                    (formik.errors?.email && formik.touched.email) ||
-                    (formik.errors?.email && formik.touched.data?.email)
+                    formik.errors?.email &&
+                    (formik.touched.email || formik.touched.data?.email)
                       ? true
                       : false
                   }
@@ -154,6 +155,7 @@ export default function Contact() {
                       ? formik.errors?.email
                       : ""
                   }
+                  autoComplete="on"
                 />
               )}
             />
@@ -175,8 +177,8 @@ export default function Contact() {
                   value={formik.values.phone || ""}
                   variant="outlined"
                   error={
-                    (formik.errors?.phone && formik.touched.phone) ||
-                    (formik.errors?.phone && formik.touched.data?.phone)
+                    formik.errors?.phone &&
+                    (formik.touched.phone || formik.touched.data?.phone)
                       ? true
                       : false
                   }
@@ -185,6 +187,7 @@ export default function Contact() {
                       ? formik.errors?.phone
                       : ""
                   }
+                  autoComplete="on"
                 />
               )}
             />
@@ -193,11 +196,12 @@ export default function Contact() {
               control={control}
               render={({ field }) => (
                 <>
-                  <FormLabel id="radio" sx={{ color: "black" }}>
+                  <FormLabel component="legend" sx={{ color: "black" }}>
                     Gender
                   </FormLabel>
                   <RadioGroup
                     row
+                    aria-label="gender-radio"
                     id="radio"
                     name="gender"
                     {...field}
@@ -225,6 +229,7 @@ export default function Contact() {
                       label="Other"
                     />
                     <FormLabel
+                      component="legend"
                       sx={{
                         alignContent: "center",
                         color: "#d32f2f",
@@ -233,7 +238,7 @@ export default function Contact() {
                     >
                       {formik.touched.gender ||
                       formik.touched.data?.gender ||
-                      formik.touched.gender && formik.errors?.gender
+                      (formik.touched.gender && formik.errors?.gender)
                         ? formik.errors?.gender
                         : ""}
                     </FormLabel>
@@ -246,7 +251,10 @@ export default function Contact() {
               control={control}
               render={({ field }) => (
                 <>
-                  <FormLabel sx={{ color: "black", pb: "10px" }}>
+                  <FormLabel
+                    component="legend"
+                    sx={{ color: "black", pb: "10px" }}
+                  >
                     Please select your reason for connection
                   </FormLabel>
                   <Select
@@ -266,6 +274,7 @@ export default function Contact() {
                     </MenuItem>
                   </Select>
                   <FormLabel
+                    component="legend"
                     sx={{
                       alignContent: "center",
                       color: "#d32f2f",
@@ -332,7 +341,7 @@ export default function Contact() {
               render={({ field }) => (
                 <>
                   <FormGroup row padding={2}>
-                    <FormLabel sx={{ color: "black" }}>
+                    <FormLabel component="legend" sx={{ color: "black" }}>
                       Rate my Github:
                     </FormLabel>
                     <Rating
