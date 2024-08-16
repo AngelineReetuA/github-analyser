@@ -1,12 +1,24 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Drawer, Tabs, Tab, Box, Tooltip } from "@mui/material";
 import { Link } from "react-router-dom";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import CodeIcon from "@mui/icons-material/Code";
 import PersonIcon from "@mui/icons-material/Person";
+import { useLocation } from "react-router-dom";
 
 export default function NavBar() {
   const [value, setValue] = useState(0);
+  const location = useLocation();
+  useEffect(() => {
+    if (location.pathname === "/user/user-analysis") {
+      setValue(0);
+    } else if (location.pathname === "/user/code-analysis/repositories") {
+      setValue(1);
+    } else {
+      setValue(2);
+    }
+  });
+
   const handleChange = (event, newVal) => {
     setValue(newVal);
   };
@@ -61,3 +73,10 @@ export default function NavBar() {
     </Drawer>
   );
 }
+// const test = {
+//   "/path/to/route": {
+//       "title": "",
+//       "to": "",
+//       "icon": ""
+//   },
+// };
