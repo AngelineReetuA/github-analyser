@@ -1,4 +1,5 @@
 import { Typography, Grid, TextField, Button } from "@mui/material";
+import { Link } from "react-router-dom";
 import GitHubIcon from "@mui/icons-material/GitHub";
 
 export default function FirstPage() {
@@ -26,6 +27,8 @@ export default function FirstPage() {
             sx={{ width: "65%", paddingRight: "16px" }}
           />
           <Button
+            component={Link}
+            to="/user/user-analysis"
             variant="contained"
             sx={{
               width: "160px",

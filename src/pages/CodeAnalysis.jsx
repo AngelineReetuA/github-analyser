@@ -5,6 +5,8 @@ import Repositories from "../components/Repositories";
 import RepositoriesList from "../components/RepositoriesList";
 
 export default function CodeAnalysis() {
+  const [repos, setRepos] = useState();
+  // call repos api to retrieve repo info
   const [tabIndex, setTabIndex] = useState(0);
 
   const handleTabChange = (e, tabIndex) => {

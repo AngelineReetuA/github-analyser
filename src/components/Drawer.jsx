@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
-import { Drawer, Tabs, Tab, Box, Tooltip } from "@mui/material";
+import { Drawer, Tabs, Tab, Box, Tooltip, Grid } from "@mui/material";
 import { Link } from "react-router-dom";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import CodeIcon from "@mui/icons-material/Code";
 import PersonIcon from "@mui/icons-material/Person";
+import CloseIcon from "@mui/icons-material/Close";
 import { useLocation } from "react-router-dom";
 
 export default function NavBar() {
@@ -19,7 +20,7 @@ export default function NavBar() {
     }
   });
 
-  const handleChange = (event, newVal) => {
+  const handleChange = (newVal) => {
     setValue(newVal);
   };
 
@@ -43,7 +44,12 @@ export default function NavBar() {
       anchor="left"
     >
       <Box sx={{ overflow: "auto" }}>
-        <Tabs orientation="vertical" value={value} onChange={handleChange}>
+        <Tabs
+          orientation="vertical"
+          value={value}
+          onChange={handleChange}
+          sx={{ display: "flex", flexDirection: "column", height: "100%" }}
+        >
           <Tooltip title="Overview" placement="right">
             <Tab
               component={Link}

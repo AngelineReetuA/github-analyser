@@ -27,8 +27,17 @@ export default function InitialAnalysis() {
       emp: "company",
       link: "https://www.google.com",
     },
-    repositories: "",
-    commits: "",
+    activity: 0,
+    repositories: 0,
+    commits: 0,
+    languages: 0,
+    stackChart: [
+      {
+        language: "",
+        value: 0,
+        label:""
+      }
+    ],
     repos: [
       {
         repoLink: "",
@@ -38,7 +47,7 @@ export default function InitialAnalysis() {
         repoStars: "",
       },
     ],
-    links: [],
+    releases: [],
   });
 
   return (

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -5,7 +6,6 @@ import {
   CategoryScale,
   LinearScale,
   Title,
-  Tooltip,
   Legend,
 } from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
@@ -16,12 +16,12 @@ ChartJS.register(
   CategoryScale,
   LinearScale,
   Title,
-  Tooltip,
   Legend,
   ChartDataLabels
 );
 
 export default function StackedBarChart() {
+
   const data2 = {
     labels: ["Languages"],
     datasets: [
@@ -93,6 +93,9 @@ export default function StackedBarChart() {
       datalabels: {
         display: true,
       },
+      tooltip: {
+        display: false
+      }
     },
   };
 

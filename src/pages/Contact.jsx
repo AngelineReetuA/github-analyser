@@ -22,6 +22,10 @@ import { schema } from "../../SchemaValidation.js";
 import Swal from "sweetalert2";
 
 export default function Contact() {
+  // enable form is true if mail is provided, if not, false
+  const [enableForm, setEnableForm] = useState(false);
+
+  const [mail, setMail] = useState("xxx@mail.in")
   const [show, setShow] = useState(false);
   const [errors, setErrors] = useState({});
 
@@ -92,7 +96,7 @@ export default function Contact() {
         <Typography variant="h5" fontWeight="bold" py={2}>
           Get in touch
         </Typography>
-
+        <Typography sx={{fontStyle:"italic"}} pb={2}>to {mail}</Typography>
         <form onSubmit={formik.handleSubmit}>
           <Box display="flex" flexDirection="column">
             <Controller
