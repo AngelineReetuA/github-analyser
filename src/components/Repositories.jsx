@@ -10,11 +10,16 @@ export default function Repositories() {
     { field: "repoName", headerName: "Name", width: 190 },
     { field: "repoDesc", headerName: "Description", width: 350 },
     { field: "repoLoc", headerName: "LOC", width: 100 },
-    { field: "repoLang", headerName: "Languages", width: 300, renderCell: (cellValues) => {
-      return (
-        <Chip label={cellValues.row.repoLang} />
-      )
-    } },
+    {
+      field: "repoLang",
+      headerName: "Languages",
+      width: 300,
+      renderCell: (cellValues) => {
+        return cellValues.row.repoLang.split(",").map((item, index) => {
+          return <Chip key={index} label={item} />;
+        });
+      },
+    },
     {
       field: "repoLink",
       headerName: "Link",
@@ -138,7 +143,6 @@ export default function Repositories() {
   return (
     <>
       <Container sx={{ pt: 3 }}>
-       
         <DataGrid
           rows={data}
           columns={columns}
