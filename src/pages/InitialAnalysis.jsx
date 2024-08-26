@@ -15,7 +15,6 @@ import Headline from "../components/Headline";
 import Releases from "../components/Releases";
 
 export default function InitialAnalysis() {
-  // API REQ
 
   const [data, setData] = useState({
     head: {
