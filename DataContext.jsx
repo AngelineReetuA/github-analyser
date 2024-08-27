@@ -6,6 +6,7 @@ export const DataProvider = ({ children }) => {
   const [data, setData] = useState({
     initialAnalysis: {
       headlineData: {
+        avatar: "",
         login: "",
         bio: "",
         followers: 0,
@@ -17,14 +18,8 @@ export const DataProvider = ({ children }) => {
         repositories: 0,
         languages: 0,
       },
-      languagesData: [{ label: "", data: 0 }],
-      githubData: {
-        repoName: "",
-        repoDesc: "",
-        repoLang: "",
-        repoStars: "",
-        repoLink: "",
-      },
+      languagesData: [],
+      githubData: [],
       releases: [],
     },
     codeAnalysis: {

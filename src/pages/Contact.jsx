@@ -20,56 +20,18 @@ import { useForm, Controller } from "react-hook-form";
 import { TextareaAutosize } from "@mui/material";
 import { schema } from "../../SchemaValidation.js";
 import Swal from "sweetalert2";
+import { useContext } from "react";
+import { DataContext } from "../../DataContext";
 
 export default function Contact() {
-  // enable form is true if mail is provided, if not, false
   const [enableForm, setEnableForm] = useState(false);
+  const { data: contextData } = useContext(DataContext);
+  const mail = contextData.contactDetails.email;
+  if(mail){
+    setEnableForm(true);
+  }
 
-  const [mail, setMail] = useState("xxx@mail.in")
   const [show, setShow] = useState(false);
-  const [errors, setErrors] = useState({});
-
-  //   event.preventDefault();
-  //   let data = {
-  //     name: event.target.name.value,
-  //     email: event.target.email.value,
-  //     phone: event.target.phone.value,
-  //     gender: event.target.gender.value,
-  //     reason: event.target.reason.value,
-  //     message: event.target.message?.value || null,
-  //     rating: event.target.rating.value,
-  //   };
-
-  //   await schema
-  //     .validate(data, { abortEarly: false })
-  //     .then(async (validatedData) => {
-  //       console.log("Data is valid:", validatedData);
-  //       setErrors({});
-  //       await Swal.fire({
-  //         icon: "success",
-  //         title: "Data validated",
-  //         showConfirmButton: false,
-  //         timer: 2000,
-  //       });
-  //       window.location.reload();
-  //     })
-  //     .catch((validationError) => {
-  //       if (validationError.inner) {
-  //         let tempErrors = {};
-  //         console.log(validationError.inner);
-  //         Object.entries(validationError.inner).forEach((error) => {
-  //           if (!tempErrors[error[1].path]) {
-  //             tempErrors[error[1].path] = { messages: [] };
-  //           }
-  //           tempErrors[error[1].path].messages.push(error[1].errors);
-  //         });
-  //         setErrors(tempErrors);
-  //         console.log("final obj", tempErrors);
-  //       }
-  //     });
-  // }
-
-  // corrected function
   const { control, handleSubmit } = useForm();
 
   const data = {

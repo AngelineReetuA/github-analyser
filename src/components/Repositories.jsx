@@ -2,22 +2,25 @@ import { Link, Typography, Chip } from "@mui/material";
 import { Container } from "@mui/material";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import { DataGrid } from "@mui/x-data-grid";
-import data from "../../dummy-data";
+import { useContext } from "react";
+import { DataContext } from "../../DataContext";
 
 export default function Repositories() {
+  const { data } = useContext(DataContext);
+
   const columns = [
     { field: "id", headerName: "SNo", width: 30 },
     { field: "repoName", headerName: "Name", width: 190 },
     { field: "repoDesc", headerName: "Description", width: 350 },
-    { field: "repoLoc", headerName: "LOC", width: 100 },
+    { field: "repoSize", headerName: "LOC", width: 100 },
     {
       field: "repoLang",
       headerName: "Languages",
       width: 300,
       renderCell: (cellValues) => {
-        return cellValues.row.repoLang.split(",").map((item, index) => {
-          return <Chip key={index} label={item} />;
-        });
+        return (
+          <Chip label={cellValues.row.repoLang} />
+        )
       },
     },
     {
@@ -26,14 +29,13 @@ export default function Repositories() {
       width: 70,
       renderCell: (cellValues) => {
         return (
-          <Link href={`${cellValues.row.repoLink()}`} target="_blank">
+          <Link href={`${cellValues.row.repoLink}`} target="_blank">
             <GitHubIcon />
           </Link>
         );
       },
     },
   ];
-  //   {
   //     id: "1",
   //     repoName: "mental_health_chatbot",
   //     repoDesc:
@@ -144,7 +146,7 @@ export default function Repositories() {
     <>
       <Container sx={{ pt: 3 }}>
         <DataGrid
-          rows={data}
+          rows={data.codeAnalysis.repos}
           columns={columns}
           initialState={{
             pagination: {

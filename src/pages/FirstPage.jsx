@@ -2,25 +2,65 @@ import { Typography, Grid, TextField, Button } from "@mui/material";
 import { useContext, useState } from "react";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import { DataContext } from "../../DataContext";
+import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 
+const calculateLanguageData = async (data) => {
+  let langArray = [];
+  let total = 0;
+  await data.map((repo) => {
+    if (repo.language != null) {
+      const existingLang = langArray.find(
+        (lang) => lang.language === repo.language
+      );
+      if (existingLang) {
+        existingLang.size += repo.size;
+      } else {
+        langArray.push({ language: repo.language, size: repo.size });
+      }
+    }
+  });
+  langArray.map((lang) => {
+    total += lang.size;
+  });
+  langArray.map((lang) => {
+    let percent = Math.round((lang.size / total) * 100);
+    lang.size = percent;
+  });
+  return langArray;
+};
+
+const sortGithubRepos = async (repos) => {
+  let temp = repos
+    .sort((a, b) => {
+      return b.size - a.size;
+    })
+    .slice(0, 2);
+  return temp.map((repo) => ({
+    repoName: repo.name,
+    repoDesc: repo.description,
+    repoLang: repo.language,
+    repoStars: parseInt(repo.stargazers_count),
+    repoLink: repo.html_url,
+  }));
+};
+
+const organizeRepos = async (repos) => {
+  return repos.map((repo)=>({
+    id: repo.id,
+    repoName: repo.name,
+    repoDesc: repo.description,
+    repoLang: repo.language,
+    repoSize: repo.size,
+    repoStars: parseInt(repo.stargazers_count),
+    repoLink: repo.html_url,
+  }))
+}
+
 export default function FirstPage() {
-  const { setData, data } = useContext(DataContext);
+  const { setData } = useContext(DataContext);
   const [username, setUsername] = useState("");
-
-  // API REQUESTS
-  // first api normal - basic user details /users/{uname}
-  // ---- login, bio, followers, company, link
-  // ---- repositories(public_repos)
-  // ---- email
-  // second api - contributions .json api
-  // ---- totalContributions
-  // third api - /repos
-  // ---- languages, languagesData(choose top 3) (recur function)
-  // ---- githubData (choose 2 with the highest size/first two)
-  // ---- repos
-
-  // if req1 returns 404, show error message (means user doesnt exist)
+  const navigate = useNavigate();
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -28,47 +68,61 @@ export default function FirstPage() {
 
     if (username) {
       try {
-        const responses = await Promise.all([
-          fetch(`https://api.github.com/users/${username}`),
-          fetch(`https://github-contributions-api.deno.dev/${username}.json`),
-          fetch(`https://api.github.com/users/${username}/repos`),
-        ]);
-        console.log(responses);
-        const obj = {
-          initialAnalysis: {
-            headlineData: {
-              login: responses[0].body.data.login,
-              bio: responses[0].body.data.bio,
-              followers: responses[0].body.data.followers,
-              company: responses[0].body.data.company,
-              link: responses[0].body.data.url,
+        const userCheckRes = await fetch(
+          `https://api.github.com/users/${username}`
+        );
+        if (userCheckRes.ok) {
+          const userData = await userCheckRes.json();
+          const responses = await Promise.all([
+            fetch(
+              `https://github-contributions-api.deno.dev/${username}.json`
+            ).then((res) => res.json()),
+            fetch(`https://api.github.com/users/${username}/repos`).then(
+              (res) => res.json()
+            ),
+          ]);
+          const languageData = await calculateLanguageData(responses[1]);
+          const githubCardsForInitial = await sortGithubRepos(responses[1]);
+          const codeAnalysisRepos = await organizeRepos(responses[1]);
+          console.log(codeAnalysisRepos);
+
+          const obj = {
+            initialAnalysis: {
+              headlineData: {
+                avatar: userData.avatar_url,
+                login: userData.login,
+                bio: userData.bio,
+                followers: userData.followers,
+                company: userData.company,
+                link: userData.html_url,
+              },
+              statcardData: {
+                totalContributions: responses[0].totalContributions,
+                repositories: userData.public_repos,
+                languages: languageData.length,
+              },
+              languagesData: languageData,
+              githubData: githubCardsForInitial,
+              releases: userData.blog,
             },
-            statcardData: {
-              totalContributions: responses[1].body.data.totalContributions,
-              repositories: responses[0].body.data.public_repos,
-              languages: 0,
+            codeAnalysis: {
+              repos: codeAnalysisRepos,
             },
-            languagesData: [{ label: "", data: 0 }],
-            githubData: {
-              repoName: "",
-              repoDesc: "",
-              repoLang: "",
-              repoStars: "",
-              repoLink: "",
+            contactDetails: {
+              email: userData.email,
             },
-            releases: [],
-          },
-          codeAnalysis: {
-            repos: {},
-          },
-          contactDetails: {
-            email: "",
-          },
-        };
-        await setData(obj);
-        console.log(data);
-      } catch {
-        console.log("error");
+          };
+          await setData(obj);
+          navigate("/user/user-analysis");
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "User does not exist",
+            text: "Make sure the username exists on Github",
+          });
+        }
+      } catch (error) {
+        console.log(error);
       }
     }
   }

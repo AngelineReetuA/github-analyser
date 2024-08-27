@@ -18,17 +18,17 @@ export default function Headline({
         <Grid item>
           <Avatar
             alt="profile pic"
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsPJ9cm0-r5p50py0yUzvM5ZtEB-xWoJRPRA&s"
+            src={photoURL}
             sx={{ width: "100px", height: "100px" }}
           />
         </Grid>
         <Grid item xs container direction="column">
           <Grid item paddingLeft={2}>
             <Typography variant="h4" style={{ fontWeight: "bold" }}>
-              John Doe
+              {name}
             </Typography>
             <Typography style={{ fontStyle: "italic" }}>
-              Software Engineer
+              {bio}
             </Typography>
             <Grid
               container
@@ -38,17 +38,17 @@ export default function Headline({
             >
               <Grid item display="flex" flexDirection="row">
                 <GroupIcon style={{ marginRight: "10px" }} />
-                <Typography variant="body1">8 followers</Typography>
+                <Typography variant="body1">{followers} followers</Typography>
               </Grid>
               <Grid item display="flex" flexDirection="row">
                 <BusinessIcon style={{ marginRight: "10px" }} />
-                <Typography variant="body1">IT Company</Typography>
+                <Typography variant="body1">{emp}</Typography>
               </Grid>
               <Grid item display="flex" flexDirection="row">
                 <OpenInNewIcon style={{ marginRight: "10px" }} />
                 <Typography variant="body1">
-                  <Link href="https://www.google.com" target="_blank">
-                    Blog
+                  <Link href={link} target="_blank">
+                    Open Github
                   </Link>
                 </Typography>
               </Grid>

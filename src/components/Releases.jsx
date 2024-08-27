@@ -14,7 +14,7 @@ export default function Releases() {
     <>
       <Box p={1}>
         <Typography variant="h5" sx={{ fontWeight: "bold" }}>
-          Releases
+          Links
         </Typography>
         <Table>
           <TableBody>
