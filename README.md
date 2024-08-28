@@ -20,7 +20,5 @@ React with MUI Material UI
 ### To reproduce
 1. Clone the repository
 2. Run the following in terminal
-`code` npm install
-`code` npm run dev
-
-GitHub Analyzer is a tool designed to analyze and visualize various metrics from GitHub repositories. It provides insights into repository activity, contributions, and other key metrics to help users understand the health and dynamics of their projects.
+`npm install`
+`npm run dev`
