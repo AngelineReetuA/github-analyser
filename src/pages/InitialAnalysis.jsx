@@ -18,8 +18,7 @@ import { DataContext } from "../../DataContext";
 
 export default function InitialAnalysis() {
   const { data } = useContext(DataContext);
-  console.log(data);
-  
+
   return (
     <>
       <Grid container>
@@ -46,17 +45,23 @@ export default function InitialAnalysis() {
         >
           <Grid item xs={12} sm={6} md={3} lg={3} xl={3}>
             <StatCard statName="ACTIVITY">
-              <Doughnut />
+              <Doughnut doughnut={data.initialAnalysis.statcardData.doughnut} />
             </StatCard>
           </Grid>
           <Grid item xs={12} sm={6} md={3} lg={3} xl={3}>
-            <StatCard statName="REPOSITORIES">{data.initialAnalysis.statcardData.repositories}</StatCard>
+            <StatCard statName="REPOSITORIES">
+              {data.initialAnalysis.statcardData.repositories}
+            </StatCard>
           </Grid>
           <Grid item xs={12} sm={6} md={3} lg={3} xl={3}>
-            <StatCard statName="COMMITS">{data.initialAnalysis.statcardData.totalContributions}</StatCard>
+            <StatCard statName="COMMITS">
+              {data.initialAnalysis.statcardData.totalContributions}
+            </StatCard>
           </Grid>
           <Grid item xs={12} sm={6} md={3} lg={3} xl={3}>
-            <StatCard statName="LANGUAGES">{data.initialAnalysis.statcardData.languages}</StatCard>
+            <StatCard statName="LANGUAGES">
+              {data.initialAnalysis.statcardData.languages}
+            </StatCard>
           </Grid>
         </Grid>
         <Grid item container display="flex" p={2}>
@@ -64,7 +69,7 @@ export default function InitialAnalysis() {
             <Typography fontWeight={800} py={2} variant="h5">
               Languages
             </Typography>
-            <StackedBarChart />
+            <StackedBarChart languageData={data.initialAnalysis.stackBarData} />
           </Grid>
           <Grid item p={1} px={1} xs={12} sm={12} md={8} lg={8} xl={8}>
             <Paper
@@ -76,7 +81,15 @@ export default function InitialAnalysis() {
               </Typography>
               <Grid container spacing={2}>
                 {data.initialAnalysis.githubData.map((repo) => (
-                  <Grid key={repo.repoName} item xs={12} sm={6} md={12} lg={6} xl={6}>
+                  <Grid
+                    key={repo.repoName}
+                    item
+                    xs={12}
+                    sm={6}
+                    md={12}
+                    lg={6}
+                    xl={6}
+                  >
                     <GithubCard
                       repoLink={repo.repoLink}
                       repoName={repo.repoName}

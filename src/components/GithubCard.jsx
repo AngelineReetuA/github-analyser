@@ -6,6 +6,7 @@ import {
   Card,
   CardContent,
   CardActions,
+  Grid
 } from "@mui/material";
 import DataObjectIcon from "@mui/icons-material/DataObject";
 import StarIcon from "@mui/icons-material/Star";
@@ -20,21 +21,28 @@ export default function GithubCard({
   return (
     <>
       <Link href={repoLink} target="_blank" sx={{ textDecoration: "none" }}>
-        <Card>
+        <Card sx={{ height: "170px", overflow: "auto" }}>
           <CardContent>
             <Typography variant="h6">{repoName}</Typography>
             <Divider sx={{ bgcolor: "white", marginTop: "10px" }} />
-            <Typography py={1}>{repoDesc}</Typography>
+              <Typography py={1}>
+                {repoDesc}
+              </Typography>
             <Divider sx={{ bgcolor: "white" }} />
             <CardActions>
-              <DataObjectIcon style={{ fontSize: "medium" }} />
-              <Typography variant="body2">{repoLang}</Typography>
-              {repoStars && (
+              {repoLang != null && (
+                <>
+                  <DataObjectIcon style={{ fontSize: "medium" }} />
+                  <Typography variant="body2">{repoLang}</Typography>
+                </>
+              )}
+
+              {repoStars > 0 && (
                 <>
                   <StarIcon
                     style={{ marginRight: "10px", fontSize: "medium" }}
                   />
-                  <Typography>repoStars</Typography>
+                  <Typography>{repoStars}</Typography>
                 </>
               )}
             </CardActions>
@@ -46,9 +54,9 @@ export default function GithubCard({
 }
 
 GithubCard.propTypes = {
-  repoLink: PropTypes.string.isRequired,
-  repoName: PropTypes.string.isRequired,
-  repoDesc: PropTypes.string.isRequired,
-  repoLang: PropTypes.string.isRequired,
-  repoStars: PropTypes.string,
+  repoLink: PropTypes.string,
+  repoName: PropTypes.string,
+  repoDesc: PropTypes.string,
+  repoLang: PropTypes.string,
+  repoStars: PropTypes.number,
 };

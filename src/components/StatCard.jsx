@@ -48,7 +48,7 @@ export default function StatCard({ statName, children }) {
 }
 
 StatCard.propTypes = {
-  children: PropTypes.oneOfType([PropTypes.element, PropTypes.string]),
+  children: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
   statName: PropTypes.string.isRequired,
   cardPadding: PropTypes.string,
 };

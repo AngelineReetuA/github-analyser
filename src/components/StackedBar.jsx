@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -20,59 +20,7 @@ ChartJS.register(
   ChartDataLabels
 );
 
-export default function StackedBarChart() {
-
-  const data2 = {
-    labels: ["Languages"],
-    datasets: [
-      {
-        label: "Javascript",
-        data: [40],
-        backgroundColor: "#4e7a94",
-        datalabels: {
-          color: "black",
-          anchor: "middle",
-          align: "start",
-          offset: -10,
-          font: {
-            weight: "bold",
-          },
-          formatter: () => "Javascript",
-        },
-      },
-      {
-        label: "C++",
-        data: [30],
-        backgroundColor: "#7eb8d9",
-        datalabels: {
-          color: "black",
-          anchor: "middle",
-          align: "start",
-          offset: -10,
-          font: {
-            weight: "bold",
-          },
-          formatter: () => "C++",
-        },
-      },
-      {
-        label: "HTML",
-        data: [30],
-        backgroundColor: "#d9edf8",
-        datalabels: {
-          color: "black",
-          anchor: "middle",
-          align: "start",
-          offset: -10,
-          font: {
-            weight: "bold",
-          },
-          formatter: () => "HTML",
-        },
-      },
-    ],
-  };
-
+export default function StackedBarChart({ languageData }) {
   const options2 = {
     responsive: true,
     maintainAspectRatio: false,
@@ -94,14 +42,14 @@ export default function StackedBarChart() {
         display: true,
       },
       tooltip: {
-        display: false
-      }
+        display: false,
+      },
     },
   };
 
   return (
     <Box style={{ height: "230px", width: "180px" }}>
-      <Bar data={data2} options={options2} />
+      <Bar data={languageData} options={options2} />
     </Box>
   );
 }

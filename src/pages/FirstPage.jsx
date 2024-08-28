@@ -46,7 +46,7 @@ const sortGithubRepos = async (repos) => {
 };
 
 const organizeRepos = async (repos) => {
-  return repos.map((repo)=>({
+  return repos.map((repo) => ({
     id: repo.id,
     repoName: repo.name,
     repoDesc: repo.description,
@@ -54,7 +54,45 @@ const organizeRepos = async (repos) => {
     repoSize: repo.size,
     repoStars: parseInt(repo.stargazers_count),
     repoLink: repo.html_url,
-  }))
+  }));
+};
+
+const calculateActivityPercent = async (contribs) => {
+  const setTotal = contribs.contributions.length;
+  let completeTotal = 0;
+  for (let i = 0; i < setTotal; i++) {
+    completeTotal += contribs.contributions[i].length;
+  }
+  const percent = (Math.min(contribs.totalContributions, completeTotal) / completeTotal) * 100;
+  return percent;
+};
+
+async function formatStackBarData(langs) {
+  let stackData = { labels: ["Languages"], datasets: [] };
+
+  const numberOfStacks = Math.min(langs.length, 3);
+  let datasets = [];
+  const colorArray = ['#4e7a94','#7eb8d9','#d9edf8'];
+  for (let i = 0; i < numberOfStacks; i++) {
+    const tempObj = {
+      label: `${langs[i].language}`,
+      data: [langs[i].size],
+      backgroundColor: `${colorArray[i]}`,
+      datalabels: {
+        color: "black",
+        anchor: "middle",
+        align: "start",
+        offset: -10,
+        font: {
+          weight: "bold",
+        },
+        formatter: () => `${langs[i].language}`,
+      },
+    };
+    datasets.push(tempObj);
+  }
+  stackData.datasets = datasets;
+  return stackData;
 }
 
 export default function FirstPage() {
@@ -84,7 +122,8 @@ export default function FirstPage() {
           const languageData = await calculateLanguageData(responses[1]);
           const githubCardsForInitial = await sortGithubRepos(responses[1]);
           const codeAnalysisRepos = await organizeRepos(responses[1]);
-          console.log(codeAnalysisRepos);
+          const doughnutPercent = await calculateActivityPercent(responses[0]);
+          const freshStackData = await formatStackBarData(languageData);
 
           const obj = {
             initialAnalysis: {
@@ -100,7 +139,9 @@ export default function FirstPage() {
                 totalContributions: responses[0].totalContributions,
                 repositories: userData.public_repos,
                 languages: languageData.length,
+                doughnut: doughnutPercent,
               },
+              stackBarData: freshStackData,
               languagesData: languageData,
               githubData: githubCardsForInitial,
               releases: userData.blog,
@@ -122,6 +163,11 @@ export default function FirstPage() {
           });
         }
       } catch (error) {
+        Swal.fire({
+          icon: "error",
+          title: "Sorry, there was a problem",
+          text: "Try again sometime later",
+        });
         console.log(error);
       }
     }

@@ -4,16 +4,18 @@ import { Chart as ChartJS, ArcElement } from "chart.js";
 
 ChartJS.register(ArcElement);
 
-export default function Activity() {
+export default function Activity({ doughnut }) {
+  const doughnutFormatted = Math.round(doughnut);
 
   const data = {
     datasets: [
       {
-        data: [65, 100-65],
+        data: [doughnutFormatted, 100 - doughnutFormatted],
         backgroundColor: ["#7eb8d9", "#d9edf8"],
       },
     ],
   };
+
   const CenterTextPlugin = {
     id: "centerText",
     beforeDraw: (chart) => {
@@ -48,7 +50,7 @@ export default function Activity() {
         display: true,
       },
       centerText: {
-        text: "65%",
+        text: `${doughnutFormatted}%`,
       },
     },
   };

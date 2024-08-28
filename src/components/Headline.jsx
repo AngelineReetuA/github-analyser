@@ -28,7 +28,7 @@ export default function Headline({
               {name}
             </Typography>
             <Typography style={{ fontStyle: "italic" }}>
-              {bio}
+              {bio ? bio : "No bio found"}
             </Typography>
             <Grid
               container
@@ -37,17 +37,27 @@ export default function Headline({
               alignItems="center"
             >
               <Grid item display="flex" flexDirection="row">
-                <GroupIcon style={{ marginRight: "10px" }} />
-                <Typography variant="body1">{followers} followers</Typography>
+                {followers > 0 && (
+                  <>
+                    <GroupIcon style={{ marginRight: "10px" }} />
+                    <Typography variant="body1">
+                      {followers} followers
+                    </Typography>
+                  </>
+                )}
               </Grid>
               <Grid item display="flex" flexDirection="row">
-                <BusinessIcon style={{ marginRight: "10px" }} />
-                <Typography variant="body1">{emp}</Typography>
+                {emp && (
+                  <>
+                    <BusinessIcon style={{ marginRight: "10px" }} />
+                    <Typography variant="body1">{emp}</Typography>
+                  </>
+                )}
               </Grid>
               <Grid item display="flex" flexDirection="row">
                 <OpenInNewIcon style={{ marginRight: "10px" }} />
                 <Typography variant="body1">
-                  <Link href={link} target="_blank">
+                  <Link href={link} target="_blank" rel="noopener">
                     Open Github
                   </Link>
                 </Typography>
@@ -62,9 +72,9 @@ export default function Headline({
 
 Headline.propTypes = {
   photoURL: PropTypes.string,
-  name: PropTypes.string.isRequired,
-  bio: PropTypes.string.isRequired,
-  followers: PropTypes.string.isRequired,
-  emp: PropTypes.string.isRequired,
-  link: PropTypes.string.isRequired,
+  name: PropTypes.string,
+  bio: PropTypes.string,
+  followers: PropTypes.number,
+  emp: PropTypes.string,
+  link: PropTypes.string,
 };

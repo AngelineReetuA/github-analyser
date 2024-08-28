@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import CodeIcon from "@mui/icons-material/Code";
 import PersonIcon from "@mui/icons-material/Person";
-import CloseIcon from "@mui/icons-material/Close";
 import { useLocation } from "react-router-dom";
 
 export default function NavBar() {
@@ -46,7 +45,7 @@ export default function NavBar() {
       <Box sx={{ overflow: "auto" }}>
         <Tabs
           orientation="vertical"
-          value={value}
+          value={Number(value) || 0}
           onChange={handleChange}
           sx={{ display: "flex", flexDirection: "column", height: "100%" }}
         >
@@ -55,7 +54,7 @@ export default function NavBar() {
               component={Link}
               to="/user/user-analysis"
               icon={<RemoveRedEyeIcon />}
-              index={0}
+              value="0"
             />
           </Tooltip>
           <Tooltip title="Repositories" placement="right">
@@ -63,7 +62,7 @@ export default function NavBar() {
               component={Link}
               to="/user/code-analysis/repositories"
               icon={<CodeIcon />}
-              index={1}
+              value="1"
             />
           </Tooltip>
           <Tooltip title="Contact" placement="right">
@@ -71,7 +70,7 @@ export default function NavBar() {
               component={Link}
               to="/user/contact"
               icon={<PersonIcon />}
-              index={2}
+              value="2"
             />
           </Tooltip>
         </Tabs>
