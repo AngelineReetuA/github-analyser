@@ -6,7 +6,7 @@ import {
   Card,
   CardContent,
   CardActions,
-  Grid
+  Box,
 } from "@mui/material";
 import DataObjectIcon from "@mui/icons-material/DataObject";
 import StarIcon from "@mui/icons-material/Star";
@@ -17,17 +17,18 @@ export default function GithubCard({
   repoLang,
   repoStars,
   repoLink,
+  height,
 }) {
   return (
     <>
       <Link href={repoLink} target="_blank" sx={{ textDecoration: "none" }}>
-        <Card sx={{ height: "170px", overflow: "auto" }}>
+        <Card sx={{ height: `${height}px` }}>
           <CardContent>
             <Typography variant="h6">{repoName}</Typography>
             <Divider sx={{ bgcolor: "white", marginTop: "10px" }} />
-              <Typography py={1}>
-                {repoDesc}
-              </Typography>
+            <Box sx={{ height: "75px", overflow: "auto" }}>
+              <Typography py={1}>{repoDesc}</Typography>
+            </Box>
             <Divider sx={{ bgcolor: "white" }} />
             <CardActions>
               {repoLang != null && (
@@ -59,4 +60,5 @@ GithubCard.propTypes = {
   repoDesc: PropTypes.string,
   repoLang: PropTypes.string,
   repoStars: PropTypes.number,
+  height: PropTypes.number,
 };
