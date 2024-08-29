@@ -24,6 +24,7 @@ export default function RepositoriesList() {
               repoName={d.repoName}
               repoDesc={d.repoDesc}
               repoLang={d.repoLang}
+              height={180}
             />
           </Box>
         ))}

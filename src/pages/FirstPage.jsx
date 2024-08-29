@@ -63,7 +63,9 @@ const calculateActivityPercent = async (contribs) => {
   for (let i = 0; i < setTotal; i++) {
     completeTotal += contribs.contributions[i].length;
   }
-  const percent = (Math.min(contribs.totalContributions, completeTotal) / completeTotal) * 100;
+  const percent =
+    (Math.min(contribs.totalContributions, completeTotal) / completeTotal) *
+    100;
   return percent;
 };
 
@@ -72,7 +74,7 @@ async function formatStackBarData(langs) {
 
   const numberOfStacks = Math.min(langs.length, 3);
   let datasets = [];
-  const colorArray = ['#4e7a94','#7eb8d9','#d9edf8'];
+  const colorArray = ["#4e7a94", "#7eb8d9", "#d9edf8"];
   for (let i = 0; i < numberOfStacks; i++) {
     const tempObj = {
       label: `${langs[i].language}`,
@@ -95,7 +97,54 @@ async function formatStackBarData(langs) {
   return stackData;
 }
 
+async function setLinks(events) {
+  let linkArrays = [];
+  events = events.slice(0, 3);
+  events.forEach((event) => {
+    let newObj = {};
+    let repo = event.repo.name;
+
+    switch (event.type) {
+      case "PushEvent":
+        let sha = event.payload.head;
+        newObj.url = `https://github.com/${repo}/commit/${sha}`;
+        break;
+
+      case "PullRequestEvent":
+        let prNumber = event.payload.pull_request.number;
+        newObj.url = `https://github.com/${repo}/pull/${prNumber}`;
+        break;
+
+      case "IssuesEvent":
+        let issueNumber = event.payload.issue.number;
+        newObj.url = `https://github.com/${repo}/issues/${issueNumber}`;
+        break;
+
+      case "IssueCommentEvent":
+        let commentId = event.payload.comment.id;
+        newObj.url = `https://github.com/${repo}/issues/${event.payload.issue.number}#issuecomment-${commentId}`;
+        break;
+
+      case "ForkEvent":
+        newObj.url = `https://github.com/${event.payload.forkee.full_name}`;
+        break;
+
+      case "WatchEvent":
+        newObj.url = `https://github.com/${repo}`;
+        break;
+
+      default:
+        newObj.url = `https://github.com/${repo}`;
+        break;
+    }
+    newObj.eventType = event.type;
+    linkArrays.push(newObj);
+  });
+  return linkArrays.slice(0, 3);
+}
+
 export default function FirstPage() {
+  const [loader, setLoader] = useState(false);
   const { setData } = useContext(DataContext);
   const [username, setUsername] = useState("");
   const navigate = useNavigate();
@@ -118,12 +167,17 @@ export default function FirstPage() {
             fetch(`https://api.github.com/users/${username}/repos`).then(
               (res) => res.json()
             ),
+            fetch(
+              `https://api.github.com/users/${username}/events/public`
+            ).then((res) => res.json()),
           ]);
           const languageData = await calculateLanguageData(responses[1]);
           const githubCardsForInitial = await sortGithubRepos(responses[1]);
           const codeAnalysisRepos = await organizeRepos(responses[1]);
           const doughnutPercent = await calculateActivityPercent(responses[0]);
           const freshStackData = await formatStackBarData(languageData);
+          const links = await setLinks(responses[2]);
+          console.log(links);
 
           const obj = {
             initialAnalysis: {
@@ -144,7 +198,7 @@ export default function FirstPage() {
               stackBarData: freshStackData,
               languagesData: languageData,
               githubData: githubCardsForInitial,
-              releases: userData.blog,
+              releases: links,
             },
             codeAnalysis: {
               repos: codeAnalysisRepos,

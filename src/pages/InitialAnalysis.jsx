@@ -12,7 +12,7 @@ import StackedBarChart from "../components/StackedBar";
 import StatCard from "../components/StatCard";
 import GithubCard from "../components/GithubCard";
 import Headline from "../components/Headline";
-import Releases from "../components/Releases";
+import Releases from "../components/Links";
 import { useContext } from "react";
 import { DataContext } from "../../DataContext";
 
@@ -96,6 +96,7 @@ export default function InitialAnalysis() {
                       repoDesc={repo.repoDesc}
                       repoLang={repo.repoLang}
                       repoStars={parseInt(repo.repoStars)}
+                      height={180}
                     />
                   </Grid>
                 ))}
@@ -103,7 +104,7 @@ export default function InitialAnalysis() {
             </Paper>
           </Grid>
           <Grid item xs={12} sm={12} md={2} lg={2} xl={2}>
-            <Releases links={data.links} />
+            <Releases links={data.initialAnalysis.releases} />
           </Grid>
         </Grid>
       </Grid>

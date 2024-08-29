@@ -26,6 +26,7 @@ export default function StatCard({ statName, children }) {
               width: "120px",
               fontSize: "60px",
               fontWeight: "bolder",
+              justifyContent:"center"
             }}
           >
             {children}
