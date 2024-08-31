@@ -1,4 +1,6 @@
 import { Typography, Grid, TextField, Button } from "@mui/material";
+import CircularProgress from "@mui/material/CircularProgress";
+import Backdrop from "@mui/material/Backdrop";
 import { useContext, useState } from "react";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import { DataContext } from "../../DataContext";
@@ -6,31 +8,39 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 
 const calculateLanguageData = async (data) => {
+  data = await data.filter((d)=> {return d.fork === false});
+  data = data.slice(0,3);
+  console.log("data recieved", data);
   let langArray = [];
-  let total = 0;
-  await data.map((repo) => {
-    if (repo.language != null) {
-      const existingLang = langArray.find(
-        (lang) => lang.language === repo.language
-      );
-      if (existingLang) {
-        existingLang.size += repo.size;
-      } else {
-        langArray.push({ language: repo.language, size: repo.size });
-      }
-    }
-  });
-  langArray.map((lang) => {
-    total += lang.size;
-  });
-  langArray.map((lang) => {
-    let percent = Math.round((lang.size / total) * 100);
-    lang.size = percent;
-  });
-  return langArray;
+
+  await Promise.all(
+    data.map(async (repo) => {
+      const response = await fetch(repo.languages_url);
+      const languageObjForRepo = await response.json();
+
+      Object.keys(languageObjForRepo).forEach((lang) => {
+        const existingLang = langArray.find((item) => item.language === lang);
+        console.log("already exists", existingLang);
+        if (existingLang) {
+          existingLang.loc += languageObjForRepo[lang];
+        } else {
+          langArray.push({
+            language: lang,
+            loc: languageObjForRepo[lang],
+          });
+        }
+      });
+    })
+  );
+  langArray.sort((a,b)=>{return b.loc - a.loc});
+  console.log("langArray", langArray);
+  return langArray.slice(0, 2);
 };
 
 const sortGithubRepos = async (repos) => {
+  repos = await repos.filter((repo) => {
+    return repo.fork === false;
+  });
   let temp = repos
     .sort((a, b) => {
       return b.size - a.size;
@@ -99,7 +109,7 @@ async function formatStackBarData(langs) {
 
 async function setLinks(events) {
   let linkArrays = [];
-  events = events.slice(0, 3);
+
   events.forEach((event) => {
     let newObj = {};
     let repo = event.repo.name;
@@ -140,7 +150,7 @@ async function setLinks(events) {
     newObj.eventType = event.type;
     linkArrays.push(newObj);
   });
-  return linkArrays.slice(0, 3);
+  return linkArrays;
 }
 
 export default function FirstPage() {
@@ -150,6 +160,7 @@ export default function FirstPage() {
   const navigate = useNavigate();
 
   async function handleSubmit(e) {
+    setLoader(true);
     e.preventDefault();
     setUsername(username);
 
@@ -171,8 +182,8 @@ export default function FirstPage() {
               `https://api.github.com/users/${username}/events/public`
             ).then((res) => res.json()),
           ]);
-          const languageData = await calculateLanguageData(responses[1]);
           const githubCardsForInitial = await sortGithubRepos(responses[1]);
+          const languageData = await calculateLanguageData(responses[1]);
           const codeAnalysisRepos = await organizeRepos(responses[1]);
           const doughnutPercent = await calculateActivityPercent(responses[0]);
           const freshStackData = await formatStackBarData(languageData);
@@ -208,8 +219,11 @@ export default function FirstPage() {
             },
           };
           await setData(obj);
+          localStorage.setItem("data", { obj });
           navigate("/user/user-analysis");
+          setLoader(false);
         } else {
+          setLoader(false);
           Swal.fire({
             icon: "error",
             title: "User does not exist",
@@ -217,6 +231,7 @@ export default function FirstPage() {
           });
         }
       } catch (error) {
+        setLoader(false);
         Swal.fire({
           icon: "error",
           title: "Sorry, there was a problem",
@@ -229,6 +244,12 @@ export default function FirstPage() {
 
   return (
     <Grid container padding={8} sx={{ alignItems: "center" }}>
+      <Backdrop
+        sx={(theme) => ({ color: "#fff", zIndex: theme.zIndex.drawer + 1 })}
+        open={loader}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
       <Grid item>
         <GitHubIcon sx={{ fontSize: "120px" }} />
       </Grid>
