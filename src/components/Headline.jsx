@@ -3,12 +3,16 @@ import { Grid, Avatar, Typography, Link } from "@mui/material";
 import GroupIcon from "@mui/icons-material/Group";
 import BusinessIcon from "@mui/icons-material/Business";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
+import GroupOutlinedIcon from "@mui/icons-material/GroupOutlined";
+import RoomOutlinedIcon from "@mui/icons-material/RoomOutlined";
 
 export default function Headline({
   photoURL,
   name,
   bio,
   followers,
+  following,
+  location,
   emp,
   link,
 }) {
@@ -37,6 +41,22 @@ export default function Headline({
               alignItems="center"
             >
               <Grid item display="flex" flexDirection="row">
+                {emp && (
+                  <>
+                    <BusinessIcon style={{ marginRight: "10px" }} />
+                    <Typography variant="body1">{emp}</Typography>
+                  </>
+                )}
+              </Grid>
+              <Grid item display="flex" flexDirection="row">
+                {location && (
+                  <>
+                    <RoomOutlinedIcon style={{ marginRight: "10px" }} />
+                    <Typography variant="body1">{location}</Typography>
+                  </>
+                )}
+              </Grid>
+              <Grid item display="flex" flexDirection="row">
                 {followers > 0 && (
                   <>
                     <GroupIcon style={{ marginRight: "10px" }} />
@@ -47,23 +67,24 @@ export default function Headline({
                 )}
               </Grid>
               <Grid item display="flex" flexDirection="row">
-                {emp && (
+                {followers > 0 && (
                   <>
-                    <BusinessIcon style={{ marginRight: "10px" }} />
-                    <Typography variant="body1">{emp}</Typography>
+                    <GroupOutlinedIcon style={{ marginRight: "10px" }} />
+                    <Typography variant="body1">
+                      {following} following
+                    </Typography>
                   </>
                 )}
               </Grid>
-              <Grid item display="flex" flexDirection="row">
-                <OpenInNewIcon style={{ marginRight: "10px" }} />
-                <Typography variant="body1">
-                  <Link href={link} target="_blank" rel="noopener">
-                    Open Github
-                  </Link>
-                </Typography>
-              </Grid>
             </Grid>
           </Grid>
+        </Grid>
+        <Grid item display="flex" flexDirection="row" alignSelf="center">
+          <Link href={link} target="_blank" rel="noopener">
+            <OpenInNewIcon
+              style={{ marginRight: "10px", fontSize: "40px", color: "black" }}
+            />
+          </Link>
         </Grid>
       </Grid>
     </>
@@ -75,6 +96,8 @@ Headline.propTypes = {
   name: PropTypes.string,
   bio: PropTypes.string,
   followers: PropTypes.number,
+  following: PropTypes.number,
+  location: PropTypes.string,
   emp: PropTypes.string,
   link: PropTypes.string,
 };

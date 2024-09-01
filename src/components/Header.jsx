@@ -10,7 +10,7 @@ export default function Header() {
         <Typography
           variant="h6"
           component="div"
-          sx={{ flexGrow: 1, bgcolor: "black", padding: "15px" }}
+          sx={{ flexGrow: 1, bgcolor: "#10151f", padding: "15px" }}
         >
           Quick Github Analyser
         </Typography>

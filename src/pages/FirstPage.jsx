@@ -8,11 +8,18 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 
 const calculateLanguageData = async (data) => {
-  data = await data.filter((d)=> {return d.fork === false});
-  data = data.slice(0,3);
-  console.log("data recieved", data);
+  let totalLanguageArray = [];
+  let totalLanguageCount = 0;
+  await data.map((repo) => {
+    if (totalLanguageArray.indexOf(repo.language) === -1) {
+      totalLanguageCount += 1;
+    }
+  });
+  data = await data.filter((d) => {
+    return d.fork === false;
+  });
+  data = data.slice(0, 3);
   let langArray = [];
-
   await Promise.all(
     data.map(async (repo) => {
       const response = await fetch(repo.languages_url);
@@ -20,7 +27,6 @@ const calculateLanguageData = async (data) => {
 
       Object.keys(languageObjForRepo).forEach((lang) => {
         const existingLang = langArray.find((item) => item.language === lang);
-        console.log("already exists", existingLang);
         if (existingLang) {
           existingLang.loc += languageObjForRepo[lang];
         } else {
@@ -32,10 +38,42 @@ const calculateLanguageData = async (data) => {
       });
     })
   );
-  langArray.sort((a,b)=>{return b.loc - a.loc});
-  console.log("langArray", langArray);
-  return langArray.slice(0, 2);
+  langArray.sort((a, b) => {
+    return b.loc - a.loc;
+  });
+  return { langArray: langArray.slice(0, 2), langCount: totalLanguageCount };
 };
+
+async function formatStackBarData(langs) {
+  let stackData = { labels: ["Languages"], datasets: [] };
+  let totalLOC = 0;
+  await langs.map((lang) => {
+    totalLOC += lang.loc;
+  });
+  const numberOfStacks = Math.min(langs.length, 3);
+  let datasets = [];
+  const colorArray = ["#4e7a94", "#7eb8d9", "#d9edf8"];
+  for (let i = 0; i < numberOfStacks; i++) {
+    const tempObj = {
+      label: `${langs[i].language}`,
+      data: [(langs[i].loc / totalLOC) * 100],
+      backgroundColor: `${colorArray[i]}`,
+      datalabels: {
+        color: "black",
+        anchor: "middle",
+        align: "start",
+        offset: -10,
+        font: {
+          weight: "bold",
+        },
+        formatter: () => `${langs[i].language}`,
+      },
+    };
+    datasets.push(tempObj);
+  }
+  stackData.datasets = datasets;
+  return stackData;
+}
 
 const sortGithubRepos = async (repos) => {
   repos = await repos.filter((repo) => {
@@ -76,36 +114,9 @@ const calculateActivityPercent = async (contribs) => {
   const percent =
     (Math.min(contribs.totalContributions, completeTotal) / completeTotal) *
     100;
-  return percent;
+  const activityData = {percentage: percent, total: completeTotal};
+  return activityData;
 };
-
-async function formatStackBarData(langs) {
-  let stackData = { labels: ["Languages"], datasets: [] };
-
-  const numberOfStacks = Math.min(langs.length, 3);
-  let datasets = [];
-  const colorArray = ["#4e7a94", "#7eb8d9", "#d9edf8"];
-  for (let i = 0; i < numberOfStacks; i++) {
-    const tempObj = {
-      label: `${langs[i].language}`,
-      data: [langs[i].size],
-      backgroundColor: `${colorArray[i]}`,
-      datalabels: {
-        color: "black",
-        anchor: "middle",
-        align: "start",
-        offset: -10,
-        font: {
-          weight: "bold",
-        },
-        formatter: () => `${langs[i].language}`,
-      },
-    };
-    datasets.push(tempObj);
-  }
-  stackData.datasets = datasets;
-  return stackData;
-}
 
 async function setLinks(events) {
   let linkArrays = [];
@@ -117,40 +128,50 @@ async function setLinks(events) {
     switch (event.type) {
       case "PushEvent":
         let sha = event.payload.head;
+        newObj.eventType = "Pushed";
         newObj.url = `https://github.com/${repo}/commit/${sha}`;
         break;
 
       case "PullRequestEvent":
+        newObj.eventType = "Pull Request";
         let prNumber = event.payload.pull_request.number;
         newObj.url = `https://github.com/${repo}/pull/${prNumber}`;
         break;
 
       case "IssuesEvent":
+        newObj.eventType = "Raised Issue";
         let issueNumber = event.payload.issue.number;
         newObj.url = `https://github.com/${repo}/issues/${issueNumber}`;
         break;
 
       case "IssueCommentEvent":
+        newObj.eventType = "Commented";
         let commentId = event.payload.comment.id;
         newObj.url = `https://github.com/${repo}/issues/${event.payload.issue.number}#issuecomment-${commentId}`;
         break;
 
       case "ForkEvent":
+        newObj.eventType = "Forked";
         newObj.url = `https://github.com/${event.payload.forkee.full_name}`;
         break;
 
       case "WatchEvent":
+        newObj.eventType = "Watching";
         newObj.url = `https://github.com/${repo}`;
         break;
 
       default:
+        newObj.eventType = "Event ";
         newObj.url = `https://github.com/${repo}`;
         break;
     }
-    newObj.eventType = event.type;
     linkArrays.push(newObj);
   });
-  return linkArrays;
+  let eventData = {
+    eventsToShow: linkArrays.slice(0, 3),
+    eventsLength: linkArrays.length,
+  };
+  return eventData;
 }
 
 export default function FirstPage() {
@@ -183,33 +204,39 @@ export default function FirstPage() {
             ).then((res) => res.json()),
           ]);
           const githubCardsForInitial = await sortGithubRepos(responses[1]);
-          const languageData = await calculateLanguageData(responses[1]);
+          const { langArray, langCount } = await calculateLanguageData(
+            responses[1]
+          );
           const codeAnalysisRepos = await organizeRepos(responses[1]);
-          const doughnutPercent = await calculateActivityPercent(responses[0]);
-          const freshStackData = await formatStackBarData(languageData);
-          const links = await setLinks(responses[2]);
-          console.log(links);
-
+          const activityData =
+            await calculateActivityPercent(responses[0]);
+          const freshStackData = await formatStackBarData(langArray);
+          const eventData = await setLinks(responses[2]);
+  
           const obj = {
             initialAnalysis: {
               headlineData: {
                 avatar: userData.avatar_url,
-                login: userData.login,
+                name: userData.name,
                 bio: userData.bio,
                 followers: userData.followers,
+                following: userData.following,
+                location: userData.location,
                 company: userData.company,
                 link: userData.html_url,
               },
               statcardData: {
                 totalContributions: responses[0].totalContributions,
+                yearlyContributions: activityData.total,
                 repositories: userData.public_repos,
-                languages: languageData.length,
-                doughnut: doughnutPercent,
+                languages: langCount,
+                doughnut: activityData.percentage,
+                events: eventData.eventsLength,
               },
               stackBarData: freshStackData,
-              languagesData: languageData,
+              languagesData: langArray,
               githubData: githubCardsForInitial,
-              releases: links,
+              releases: eventData.eventsToShow,
             },
             codeAnalysis: {
               repos: codeAnalysisRepos,
@@ -218,9 +245,9 @@ export default function FirstPage() {
               email: userData.email,
             },
           };
+          console.log(obj);
           await setData(obj);
-          localStorage.setItem("data", { obj });
-          navigate("/user/user-analysis");
+          navigate(`/${username}`);
           setLoader(false);
         } else {
           setLoader(false);

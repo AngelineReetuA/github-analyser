@@ -7,17 +7,21 @@ export const DataProvider = ({ children }) => {
     initialAnalysis: {
       headlineData: {
         avatar: "",
-        login: "",
+        name: "",
         bio: "",
         followers: 0,
+        following: 0,
+        location:"",
         company: "",
         link: "",
       },
       statcardData: {
         totalContributions: 0,
+        yearlyContributions: 0,
         repositories: 0,
         languages: 0,
         doughnut: 0,
+        events: 0
       },
       stackBarData:{},
       languagesData: [],

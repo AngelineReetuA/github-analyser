@@ -10,6 +10,8 @@ import {
 import Doughnut from "../components/Doughnut";
 import StackedBarChart from "../components/StackedBar";
 import StatCard from "../components/StatCard";
+import ActivityCard from "../components/ActivityCard";
+import HorizontalStatCard from "../components/HorizontalStatCard";
 import GithubCard from "../components/GithubCard";
 import Headline from "../components/Headline";
 import Releases from "../components/Links";
@@ -25,14 +27,15 @@ export default function InitialAnalysis() {
         <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
           <Headline
             photoURL={data.initialAnalysis.headlineData.avatar}
-            name={data.initialAnalysis.headlineData.login}
+            name={data.initialAnalysis.headlineData.name}
             bio={data.initialAnalysis.headlineData.bio}
             followers={data.initialAnalysis.headlineData.followers}
+            following={data.initialAnalysis.headlineData.following}
             emp={data.initialAnalysis.headlineData.company}
+            location={data.initialAnalysis.headlineData.location}
             link={data.initialAnalysis.headlineData.link}
           />
         </Grid>
-        <Divider style={{ width: "100%" }} />
         <Grid
           container
           direction="row"
@@ -40,28 +43,27 @@ export default function InitialAnalysis() {
           sx={{
             display: "flex",
             flexDirection: "row",
-            justifyContent: "space-evenly",
+            justifyContent: "space-evenly"
           }}
         >
-          <Grid item xs={12} sm={6} md={3} lg={3} xl={3}>
-            <StatCard statName="ACTIVITY">
-              <Doughnut doughnut={data.initialAnalysis.statcardData.doughnut} />
-            </StatCard>
+          <Grid item>
+            <ActivityCard percentage={data.initialAnalysis.statcardData.doughnut} contributions={data.initialAnalysis.statcardData.yearlyContributions} />
           </Grid>
-          <Grid item xs={12} sm={6} md={3} lg={3} xl={3}>
-            <StatCard statName="REPOSITORIES">
-              {data.initialAnalysis.statcardData.repositories}
-            </StatCard>
+          <Grid item direction="column">
+            <Grid item sx={{paddingBottom:"10px"}}>
+              <HorizontalStatCard color="#98c1d9" name="REPOSITORIES" value={data.initialAnalysis.statcardData.repositories} />
+            </Grid>
+            <Grid item>
+              <HorizontalStatCard color="#eec64d" name="COMMITS" value={data.initialAnalysis.statcardData.totalContributions} />
+            </Grid>
           </Grid>
-          <Grid item xs={12} sm={6} md={3} lg={3} xl={3}>
-            <StatCard statName="COMMITS">
-              {data.initialAnalysis.statcardData.totalContributions}
-            </StatCard>
-          </Grid>
-          <Grid item xs={12} sm={6} md={3} lg={3} xl={3}>
-            <StatCard statName="LANGUAGES">
-              {data.initialAnalysis.statcardData.languages}
-            </StatCard>
+          <Grid item direction="column">
+            <Grid item sx={{paddingBottom:"10px"}}>
+              <HorizontalStatCard color="#ee6c4d" name="LANGUAGES" value={data.initialAnalysis.statcardData.languages} />
+            </Grid>
+            <Grid item>
+              <HorizontalStatCard color="#e0fbfc" name="EVENTS" value={data.initialAnalysis.statcardData.events} />
+            </Grid>
           </Grid>
         </Grid>
         <Grid item container display="flex" p={2}>

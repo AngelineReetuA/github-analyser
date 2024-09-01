@@ -11,31 +11,39 @@ export default function Activity({ doughnut }) {
     datasets: [
       {
         data: [doughnutFormatted, 100 - doughnutFormatted],
-        backgroundColor: ["#7eb8d9", "#d9edf8"],
+        backgroundColor: ["#ee6c4d", "#bfbdbd"],
+        borderWidth: 0,
       },
     ],
   };
 
-  const CenterTextPlugin = {
+  const centerTextPlugin = {
     id: "centerText",
     beforeDraw: (chart) => {
       const { width, height, ctx } = chart;
       ctx.restore();
-      const fontSize = (height / 574).toFixed(2);
-      ctx.font = `${fontSize}em sans-serif`;
-      ctx.textBaseline = "middle";
 
-      const text = chart.config.options.plugins.centerText.text;
-      const textX = Math.round((width - ctx.measureText(text).width) / 2);
+      const fontSize = (height / 4).toFixed(2);
+      ctx.font = `${fontSize}px sans-serif`;
+      ctx.textBaseline = "middle";
+      ctx.textAlign = "center";
+      ctx.fillStyle = "#10151f";
+
+      const text = `${doughnutFormatted}%`;
+      const textX = width / 2;
       const textY = height / 2;
 
       ctx.fillText(text, textX, textY);
       ctx.save();
     },
   };
+
   const options = {
+    rotation: -135,
+    circumference: 270,
+    cutout: "80%",
+    maintainAspectRatio: true,
     responsive: true,
-    maintainAspectRatio: false,
     plugins: {
       tooltip: {
         enabled: false,
@@ -49,14 +57,16 @@ export default function Activity({ doughnut }) {
       innerLabel: {
         display: true,
       },
-      centerText: {
-        text: `${doughnutFormatted}%`,
-      },
+     
     },
   };
   return (
     <>
-      <Doughnut data={data} options={options} plugins={[CenterTextPlugin]} />
+      <Doughnut
+        data={data}
+        options={options}
+        plugins={[centerTextPlugin]} 
+      />
     </>
   );
 }
