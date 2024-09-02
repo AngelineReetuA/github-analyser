@@ -22,7 +22,17 @@ export default function GithubCard({
   return (
     <>
       <Link href={repoLink} target="_blank" sx={{ textDecoration: "none" }}>
-        <Card sx={{ height: `${height}px` }}>
+        <Card
+          sx={{
+            height: `${height}px`,
+            borderRadius: "16px",
+            ":hover": {
+              border: "2px solid",
+              borderColor: "#ee6c4d",
+            },
+         
+          }}
+        >
           <CardContent>
             <Typography variant="h6">{repoName}</Typography>
             <Divider sx={{ bgcolor: "white", marginTop: "10px" }} />

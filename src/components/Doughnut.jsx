@@ -24,7 +24,7 @@ export default function Activity({ doughnut }) {
       ctx.restore();
 
       const fontSize = (height / 4).toFixed(2);
-      ctx.font = `${fontSize}px sans-serif`;
+      ctx.font = `bold ${fontSize}px 'Slabo 27px', serif`;
       ctx.textBaseline = "middle";
       ctx.textAlign = "center";
       ctx.fillStyle = "#10151f";

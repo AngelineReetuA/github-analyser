@@ -52,14 +52,14 @@ async function formatStackBarData(langs) {
   });
   const numberOfStacks = Math.min(langs.length, 3);
   let datasets = [];
-  const colorArray = ["#4e7a94", "#7eb8d9", "#d9edf8"];
+  const colorArray = ["#98c1d9", "#3d5a80", "#305a91"];
   for (let i = 0; i < numberOfStacks; i++) {
     const tempObj = {
       label: `${langs[i].language}`,
       data: [(langs[i].loc / totalLOC) * 100],
       backgroundColor: `${colorArray[i]}`,
       datalabels: {
-        color: "black",
+        color: "white",
         anchor: "middle",
         align: "start",
         offset: -10,
@@ -106,15 +106,12 @@ const organizeRepos = async (repos) => {
 };
 
 const calculateActivityPercent = async (contribs) => {
-  const setTotal = contribs.contributions.length;
-  let completeTotal = 0;
-  for (let i = 0; i < setTotal; i++) {
-    completeTotal += contribs.contributions[i].length;
-  }
+  const setTotal = 53;
+  let completeTotal = 366;
   const percent =
     (Math.min(contribs.totalContributions, completeTotal) / completeTotal) *
     100;
-  const activityData = {percentage: percent, total: completeTotal};
+  const activityData = { percentage: percent, total: completeTotal };
   return activityData;
 };
 
@@ -208,11 +205,10 @@ export default function FirstPage() {
             responses[1]
           );
           const codeAnalysisRepos = await organizeRepos(responses[1]);
-          const activityData =
-            await calculateActivityPercent(responses[0]);
+          const activityData = await calculateActivityPercent(responses[0]);
           const freshStackData = await formatStackBarData(langArray);
           const eventData = await setLinks(responses[2]);
-  
+
           const obj = {
             initialAnalysis: {
               headlineData: {
@@ -247,6 +243,7 @@ export default function FirstPage() {
           };
           console.log(obj);
           await setData(obj);
+          localStorage.setItem("data", JSON.stringify(obj));
           navigate(`/${username}`);
           setLoader(false);
         } else {

@@ -31,13 +31,13 @@ export default function Headline({
             <Typography variant="h4" style={{ fontWeight: "bold" }}>
               {name}
             </Typography>
-            <Typography style={{ fontStyle: "italic" }}>
+            <Typography style={{ fontStyle: "italic", color:"#293241" }}>
               {bio ? bio : "No bio found"}
             </Typography>
             <Grid
               container
               spacing={3}
-              style={{ fontStyle: "italic", paddingTop: "5px" }}
+              style={{ fontStyle: "italic", paddingTop: "5px", color:"#293241" }}
               alignItems="center"
             >
               <Grid item display="flex" flexDirection="row">

@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
-import { Card, CardContent, Typography } from "@mui/material";
+import { Card, CardContent, Typography, Box } from "@mui/material";
 
-export default function HorizontalStatCard({ color, name, value }) {
+export default function HorizontalStatCard({ color, name, value, overlay: Icon }) {
   return (
     <Card
       sx={{
@@ -10,8 +10,10 @@ export default function HorizontalStatCard({ color, name, value }) {
         backgroundColor: `${color}`,
         height: "120px",
         width: "520px",
-        justifyContent:"center",
+        justifyContent: "center",
         borderRadius: "16px",
+        position: "relative",
+        overflow: "hidden",
       }}
     >
       <CardContent
@@ -20,7 +22,9 @@ export default function HorizontalStatCard({ color, name, value }) {
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "space-between",
-          paddingRight: "20px"
+          paddingRight: "20px",
+          position: "relative",
+          zIndex: 1,
         }}
       >
         <Typography
@@ -33,14 +37,28 @@ export default function HorizontalStatCard({ color, name, value }) {
         </Typography>
         <Typography
           sx={{
-            fontSize: "50px",
+            fontSize: "70px",
             fontWeight: "bolder",
             color: "#10151f",
+            fontFamily: "'Slabo 27px', serifs",
           }}
         >
           {value}
         </Typography>
       </CardContent>
+      <Box
+        sx={{
+          fontSize: "200px",
+          color: "rgba(255, 255, 255, 0.7)",
+          position: "absolute",
+          right: "20px",
+          top: "90%",
+          transform: "translateY(-50%)",
+          zIndex: 0,
+        }}
+      >
+        <Icon sx={{ fontSize: "inherit", color: "inherit" }} />
+      </Box>
     </Card>
   );
 }
@@ -48,5 +66,6 @@ export default function HorizontalStatCard({ color, name, value }) {
 HorizontalStatCard.propTypes = {
   color: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.number.isRequired,
+  icon: PropTypes.element,
 };
