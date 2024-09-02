@@ -51,7 +51,7 @@ export default function GithubCard({
               {repoStars > 0 && (
                 <>
                   <StarIcon
-                    style={{ marginRight: "10px", fontSize: "medium" }}
+                    style={{ fontSize: "medium" }}
                   />
                   <Typography>{repoStars}</Typography>
                 </>

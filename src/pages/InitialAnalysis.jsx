@@ -15,12 +15,6 @@ import TheBestCard from "../components/TheBestCard";
 export default function InitialAnalysis() {
   const { data, setData } = useContext(DataContext);
 
-  useEffect(() => {
-    const dataString = localStorage.getItem("data");
-    const dataJSON = JSON.parse(dataString);
-    setData(dataJSON);
-  });
-
   return (
     <>
       <Grid container>

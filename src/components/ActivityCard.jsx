@@ -34,16 +34,6 @@ export default function ActivityCard({ percentage, contributions }) {
           >
             YEARLY ACTIVITY
           </Typography>
-          <Typography
-            sx={{
-              display: "flex",
-              fontSize: "15px",
-              justifyContent: "end",
-              color:"#10151f"
-            }}
-          >
-            Contributions: {contributions}
-          </Typography>
           <CardContent style={{ height: "250px" }}>
             <Activity doughnut={percentage} />
           </CardContent>
