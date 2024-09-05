@@ -106,12 +106,19 @@ const organizeRepos = async (repos) => {
 };
 
 const calculateActivityPercent = async (contribs) => {
-  const setTotal = 53;
+  const currentYear = new Date().getFullYear();
+  const totalContribs = contribs.totalContributions;
+  let yearlyContribs = 0;
+  contribs = await contribs.contributions.map((contrib) => {
+    contrib.filter((quartile) => {
+      const isCurrentYear =
+        new Date(quartile.date).getFullYear() === currentYear;
+      if (isCurrentYear) yearlyContribs += quartile.contributionCount;
+    });
+  });
   let completeTotal = 366;
-  const percent =
-    (Math.min(contribs.totalContributions, completeTotal) / completeTotal) *
-    100;
-  const activityData = { percentage: percent, total: completeTotal };
+  const percent = (Math.min(yearlyContribs, completeTotal) / completeTotal) * 100;
+  const activityData = { percentage: percent, total: totalContribs, yearly: yearlyContribs };
   return activityData;
 };
 
@@ -187,7 +194,7 @@ export default function FirstPage() {
         const userCheckRes = await fetch(
           `https://api.github.com/users/${username}`
         );
-        if (userCheckRes.ok) {
+        if (userCheckRes.status === 200) {
           const userData = await userCheckRes.json();
           const responses = await Promise.all([
             fetch(
@@ -223,7 +230,7 @@ export default function FirstPage() {
               },
               statcardData: {
                 totalContributions: responses[0].totalContributions,
-                yearlyContributions: activityData.total,
+                yearlyContributions: activityData.yearly,
                 repositories: userData.public_repos,
                 languages: langCount,
                 doughnut: activityData.percentage,
@@ -245,12 +252,25 @@ export default function FirstPage() {
           localStorage.setItem("data", JSON.stringify(obj));
           navigate(`/${username}`);
           setLoader(false);
-        } else {
+        } else if (userCheckRes.status === 403 || userCheckRes.status === 429) {
           setLoader(false);
           Swal.fire({
             icon: "error",
-            title: "User does not exist",
-            text: "Make sure the username exists on Github",
+            title: "API request exceeded",
+            text: "Try again in another hour",
+          });
+        } else if (userCheckRes.status === 404) {
+          setLoader(false);
+          Swal.fire({
+            icon: "error",
+            title: "API request exceeded",
+            text: "Try again in another hour",
+          });
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Unknown server error",
+            text: "Sorry about that",
           });
         }
       } catch (error) {

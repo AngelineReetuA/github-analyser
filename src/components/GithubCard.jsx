@@ -25,6 +25,7 @@ export default function GithubCard({
         <Card
           sx={{
             height: `${height}px`,
+            minWidth: "320px",
             borderRadius: "16px",
             ":hover": {
               border: "2px solid",

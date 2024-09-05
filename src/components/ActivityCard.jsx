@@ -10,6 +10,7 @@ import {
 import Activity from "./Doughnut";
 
 export default function ActivityCard({ percentage, contributions }) {
+  const presentYear = new Date().getFullYear();
   return (
     <>
       <Card
@@ -18,7 +19,7 @@ export default function ActivityCard({ percentage, contributions }) {
           flexDirection: "column",
           height: "250px",
           backgroundColor: "#e0fbfc",
-          borderRadius: "16px"
+          borderRadius: "16px",
         }}
       >
         <CardContent>
@@ -28,10 +29,20 @@ export default function ActivityCard({ percentage, contributions }) {
               fontSize: "20px",
               fontWeight: "bolder",
               justifyContent: "end",
-              color:"#10151f"
+              color: "#10151f",
             }}
           >
             YEARLY ACTIVITY
+          </Typography>
+          <Typography
+            sx={{
+              display: "flex",
+              fontSize: "15px",
+              justifyContent: "end",
+              color: "#10151f",
+            }}
+          >
+            <b>Contributions in {presentYear}:</b>&nbsp;{contributions}
           </Typography>
           <CardContent style={{ height: "250px" }}>
             <Activity doughnut={percentage} />
