@@ -17,7 +17,6 @@ export default function ActivityCard({ percentage, contributions }) {
           display: "flex",
           flexDirection: "column",
           height: "250px",
-          width: "400px",
           backgroundColor: "#e0fbfc",
           borderRadius: "16px"
         }}

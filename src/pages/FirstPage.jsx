@@ -241,7 +241,6 @@ export default function FirstPage() {
               email: userData.email,
             },
           };
-          console.log(obj);
           await setData(obj);
           localStorage.setItem("data", JSON.stringify(obj));
           navigate(`/${username}`);

@@ -13,8 +13,8 @@ function App() {
   return (
     <>
       {location.pathname != "/" && <Header />}
-      <Box
-        sx={{ marginTop: "65px", paddingLeft: "20px", paddingRight: "20px" }}
+      <Box px={2}
+        sx={{ marginTop: "65px" }}
       >
         <Routes>
           <Route path="/" element={<FirstPage />} />

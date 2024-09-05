@@ -48,8 +48,8 @@ export default function StackedBarChart({ languageData }) {
   };
 
   return (
-    <Box style={{ height: "230px", width: "180px" }}>
-      <Bar data={languageData} options={options2} />
+    <Box style={{ height: "230px", width:"180px" }}>
+      <Bar data={languageData} options={options2}/>
     </Box>
   );
 }

@@ -29,53 +29,57 @@ export default function Headline({
         <Grid item xs container direction="column">
           <Grid item paddingLeft={2}>
             <Typography variant="h4" style={{ fontWeight: "bold" }}>
-              {name}
+              {name ? name: "No name found"}
             </Typography>
-            <Typography style={{ fontStyle: "italic", color:"#293241" }}>
+            <Typography style={{ fontStyle: "italic", color: "#293241" }}>
               {bio ? bio : "No bio found"}
             </Typography>
             <Grid
               container
               spacing={3}
-              style={{ fontStyle: "italic", paddingTop: "5px", color:"#293241" }}
+              style={{
+                fontStyle: "italic",
+                paddingTop: "5px",
+                color: "#293241",
+              }}
               alignItems="center"
             >
-              <Grid item display="flex" flexDirection="row">
-                {emp && (
+              {emp && (
+                <Grid item display="flex" flexDirection="row">
                   <>
                     <BusinessIcon style={{ marginRight: "10px" }} />
                     <Typography variant="body1">{emp}</Typography>
                   </>
-                )}
-              </Grid>
-              <Grid item display="flex" flexDirection="row">
-                {location && (
+                </Grid>
+              )}
+              {location && (
+                <Grid item display="flex" flexDirection="row">
                   <>
                     <RoomOutlinedIcon style={{ marginRight: "10px" }} />
                     <Typography variant="body1">{location}</Typography>
                   </>
-                )}
-              </Grid>
-              <Grid item display="flex" flexDirection="row">
-                {followers > 0 && (
+                </Grid>
+              )}
+              {followers > 0 && (
+                <Grid item display="flex" flexDirection="row">
                   <>
                     <GroupIcon style={{ marginRight: "10px" }} />
                     <Typography variant="body1">
                       {followers} followers
                     </Typography>
                   </>
-                )}
-              </Grid>
-              <Grid item display="flex" flexDirection="row">
-                {followers > 0 && (
+                </Grid>
+              )}
+              {followers > 0 && (
+                <Grid item display="flex" flexDirection="row">
                   <>
                     <GroupOutlinedIcon style={{ marginRight: "10px" }} />
                     <Typography variant="body1">
                       {following} following
                     </Typography>
                   </>
-                )}
-              </Grid>
+                </Grid>
+              )}
             </Grid>
           </Grid>
         </Grid>

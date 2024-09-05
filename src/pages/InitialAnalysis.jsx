@@ -15,10 +15,14 @@ import TheBestCard from "../components/TheBestCard";
 export default function InitialAnalysis() {
   const { data, setData } = useContext(DataContext);
 
+  window.onbeforeunload = function () {
+    console.log("are you going to refresh?");
+  };
+
   return (
     <>
-      <Grid container>
-        <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
           <Headline
             photoURL={data.initialAnalysis.headlineData.avatar}
             name={data.initialAnalysis.headlineData.name}
@@ -30,17 +34,9 @@ export default function InitialAnalysis() {
             link={data.initialAnalysis.headlineData.link}
           />
         </Grid>
-        <Grid
-          container
-          direction="row"
-          spacing={1}
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-evenly",
-          }}
-        >
-          <Grid item>
+
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={12} md={4}>
             <ActivityCard
               percentage={data.initialAnalysis.statcardData.doughnut}
               contributions={
@@ -48,8 +44,17 @@ export default function InitialAnalysis() {
               }
             />
           </Grid>
-          <Grid item direction="column">
-            <Grid item sx={{ paddingBottom: "10px" }}>
+
+          <Grid
+            item
+            container
+            xs={12}
+            sm={12}
+            md={4}
+            spacing={2}
+            direction="column"
+          >
+            <Grid item md={4}>
               <HorizontalStatCard
                 color="#98c1d9"
                 name="REPOSITORIES"
@@ -57,7 +62,7 @@ export default function InitialAnalysis() {
                 overlay={FolderOpenIcon}
               />
             </Grid>
-            <Grid item>
+            <Grid item md={4}>
               <HorizontalStatCard
                 color="#eec64d"
                 name="COMMITS"
@@ -66,8 +71,17 @@ export default function InitialAnalysis() {
               />
             </Grid>
           </Grid>
-          <Grid item direction="column">
-            <Grid item sx={{ paddingBottom: "10px" }}>
+
+          <Grid
+            item
+            container
+            xs={12}
+            sm={12}
+            md={4}
+            spacing={2}
+            direction="column"
+          >
+            <Grid item md={4}>
               <HorizontalStatCard
                 color="#ee6c4d"
                 name="LANGUAGES"
@@ -75,7 +89,7 @@ export default function InitialAnalysis() {
                 overlay={CodeIcon}
               />
             </Grid>
-            <Grid item>
+            <Grid item md={4}>
               <HorizontalStatCard
                 color="#e0fbfc"
                 name="EVENTS"
@@ -85,58 +99,19 @@ export default function InitialAnalysis() {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item container display="flex" pt={2}>
-          <Grid item sx={{ paddingRight: "10px" }}>
-            <Paper elevation={3} sx={{ borderRadius: "16px" }}>
-              <LanguagesCard languageData={data.initialAnalysis.stackBarData} />
-            </Paper>
-          </Grid>
-          <Grid item>
+
+        <Grid container spacing={2} pt={2}>
+          <Grid item xs={12} sm={12} md={6}>
             <Paper elevation={3} sx={{ borderRadius: "16px" }}>
               <TheBestCard githubData={data.initialAnalysis.githubData} />
             </Paper>
           </Grid>
-          {/* <Grid item p={1} px={1} xs={12} sm={12} md={8} lg={8} xl={8}>
-            <Paper
-              elevation={3}
-              sx={{ padding: { xs: "10px", sm: "15px", md: "20px" } }}
-            >
-              <Typography fontWeight={800} variant="h5" pb={2}>
-                Highlights
-              </Typography>
-              <Grid container spacing={2}>
-                {data.initialAnalysis.githubData.map((repo) => (
-                  <Grid
-                    key={repo.repoName}
-                    item
-                    xs={12}
-                    sm={6}
-                    md={12}
-                    lg={6}
-                    xl={6}
-                  >
-                    <GithubCard
-                      repoLink={repo.repoLink}
-                      repoName={repo.repoName}
-                      repoDesc={repo.repoDesc}
-                      repoLang={repo.repoLang}
-                      repoStars={parseInt(repo.repoStars)}
-                      height={180}
-                    />
-                  </Grid>
-                ))}
-              </Grid>
+          <Grid item xs={12} sm={6} md={3.5}>
+            <Paper elevation={3} sx={{ borderRadius: "16px" }}>
+              <LanguagesCard languageData={data.initialAnalysis.stackBarData} />
             </Paper>
-          </Grid> */}
-          <Grid
-            item
-            sx={{ paddingLeft: "10px" }}
-            xs={12}
-            sm={12}
-            md={2}
-            lg={2}
-            xl={2}
-          >
+          </Grid>
+          <Grid item xs={12} sm={6} md={2.5}>
             <Releases links={data.initialAnalysis.releases} />
           </Grid>
         </Grid>

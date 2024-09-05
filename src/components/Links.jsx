@@ -23,7 +23,6 @@ export default function Releases({ links }) {
           display: "flex",
           flexDirection: "column",
           height: "300px",
-          width: "380px",
           borderRadius: "16px",
           border: "solid",
           borderWidth: "2px",

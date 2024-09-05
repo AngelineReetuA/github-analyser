@@ -13,35 +13,33 @@ import StackedBarChart from "./StackedBar";
 export default function LanguagesCard({ languageData }) {
   return (
     <>
-        <Card
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            height: "300px",
-            width: "300px",
-            border: "solid",
-            borderWidth: "2px",
-            borderColor: "#98c1d9",
-            borderRadius: "16px",
-          }}
-        >
+      <Card
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          height: "300px",
+          border: "solid",
+          borderWidth: "2px",
+          borderColor: "#98c1d9",
+          borderRadius: "16px",
+        }}
+      >
+        <CardContent>
+          <Typography
+            sx={{
+              display: "flex",
+              fontSize: "20px",
+              fontWeight: "bolder",
+              color: "#10151f",
+            }}
+          >
+            MOST USED LANGUAGES
+          </Typography>
           <CardContent>
-            <Typography
-              sx={{
-                display: "flex",
-                fontSize: "20px",
-                fontWeight: "bolder",
-                justifyContent: "center",
-                color: "#10151f",
-              }}
-            >
-              MOST USED LANGUAGES
-            </Typography>
-            <CardContent>
-              <StackedBarChart languageData={languageData} />
-            </CardContent>
+            <StackedBarChart languageData={languageData} />
           </CardContent>
-        </Card>
+        </CardContent>
+      </Card>
     </>
   );
 }

@@ -9,7 +9,6 @@ export default function HorizontalStatCard({ color, name, value, overlay: Icon }
         flexDirection: "column",
         backgroundColor: `${color}`,
         height: "120px",
-        width: "520px",
         justifyContent: "center",
         borderRadius: "16px",
         position: "relative",

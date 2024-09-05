@@ -18,11 +18,11 @@ export default function TheBestCard({ githubData }) {
           display: "flex",
           flexDirection: "column",
           height: "300px",
-          width: "750px",
           borderRadius: "16px",
           border: "solid",
           borderWidth: "2px",
           borderColor: "#ee6c4d",
+          overflow: "scroll"
         }}
       >
         <CardContent>
