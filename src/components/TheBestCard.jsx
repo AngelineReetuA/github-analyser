@@ -43,6 +43,7 @@ export default function TheBestCard({ githubData }) {
                 <Grid
                   key={repo.repoName}
                   item
+                  container
                   direction="row"
                   xs={12}
                   sm={6}

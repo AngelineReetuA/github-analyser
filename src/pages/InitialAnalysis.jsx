@@ -49,7 +49,7 @@ export default function InitialAnalysis() {
             item
             container
             xs={12}
-            sm={12}
+            sm={6}
             md={4}
             spacing={2}
             direction="column"
@@ -76,7 +76,7 @@ export default function InitialAnalysis() {
             item
             container
             xs={12}
-            sm={12}
+            sm={6}
             md={4}
             spacing={2}
             direction="column"
