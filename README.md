@@ -12,6 +12,7 @@ QuickGit or the Github Analyser is a tool developed to quickly analyse and visua
 ### API References
 
 - https://docs.github.com/en/rest/users/users?apiVersion=2022-11-28#get-a-user (for both user details and repositories)
+- https://docs.github.com/en/rest/activity/events?apiVersion=2022-11-28#list-public-events-for-a-user (for events)
 - https://github-contributions-api.deno.dev/ (for contributions and activity)
 
 ### TechStack
