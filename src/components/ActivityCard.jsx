@@ -1,12 +1,5 @@
 import PropTypes from "prop-types";
-import {
-  Box,
-  Card,
-  CardActions,
-  CardContent,
-  Grid,
-  Typography,
-} from "@mui/material";
+import { Card, CardContent, Typography } from "@mui/material";
 import Activity from "./Doughnut";
 
 export default function ActivityCard({ percentage, contributions }) {

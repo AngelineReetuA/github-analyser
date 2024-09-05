@@ -3,7 +3,7 @@ import ActivityCard from "../components/ActivityCard";
 import HorizontalStatCard from "../components/HorizontalStatCard";
 import Headline from "../components/Headline";
 import Releases from "../components/Links";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { DataContext } from "../../DataContext";
 import FolderOpenIcon from "@mui/icons-material/FolderOpen";
 import CommitIcon from "@mui/icons-material/Commit";
