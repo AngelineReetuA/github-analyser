@@ -9,8 +9,13 @@ import {
   Paper,
 } from "@mui/material";
 import GithubCard from "./GithubCard";
+import { useContext } from "react";
+import { DataContext } from "../../DataContext";
 
-export default function TheBestCard({ githubData }) {
+export default function TheBestCard() {
+  const { data, setData } = useContext(DataContext);
+  const githubData = data.initialAnalysis.githubData;
+
   return (
     <>
       <Card

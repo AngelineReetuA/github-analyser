@@ -117,8 +117,13 @@ const calculateActivityPercent = async (contribs) => {
     });
   });
   let completeTotal = 366;
-  const percent = (Math.min(yearlyContribs, completeTotal) / completeTotal) * 100;
-  const activityData = { percentage: percent, total: totalContribs, yearly: yearlyContribs };
+  const percent =
+    (Math.min(yearlyContribs, completeTotal) / completeTotal) * 100;
+  const activityData = {
+    percentage: percent,
+    total: totalContribs,
+    yearly: yearlyContribs,
+  };
   return activityData;
 };
 
@@ -249,24 +254,26 @@ export default function FirstPage() {
             },
           };
           await setData(obj);
+          console.log(obj);
           localStorage.setItem("data", JSON.stringify(obj));
           navigate(`/${username}`);
           setLoader(false);
-        } else if (userCheckRes.status === 403 || userCheckRes.status === 429) {
+        } else if ((userCheckRes.status = 403)) {
           setLoader(false);
           Swal.fire({
             icon: "error",
             title: "API request exceeded",
             text: "Try again in another hour",
           });
-        } else if (userCheckRes.status === 404) {
+        } else if ((userCheckRes.status = 404)) {
           setLoader(false);
           Swal.fire({
             icon: "error",
-            title: "API request exceeded",
-            text: "Try again in another hour",
+            title: "User not found",
+            text: "Are you sure that username exists?",
           });
         } else {
+          setLoader(false);
           Swal.fire({
             icon: "error",
             title: "Unknown server error",

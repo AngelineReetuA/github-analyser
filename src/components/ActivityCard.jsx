@@ -1,9 +1,14 @@
 import PropTypes from "prop-types";
 import { Card, CardContent, Typography } from "@mui/material";
 import Activity from "./Doughnut";
+import { useContext } from "react";
+import { DataContext } from "../../DataContext";
 
-export default function ActivityCard({ percentage, contributions }) {
+export default function ActivityCard() {
   const presentYear = new Date().getFullYear();
+  const { data, setData } = useContext(DataContext);
+  const initialAnalysisData = data.initialAnalysis;
+
   return (
     <>
       <Card
@@ -35,10 +40,10 @@ export default function ActivityCard({ percentage, contributions }) {
               color: "#10151f",
             }}
           >
-            <b>Contributions in {presentYear}:</b>&nbsp;{contributions}
+            <b>Contributions in {presentYear}:</b>&nbsp;{initialAnalysisData.statcardData.yearlyContributions}
           </Typography>
           <CardContent style={{ height: "250px" }}>
-            <Activity doughnut={percentage} />
+            <Activity doughnut={initialAnalysisData.statcardData.doughnut} />
           </CardContent>
         </CardContent>
       </Card>

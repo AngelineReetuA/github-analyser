@@ -11,38 +11,23 @@ import CodeIcon from "@mui/icons-material/Code";
 import NorthWestIcon from "@mui/icons-material/NorthWest";
 import LanguagesCard from "../components/LanguagesCard";
 import TheBestCard from "../components/TheBestCard";
+import RepoFilter from "../components/RepoFilter";
 
 export default function InitialAnalysis() {
   const { data, setData } = useContext(DataContext);
-
-  window.onbeforeunload = function () {
-    console.log("are you going to refresh?");
-  };
+  const initialAnalysisData = data.initialAnalysis;
+  const codeAnalysisData = data.codeAnalysis;
 
   return (
     <>
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <Headline
-            photoURL={data.initialAnalysis.headlineData.avatar}
-            name={data.initialAnalysis.headlineData.name}
-            bio={data.initialAnalysis.headlineData.bio}
-            followers={data.initialAnalysis.headlineData.followers}
-            following={data.initialAnalysis.headlineData.following}
-            emp={data.initialAnalysis.headlineData.company}
-            location={data.initialAnalysis.headlineData.location}
-            link={data.initialAnalysis.headlineData.link}
-          />
+          <Headline />
         </Grid>
 
-        <Grid container spacing={2}>
+        <Grid container spacing={2} sx={{ paddingLeft: "15px" }}>
           <Grid item xs={12} sm={12} md={4}>
-            <ActivityCard
-              percentage={data.initialAnalysis.statcardData.doughnut}
-              contributions={
-                data.initialAnalysis.statcardData.yearlyContributions
-              }
-            />
+            <ActivityCard />
           </Grid>
 
           <Grid
@@ -58,7 +43,7 @@ export default function InitialAnalysis() {
               <HorizontalStatCard
                 color="#98c1d9"
                 name="REPOSITORIES"
-                value={data.initialAnalysis.statcardData.repositories}
+                value={initialAnalysisData.statcardData.repositories}
                 overlay={FolderOpenIcon}
               />
             </Grid>
@@ -66,7 +51,7 @@ export default function InitialAnalysis() {
               <HorizontalStatCard
                 color="#eec64d"
                 name="COMMITS"
-                value={data.initialAnalysis.statcardData.totalContributions}
+                value={initialAnalysisData.statcardData.totalContributions}
                 overlay={CommitIcon}
               />
             </Grid>
@@ -85,7 +70,7 @@ export default function InitialAnalysis() {
               <HorizontalStatCard
                 color="#ee6c4d"
                 name="LANGUAGES"
-                value={data.initialAnalysis.statcardData.languages}
+                value={initialAnalysisData.statcardData.languages}
                 overlay={CodeIcon}
               />
             </Grid>
@@ -93,27 +78,30 @@ export default function InitialAnalysis() {
               <HorizontalStatCard
                 color="#e0fbfc"
                 name="EVENTS"
-                value={data.initialAnalysis.statcardData.events}
+                value={initialAnalysisData.statcardData.events}
                 overlay={NorthWestIcon}
               />
             </Grid>
           </Grid>
         </Grid>
 
-        <Grid container spacing={2} pt={2}>
+        <Grid container spacing={2} pt={2} sx={{ paddingLeft: "15px" }}>
           <Grid item xs={12} sm={12} md={6}>
             <Paper elevation={3} sx={{ borderRadius: "16px" }}>
-              <TheBestCard githubData={data.initialAnalysis.githubData} />
+              <TheBestCard />
             </Paper>
           </Grid>
           <Grid item xs={12} sm={6} md={3.5}>
             <Paper elevation={3} sx={{ borderRadius: "16px" }}>
-              <LanguagesCard languageData={data.initialAnalysis.stackBarData} />
+              <LanguagesCard />
             </Paper>
           </Grid>
           <Grid item xs={12} sm={6} md={2.5}>
-            <Releases links={data.initialAnalysis.releases} />
+            <Releases />
           </Grid>
+        </Grid>
+        <Grid item container sx={{ paddingLeft: "15px" }}>
+          <RepoFilter />
         </Grid>
       </Grid>
     </>

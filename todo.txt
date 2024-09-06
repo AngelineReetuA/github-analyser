@@ -1,0 +1,9 @@
+
+GitHub analyser todo
+
+- Remove prop drilling ---- done
+- edit the github card to not show whole descriptions
+- Remove unnecessary files
+- Separate components into components and sub components 
+- Try a caching system
+- Fix bugs in showing repositories filter

@@ -14,8 +14,13 @@ import {
   Link
 } from "@mui/material";
 import GithubCard from "./GithubCard";
+import { useContext } from "react";
+import { DataContext } from "../../DataContext";
 
-export default function Releases({ links }) {
+export default function Releases() {
+  const { data } = useContext(DataContext);
+  const links = data.initialAnalysis.releases;
+
   return (
     <>
       <Card

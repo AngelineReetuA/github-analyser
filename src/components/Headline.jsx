@@ -5,6 +5,8 @@ import BusinessIcon from "@mui/icons-material/Business";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import GroupOutlinedIcon from "@mui/icons-material/GroupOutlined";
 import RoomOutlinedIcon from "@mui/icons-material/RoomOutlined";
+import { useContext } from "react";
+import { DataContext } from "../../DataContext";
 
 export default function Headline({
   photoURL,
@@ -16,23 +18,26 @@ export default function Headline({
   emp,
   link,
 }) {
+  const { data } = useContext(DataContext);
+  const initialAnalysisData = data.initialAnalysis;
+
   return (
     <>
       <Grid container padding={2}>
         <Grid item>
           <Avatar
             alt="profile pic"
-            src={photoURL}
+            src={initialAnalysisData.headlineData.avatar}
             sx={{ width: "100px", height: "100px" }}
           />
         </Grid>
         <Grid item xs container direction="column">
           <Grid item paddingLeft={2}>
             <Typography variant="h4" style={{ fontWeight: "bold" }}>
-              {name ? name: "No name found"}
+              {initialAnalysisData.headlineData.name ? initialAnalysisData.headlineData.name: "No name found"}
             </Typography>
             <Typography style={{ fontStyle: "italic", color: "#293241" }}>
-              {bio ? bio : "No bio found"}
+              {initialAnalysisData.headlineData.bio ? initialAnalysisData.headlineData.bio : "No bio found"}
             </Typography>
             <Grid
               container
@@ -44,7 +49,7 @@ export default function Headline({
               }}
               alignItems="center"
             >
-              {emp && (
+              {initialAnalysisData.headlineData.company && (
                 <Grid item display="flex" flexDirection="row">
                   <>
                     <BusinessIcon style={{ marginRight: "10px" }} />
@@ -52,7 +57,7 @@ export default function Headline({
                   </>
                 </Grid>
               )}
-              {location && (
+              {initialAnalysisData.headlineData.location && (
                 <Grid item display="flex" flexDirection="row">
                   <>
                     <RoomOutlinedIcon style={{ marginRight: "10px" }} />
@@ -60,7 +65,7 @@ export default function Headline({
                   </>
                 </Grid>
               )}
-              {followers > 0 && (
+              {initialAnalysisData.headlineData.followers > 0 && (
                 <Grid item display="flex" flexDirection="row">
                   <>
                     <GroupIcon style={{ marginRight: "10px" }} />
@@ -70,7 +75,7 @@ export default function Headline({
                   </>
                 </Grid>
               )}
-              {followers > 0 && (
+              {initialAnalysisData.headlineData.following > 0 && (
                 <Grid item display="flex" flexDirection="row">
                   <>
                     <GroupOutlinedIcon style={{ marginRight: "10px" }} />

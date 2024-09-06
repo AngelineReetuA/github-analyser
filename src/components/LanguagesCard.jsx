@@ -9,8 +9,13 @@ import {
   Paper,
 } from "@mui/material";
 import StackedBarChart from "./StackedBar";
+import { useContext } from "react";
+import { DataContext } from "../../DataContext";
 
-export default function LanguagesCard({ languageData }) {
+export default function LanguagesCard() {
+  const { data, setData } = useContext(DataContext);
+  const languageData = data.initialAnalysis.stackBarData;
+
   return (
     <>
       <Card
