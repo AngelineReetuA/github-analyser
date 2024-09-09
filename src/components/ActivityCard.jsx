@@ -15,7 +15,7 @@ export default function ActivityCard() {
         sx={{
           display: "flex",
           flexDirection: "column",
-          height: "250px",
+          height: "255px",
           backgroundColor: "#e0fbfc",
           borderRadius: "16px",
         }}
