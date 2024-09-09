@@ -90,6 +90,9 @@ const sortGithubRepos = async (repos) => {
     repoLang: repo.language,
     repoStars: parseInt(repo.stargazers_count),
     repoLink: repo.html_url,
+    repoForkStatus: repo.fork,
+    repoLastPush: new Date(repo.pushed_at).toISOString().split('T')[0],
+    repoHosted: repo.homepage
   }));
 };
 
@@ -102,6 +105,9 @@ const organizeRepos = async (repos) => {
     repoSize: repo.size,
     repoStars: parseInt(repo.stargazers_count),
     repoLink: repo.html_url,
+    repoForkStatus: repo.fork,
+    repoLastPush: new Date(repo.pushed_at).toISOString().split('T')[0],
+    repoHosted: repo.homepage
   }));
 };
 
@@ -170,10 +176,11 @@ async function setLinks(events) {
         break;
 
       default:
-        newObj.eventType = "Event ";
+        newObj.eventType = "Unrecognized event";
         newObj.url = `https://github.com/${repo}`;
         break;
-    }
+    };
+    newObj.date = new Date(event.created_at).toISOString().split('T')[0];
     linkArrays.push(newObj);
   });
   let eventData = {

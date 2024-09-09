@@ -14,9 +14,8 @@ import TheBestCard from "../components/TheBestCard";
 import RepoFilter from "../components/RepoFilter";
 
 export default function InitialAnalysis() {
-  const { data, setData } = useContext(DataContext);
+  const { data } = useContext(DataContext);
   const initialAnalysisData = data.initialAnalysis;
-  const codeAnalysisData = data.codeAnalysis;
 
   return (
     <>
@@ -91,16 +90,16 @@ export default function InitialAnalysis() {
               <TheBestCard />
             </Paper>
           </Grid>
-          <Grid item xs={12} sm={6} md={3.5}>
+          <Grid item xs={12} sm={6} md={2.5}>
             <Paper elevation={3} sx={{ borderRadius: "16px" }}>
               <LanguagesCard />
             </Paper>
           </Grid>
-          <Grid item xs={12} sm={6} md={2.5}>
+          <Grid item xs={12} sm={6} md={3.5}>
             <Releases />
           </Grid>
         </Grid>
-        <Grid item container sx={{ paddingLeft: "15px" }}>
+        <Grid item container sx={{ paddingLeft: "15px", marginTop: "15px" }}>
           <RepoFilter />
         </Grid>
       </Grid>
