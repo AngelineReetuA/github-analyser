@@ -1,6 +1,6 @@
 import { Box, Typography, Button } from "@mui/material";
 import Masonry from "@mui/lab/Masonry";
-import GithubCard from "./GithubCard.jsx";
+import GithubCard from "../sub-components/GithubCard.jsx";
 import { useContext, useState } from "react";
 import { DataContext } from "../../DataContext";
 import OutlinedInput from "@mui/material/OutlinedInput";

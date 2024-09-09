@@ -1,5 +1,5 @@
 import { Card, CardContent, Grid, Typography } from "@mui/material";
-import GithubCard from "./GithubCard";
+import GithubCard from "../sub-components/GithubCard";
 import { useContext } from "react";
 import { DataContext } from "../../DataContext";
 
