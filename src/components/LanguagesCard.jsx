@@ -1,13 +1,5 @@
-import {
-  Box,
-  Card,
-  CardActions,
-  CardContent,
-  Grid,
-  Typography,
-  Paper,
-} from "@mui/material";
-import StackedBarChart from "./StackedBar";
+import { Card, CardContent, Typography } from "@mui/material";
+import StackedBarChart from "../sub-components/StackedBar";
 import { useContext } from "react";
 import { DataContext } from "../../DataContext";
 
