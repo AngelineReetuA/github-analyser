@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import {
   Box,
   Card,
@@ -48,8 +47,3 @@ export default function LanguagesCard() {
     </>
   );
 }
-
-LanguagesCard.propTypes = {
-  percentage: PropTypes.number,
-  contributions: PropTypes.number,
-};

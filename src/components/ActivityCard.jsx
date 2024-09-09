@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import { Card, CardContent, Typography } from "@mui/material";
 import Activity from "./Doughnut";
 import { useContext } from "react";
@@ -50,8 +49,3 @@ export default function ActivityCard() {
     </>
   );
 }
-
-ActivityCard.propTypes = {
-  percentage: PropTypes.number,
-  contributions: PropTypes.number,
-};

@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import { Grid, Avatar, Typography, Link } from "@mui/material";
 import GroupIcon from "@mui/icons-material/Group";
 import BusinessIcon from "@mui/icons-material/Business";
@@ -8,16 +7,7 @@ import RoomOutlinedIcon from "@mui/icons-material/RoomOutlined";
 import { useContext } from "react";
 import { DataContext } from "../../DataContext";
 
-export default function Headline({
-  photoURL,
-  name,
-  bio,
-  followers,
-  following,
-  location,
-  emp,
-  link,
-}) {
+export default function Headline() {
   const { data } = useContext(DataContext);
   const initialAnalysisData = data.initialAnalysis;
 
@@ -53,7 +43,7 @@ export default function Headline({
                 <Grid item display="flex" flexDirection="row">
                   <>
                     <BusinessIcon style={{ marginRight: "10px" }} />
-                    <Typography variant="body1">{emp}</Typography>
+                    <Typography variant="body1">{initialAnalysisData.headlineData.company}</Typography>
                   </>
                 </Grid>
               )}
@@ -61,7 +51,7 @@ export default function Headline({
                 <Grid item display="flex" flexDirection="row">
                   <>
                     <RoomOutlinedIcon style={{ marginRight: "10px" }} />
-                    <Typography variant="body1">{location}</Typography>
+                    <Typography variant="body1">{initialAnalysisData.headlineData.location}</Typography>
                   </>
                 </Grid>
               )}
@@ -70,7 +60,7 @@ export default function Headline({
                   <>
                     <GroupIcon style={{ marginRight: "10px" }} />
                     <Typography variant="body1">
-                      {followers} followers
+                      {initialAnalysisData.headlineData.followers} followers
                     </Typography>
                   </>
                 </Grid>
@@ -80,7 +70,7 @@ export default function Headline({
                   <>
                     <GroupOutlinedIcon style={{ marginRight: "10px" }} />
                     <Typography variant="body1">
-                      {following} following
+                      {initialAnalysisData.headlineData.following} following
                     </Typography>
                   </>
                 </Grid>
@@ -89,7 +79,7 @@ export default function Headline({
           </Grid>
         </Grid>
         <Grid item display="flex" flexDirection="row" alignSelf="center">
-          <Link href={link} target="_blank" rel="noopener">
+          <Link href={initialAnalysisData.headlineData.link} target="_blank" rel="noopener">
             <OpenInNewIcon
               style={{ marginRight: "10px", fontSize: "40px", color: "black" }}
             />
@@ -99,14 +89,3 @@ export default function Headline({
     </>
   );
 }
-
-Headline.propTypes = {
-  photoURL: PropTypes.string,
-  name: PropTypes.string,
-  bio: PropTypes.string,
-  followers: PropTypes.number,
-  following: PropTypes.number,
-  location: PropTypes.string,
-  emp: PropTypes.string,
-  link: PropTypes.string,
-};

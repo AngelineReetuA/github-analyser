@@ -129,5 +129,8 @@ GithubCard.propTypes = {
   repoDesc: PropTypes.string,
   repoLang: PropTypes.string,
   repoStars: PropTypes.number,
+  repoForkStatus: PropTypes.bool,
+  repoLastPush: PropTypes.string,
+  repoHosted:PropTypes.string,
   height: PropTypes.number,
 };

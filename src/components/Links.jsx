@@ -1,21 +1,16 @@
-import PropTypes from "prop-types";
 import {
-  Box,
   Card,
-  CardActions,
   CardContent,
-  Grid,
   Typography,
-  Paper,
   Table,
   TableBody,
   TableCell,
   TableRow,
-  Link
+  Link,
 } from "@mui/material";
-import GithubCard from "./GithubCard";
 import { useContext } from "react";
 import { DataContext } from "../../DataContext";
+import ArrowOutwardIcon from "@mui/icons-material/ArrowOutward";
 
 export default function Releases() {
   const { data } = useContext(DataContext);
@@ -52,9 +47,14 @@ export default function Releases() {
                 {links.length > 0 &&
                   links.map((link) => (
                     <TableRow key={link.url}>
-                      <TableCell width={150}>
+                      <TableCell>
+                        <Typography sx={{ fontSize: "18px" }}>
+                          {link.eventType} on {link.date}
+                        </Typography>
+                      </TableCell>
+                      <TableCell>
                         <Link href={link.url} target="_blank">
-                          <Typography variant="h6">{link.eventType}</Typography>
+                          <ArrowOutwardIcon sx={{ fontSize: "large" }} />
                         </Link>
                       </TableCell>
                     </TableRow>
@@ -74,7 +74,3 @@ export default function Releases() {
     </>
   );
 }
-
-Releases.propTypes = {
-  links: PropTypes.array,
-};
