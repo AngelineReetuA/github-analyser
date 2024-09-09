@@ -1,3 +1,5 @@
+// This is related to Contact.jsx. Its not used in the app but I am going to keep it because I want to.
+
 import * as yup from "yup";
 
 export const schema = yup.object({
