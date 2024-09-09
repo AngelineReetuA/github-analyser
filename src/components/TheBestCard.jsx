@@ -1,19 +1,10 @@
-import PropTypes from "prop-types";
-import {
-  Box,
-  Card,
-  CardActions,
-  CardContent,
-  Grid,
-  Typography,
-  Paper,
-} from "@mui/material";
+import { Card, CardContent, Grid, Typography } from "@mui/material";
 import GithubCard from "./GithubCard";
 import { useContext } from "react";
 import { DataContext } from "../../DataContext";
 
 export default function TheBestCard() {
-  const { data, setData } = useContext(DataContext);
+  const { data } = useContext(DataContext);
   const githubData = data.initialAnalysis.githubData;
 
   return (
@@ -27,7 +18,7 @@ export default function TheBestCard() {
           border: "solid",
           borderWidth: "2px",
           borderColor: "#ee6c4d",
-          overflow: "scroll"
+          overflow: "scroll",
         }}
       >
         <CardContent>
@@ -62,6 +53,9 @@ export default function TheBestCard() {
                     repoDesc={repo.repoDesc}
                     repoLang={repo.repoLang}
                     repoStars={parseInt(repo.repoStars)}
+                    repoForkStatus={repo.repoForkStatus}
+                    repoLastPush={repo.repoLastPush}
+                    repoHosted={repo.repoHosted}
                     height={180}
                   />
                 </Grid>
@@ -73,8 +67,3 @@ export default function TheBestCard() {
     </>
   );
 }
-
-TheBestCard.propTypes = {
-  percentage: PropTypes.number,
-  contributions: PropTypes.number,
-};

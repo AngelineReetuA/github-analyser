@@ -7,9 +7,13 @@ import {
   CardContent,
   CardActions,
   Box,
+  Grid,
 } from "@mui/material";
 import DataObjectIcon from "@mui/icons-material/DataObject";
 import StarIcon from "@mui/icons-material/Star";
+import ForkRightIcon from "@mui/icons-material/ForkRight";
+import UpdateIcon from "@mui/icons-material/Update";
+import PreviewIcon from "@mui/icons-material/Preview";
 
 export default function GithubCard({
   repoName,
@@ -17,6 +21,9 @@ export default function GithubCard({
   repoLang,
   repoStars,
   repoLink,
+  repoForkStatus,
+  repoLastPush,
+  repoHosted,
   height,
 }) {
   return (
@@ -25,38 +32,89 @@ export default function GithubCard({
         <Card
           sx={{
             height: `${height}px`,
-            minWidth: "320px",
             borderRadius: "16px",
-            ":hover": {
-              border: "2px solid",
-              borderColor: "#ee6c4d",
-            },
-         
           }}
         >
           <CardContent>
-            <Typography variant="h6">{repoName}</Typography>
+            <Typography
+              variant="h6"
+              sx={{
+                overflow: "hidden",
+                height: "22px",
+                paddingTop: "5px",
+                paddingBottom: "5px",
+              }}
+            >
+              {repoName}
+            </Typography>
             <Divider sx={{ bgcolor: "white", marginTop: "10px" }} />
-            <Box sx={{ height: "75px", overflow: "auto" }}>
-              <Typography py={1}>{repoDesc}</Typography>
-            </Box>
+            <Typography
+              sx={{
+                overflow: "hidden",
+                height: "70px",
+                paddingTop: "5px",
+                paddingBottom: "5px",
+              }}
+            >
+              {repoDesc}
+            </Typography>
             <Divider sx={{ bgcolor: "white" }} />
             <CardActions>
-              {repoLang != null && (
-                <>
-                  <DataObjectIcon style={{ fontSize: "medium" }} />
-                  <Typography variant="body2">{repoLang}</Typography>
-                </>
-              )}
-
-              {repoStars > 0 && (
-                <>
-                  <StarIcon
-                    style={{ fontSize: "medium" }}
-                  />
-                  <Typography>{repoStars}</Typography>
-                </>
-              )}
+              <Grid
+                container
+                direction="row"
+                sx={{ justifyContent: "space-between" }}
+              >
+                <Box sx={{ display: "flex", alignItems: "center" }}>
+                  {repoLang != null && (
+                    <>
+                      <DataObjectIcon style={{ fontSize: "medium" }} />
+                      <Typography
+                        variant="body2"
+                        sx={{ paddingLeft: "5px", paddingRight: "10px" }}
+                      >
+                        {repoLang}
+                      </Typography>
+                    </>
+                  )}
+                  {repoStars > 0 && (
+                    <>
+                      <StarIcon style={{ fontSize: "medium" }} />
+                      <Typography
+                        variant="body2"
+                        sx={{ paddingLeft: "5px", paddingRight: "10px" }}
+                      >
+                        {repoStars}
+                      </Typography>
+                    </>
+                  )}
+                  {repoForkStatus && (
+                    <ForkRightIcon sx={{ fontSize: "medium" }} />
+                  )}
+                </Box>
+                <Box sx={{ display: "flex", alignItems: "center" }}>
+                  {repoLastPush != null && (
+                    <>
+                      <UpdateIcon style={{ fontSize: "medium" }} />
+                      <Typography
+                        variant="body2"
+                        sx={{ paddingLeft: "5px", paddingRight: "10px" }}
+                      >
+                        {repoLastPush}
+                      </Typography>
+                    </>
+                  )}
+                  {repoHosted && (
+                    <Link
+                      href={repoHosted}
+                      target="_blank"
+                      sx={{ textDecoration: "none" }}
+                    >
+                      <PreviewIcon style={{ fontSize: "medium" }} />
+                    </Link>
+                  )}
+                </Box>
+              </Grid>
             </CardActions>
           </CardContent>
         </Card>
