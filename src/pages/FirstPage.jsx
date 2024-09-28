@@ -10,18 +10,18 @@ import { useNavigate } from "react-router-dom";
 const calculateLanguageData = async (data) => {
   let totalLanguageArray = [];
   let totalLanguageCount = 0;
-  await data.map((repo) => {
+  await data?.map((repo) => {
     if (totalLanguageArray.indexOf(repo.language) === -1) {
       totalLanguageCount += 1;
     }
   });
-  data = await data.filter((d) => {
+  data = await data?.filter((d) => {
     return d.fork === false;
   });
-  data = data.slice(0, 3);
+  data = data?.slice(0, 3);
   let langArray = [];
   await Promise.all(
-    data.map(async (repo) => {
+    data?.map(async (repo) => {
       const response = await fetch(repo.languages_url);
       const languageObjForRepo = await response.json();
 
@@ -47,7 +47,7 @@ const calculateLanguageData = async (data) => {
 async function formatStackBarData(langs) {
   let stackData = { labels: ["Languages"], datasets: [] };
   let totalLOC = 0;
-  await langs.map((lang) => {
+  await langs?.map((lang) => {
     totalLOC += lang.loc;
   });
   const numberOfStacks = Math.min(langs.length, 3);
@@ -76,7 +76,7 @@ async function formatStackBarData(langs) {
 }
 
 const sortGithubRepos = async (repos) => {
-  repos = await repos.filter((repo) => {
+  repos = await repos?.filter((repo) => {
     return repo.fork === false;
   });
   let temp = repos
@@ -84,20 +84,20 @@ const sortGithubRepos = async (repos) => {
       return b.size - a.size;
     })
     .slice(0, 2);
-  return temp.map((repo) => ({
+  return temp?.map((repo) => ({
     repoName: repo.name,
     repoDesc: repo.description,
     repoLang: repo.language,
     repoStars: parseInt(repo.stargazers_count),
     repoLink: repo.html_url,
     repoForkStatus: repo.fork,
-    repoLastPush: new Date(repo.pushed_at).toISOString().split('T')[0],
-    repoHosted: repo.homepage
+    repoLastPush: new Date(repo.pushed_at).toISOString().split("T")[0],
+    repoHosted: repo.homepage,
   }));
 };
 
 const organizeRepos = async (repos) => {
-  return repos.map((repo) => ({
+  return repos?.map((repo) => ({
     id: repo.id,
     repoName: repo.name,
     repoDesc: repo.description,
@@ -106,17 +106,17 @@ const organizeRepos = async (repos) => {
     repoStars: parseInt(repo.stargazers_count),
     repoLink: repo.html_url,
     repoForkStatus: repo.fork,
-    repoLastPush: new Date(repo.pushed_at).toISOString().split('T')[0],
-    repoHosted: repo.homepage
+    repoLastPush: new Date(repo.pushed_at).toISOString().split("T")[0],
+    repoHosted: repo.homepage,
   }));
 };
 
 const calculateActivityPercent = async (contribs) => {
   const currentYear = new Date().getFullYear();
-  const totalContribs = contribs.totalContributions;
+  const totalContribs = contribs?.totalContributions;
   let yearlyContribs = 0;
-  contribs = await contribs.contributions.map((contrib) => {
-    contrib.filter((quartile) => {
+  contribs = await contribs?.contributions?.map((contrib) => {
+    contrib?.filter((quartile) => {
       const isCurrentYear =
         new Date(quartile.date).getFullYear() === currentYear;
       if (isCurrentYear) yearlyContribs += quartile.contributionCount;
@@ -136,7 +136,7 @@ const calculateActivityPercent = async (contribs) => {
 async function setLinks(events) {
   let linkArrays = [];
 
-  events.forEach((event) => {
+  events?.forEach((event) => {
     let newObj = {};
     let repo = event.repo.name;
 
@@ -176,11 +176,11 @@ async function setLinks(events) {
         break;
 
       default:
-        newObj.eventType = "Unrecognized event";
+        newObj.eventType = "Unknown event";
         newObj.url = `https://github.com/${repo}`;
         break;
-    };
-    newObj.date = new Date(event.created_at).toISOString().split('T')[0];
+    }
+    newObj.date = new Date(event.created_at).toISOString().split("T")[0];
     linkArrays.push(newObj);
   });
   let eventData = {
@@ -194,6 +194,7 @@ export default function FirstPage() {
   const [loader, setLoader] = useState(false);
   const { setData } = useContext(DataContext);
   const [username, setUsername] = useState("");
+  const [apierror, setApierror] = useState(false);
   const navigate = useNavigate();
 
   async function handleSubmit(e) {
@@ -202,99 +203,89 @@ export default function FirstPage() {
     setUsername(username);
 
     if (username) {
-      try {
-        const userCheckRes = await fetch(
-          `https://api.github.com/users/${username}`
+      const userCheckRes = await fetch(
+        `https://api.github.com/users/${username}`
+      );
+      if (userCheckRes.status === 200) {
+        const userData = await userCheckRes.json();
+        const responses = await Promise.all([
+          fetch(
+            `https://github-contributions-api.deno.dev/${username}.json`
+          ).then((res) => res.json()),
+          fetch(`https://api.github.com/users/${username}/repos`).then((res) =>
+            res.json()
+          ),
+          fetch(`https://api.github.com/users/${username}/events/public`).then(
+            (res) => res.json()
+          ),
+        ]);
+        const githubCardsForInitial = await sortGithubRepos(responses[1]);
+        const { langArray, langCount } = await calculateLanguageData(
+          responses[1]
         );
-        if (userCheckRes.status === 200) {
-          const userData = await userCheckRes.json();
-          const responses = await Promise.all([
-            fetch(
-              `https://github-contributions-api.deno.dev/${username}.json`
-            ).then((res) => res.json()),
-            fetch(`https://api.github.com/users/${username}/repos`).then(
-              (res) => res.json()
-            ),
-            fetch(
-              `https://api.github.com/users/${username}/events/public`
-            ).then((res) => res.json()),
-          ]);
-          const githubCardsForInitial = await sortGithubRepos(responses[1]);
-          const { langArray, langCount } = await calculateLanguageData(
-            responses[1]
-          );
-          const codeAnalysisRepos = await organizeRepos(responses[1]);
-          const activityData = await calculateActivityPercent(responses[0]);
-          const freshStackData = await formatStackBarData(langArray);
-          const eventData = await setLinks(responses[2]);
+        const codeAnalysisRepos = await organizeRepos(responses[1]);
+        const activityData = await calculateActivityPercent(responses[0]);
+        const freshStackData = await formatStackBarData(langArray);
+        const eventData = await setLinks(responses[2]);
 
-          const obj = {
-            initialAnalysis: {
-              headlineData: {
-                avatar: userData.avatar_url,
-                name: userData.name,
-                bio: userData.bio,
-                followers: userData.followers,
-                following: userData.following,
-                location: userData.location,
-                company: userData.company,
-                link: userData.html_url,
-              },
-              statcardData: {
-                totalContributions: responses[0].totalContributions,
-                yearlyContributions: activityData.yearly,
-                repositories: userData.public_repos,
-                languages: langCount,
-                doughnut: activityData.percentage,
-                events: eventData.eventsLength,
-              },
-              stackBarData: freshStackData,
-              languagesData: langArray,
-              githubData: githubCardsForInitial,
-              releases: eventData.eventsToShow,
+        const obj = {
+          initialAnalysis: {
+            headlineData: {
+              avatar: userData.avatar_url,
+              name: userData.name,
+              bio: userData.bio,
+              followers: userData.followers,
+              following: userData.following,
+              location: userData.location,
+              company: userData.company,
+              link: userData.html_url,
             },
-            codeAnalysis: {
-              repos: codeAnalysisRepos,
+            statcardData: {
+              totalContributions: responses[0].totalContributions,
+              yearlyContributions: activityData.yearly,
+              repositories: userData.public_repos,
+              languages: langCount,
+              doughnut: activityData.percentage,
+              events: eventData.eventsLength,
             },
-            contactDetails: {
-              email: userData.email,
-            },
-          };
-          await setData(obj);
-          console.log(obj);
-          localStorage.setItem("data", JSON.stringify(obj));
-          navigate(`/${username}`);
-          setLoader(false);
-        } else if ((userCheckRes.status = 403)) {
-          setLoader(false);
-          Swal.fire({
-            icon: "error",
-            title: "API request exceeded",
-            text: "Try again in another hour",
-          });
-        } else if ((userCheckRes.status = 404)) {
-          setLoader(false);
-          Swal.fire({
-            icon: "error",
-            title: "User not found",
-            text: "Are you sure that username exists?",
-          });
-        } else {
-          setLoader(false);
-          Swal.fire({
-            icon: "error",
-            title: "Unknown server error",
-            text: "Sorry about that",
-          });
-        }
-      } catch (error) {
+            stackBarData: freshStackData,
+            languagesData: langArray,
+            githubData: githubCardsForInitial,
+            releases: eventData.eventsToShow,
+          },
+          codeAnalysis: {
+            repos: codeAnalysisRepos,
+          },
+          contactDetails: {
+            email: userData.email,
+          },
+        };
+        await setData(obj);
+        console.log("obj", obj);
+        navigate(`/${username}`);
+        setLoader(false);
+      } else if (userCheckRes.status === 403) {
+        setLoader(false);
+        setApierror(true);
+        Swal.fire({
+          icon: "error",
+          title: "API request exceeded",
+          text: "Try again in another hour",
+        });
+      } else if (userCheckRes.status === 404) {
         setLoader(false);
         Swal.fire({
           icon: "error",
-          title: "Sorry, there was a problem",
-          text: "Try again sometime later",
+          title: "User not found",
+          text: "Are you sure that username exists? Try with an existing username",
         });
-        console.log(error);
+      } else {
+        setLoader(false);
+        Swal.fire({
+          icon: "error",
+          title: "Unknown server error",
+          text: "Sorry about that",
+        });
       }
     }
   }
@@ -335,6 +326,7 @@ export default function FirstPage() {
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           sx={{ width: "65%", paddingRight: "16px" }}
+          required
         />
         <Button
           type="submit"
