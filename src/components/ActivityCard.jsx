@@ -1,11 +1,11 @@
 import { Card, CardContent, Typography } from "@mui/material";
-import Activity from "./Doughnut";
+import Activity from "../sub-components/Doughnut";
 import { useContext } from "react";
 import { DataContext } from "../../DataContext";
 
 export default function ActivityCard() {
   const presentYear = new Date().getFullYear();
-  const { data, setData } = useContext(DataContext);
+  const { data } = useContext(DataContext);
   const initialAnalysisData = data.initialAnalysis;
 
   return (

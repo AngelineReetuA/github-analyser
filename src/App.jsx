@@ -1,6 +1,4 @@
 import InitialAnalysis from "./pages/InitialAnalysis";
-import Contact from "./pages/Contact";
-import CodeAnalysis from "./pages/CodeAnalysis";
 import Header from "./components/Header";
 import FirstPage from "./pages/FirstPage.jsx";
 import { Routes, Route } from "react-router-dom";
