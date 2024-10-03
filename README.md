@@ -18,6 +18,9 @@ QuickGit or the Github Analyser is a tool developed to quickly analyse and visua
 ### TechStack
 React with MUI Material UI
 
+### Try it here
+[https://angelinereetua.github.io/github-analyser/](https://angelinereetua.github.io/github-analyser/) 
+
 ### To reproduce
 1. Clone the repository
 2. Run the following in terminal
