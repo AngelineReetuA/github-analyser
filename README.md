@@ -1,5 +1,8 @@
 # Github Analyser
 
+[![Frontend][Frontend-image]][Frontend-url]
+[![Backend][Backend-image]][Backend-url]
+
 QuickGit or the Github Analyser is a tool developed to quickly analyse and visualize the metrics of a user's github profile. It provides a simple representation of analysation of large amount of data from a user's profile in a concise way.
 
 ### Features
@@ -21,6 +24,11 @@ React with MUI Material UI
 ### Try it here
 [https://angelinereetua.github.io/github-analyser/](https://angelinereetua.github.io/github-analyser/) 
 
+
+[Frontend-image]: https://img.shields.io/badge/Frontend-Ionic-blue?style=for-the-badge
+[Frontend-url]: https://img.shields.io/badge/Frontend-Ionic-blue?style=for-the-badge
+[Backend-image]: https://img.shields.io/badge/Backend-Java%208-important?style=for-the-badge
+[Backend-url]: https://img.shields.io/badge/Backend-Java%208-important?style=for-the-badge
 ### To reproduce
 1. Clone the repository
 2. Run the following in terminal
