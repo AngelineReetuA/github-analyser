@@ -15,15 +15,18 @@ export default function RepoFilter() {
   const { data } = useContext(DataContext);
   const [repos, setRepos] = useState(data.codeAnalysis.repos);
   let languagesArray = [];
-  data.codeAnalysis.repos.map((rep) => {
-    if (
-      languagesArray.indexOf(rep.repoLang) === -1 &&
-      rep.repoLang != null &&
-      rep.repoLang != ""
-    ) {
-      languagesArray.push(rep.repoLang);
-    }
-  });
+  console.log("data", data);
+  if (data.codeAnalysis.repos.length > 0) {
+    data?.codeAnalysis.repos.map((rep) => {
+      if (
+        languagesArray.indexOf(rep.repoLang) === -1 &&
+        rep.repoLang != null &&
+        rep.repoLang != ""
+      ) {
+        languagesArray.push(rep.repoLang);
+      }
+    });
+  }
 
   const [langName, setLangName] = useState([]);
 
@@ -74,7 +77,7 @@ export default function RepoFilter() {
           input={<OutlinedInput label="Filter by language" />}
           renderValue={(selected) => selected.join(", ")}
         >
-          {languagesArray.map((name) => (
+          {languagesArray?.map((name) => (
             <MenuItem key={name} value={name}>
               <Checkbox checked={langName.indexOf(name) > -1} />
               <ListItemText primary={name} />

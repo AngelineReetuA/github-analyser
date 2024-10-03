@@ -3,7 +3,7 @@ import ActivityCard from "../components/ActivityCard";
 import HorizontalStatCard from "../components/HorizontalStatCard";
 import Headline from "../components/Headline";
 import Releases from "../components/Links";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { DataContext } from "../../DataContext";
 import FolderOpenIcon from "@mui/icons-material/FolderOpen";
 import CommitIcon from "@mui/icons-material/Commit";
@@ -12,11 +12,22 @@ import NorthWestIcon from "@mui/icons-material/NorthWest";
 import LanguagesCard from "../components/LanguagesCard";
 import TheBestCard from "../components/TheBestCard";
 import RepoFilter from "../components/RepoFilter";
+import { useNavigate } from "react-router-dom";
 
 export default function InitialAnalysis() {
   const { data } = useContext(DataContext);
   const initialAnalysisData = data.initialAnalysis;
+  const navigate = useNavigate();
 
+  console.log("data",data)
+  console.log("data.initialAnalysis.headlineData.name",data.initialAnalysis.headlineData.name)
+  useEffect(()=>{
+    if(data.initialAnalysis.headlineData.name === ""){
+      console.log("name null")
+      navigate(`/`);
+    }
+  })
+ 
   return (
     <>
       <Grid container spacing={2}>

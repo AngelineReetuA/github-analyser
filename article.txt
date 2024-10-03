@@ -1,0 +1,14 @@
+things to write in the article about:
+linkedin
+- kicking off a tech blog
+- about project
+
+medium post - maybe boil it down to a point instead of explaining a personal experience (do that on linkedin/keep it short) 
+- why github analyser? (write spontaneously)
+- a eye catching wide angle picture
+- initial research - about the other github analysers and the chatgpt github analyser, what I wanted to incorporate, pov of a HR
+- challenges faced: - Github API rate limit
+                    - way to store and use data in multiple components and avoid prop-drilling
+                    - several state management system and why I landed on ContextAPI
+                    - deploying a react vite project
+- 

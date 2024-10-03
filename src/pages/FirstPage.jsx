@@ -192,10 +192,12 @@ async function setLinks(events) {
 
 export default function FirstPage() {
   const [loader, setLoader] = useState(false);
-  const { setData } = useContext(DataContext);
+  const { setData, data } = useContext(DataContext);
   const [username, setUsername] = useState("");
   const [apierror, setApierror] = useState(false);
   const navigate = useNavigate();
+
+  console.log("firstPage", username)
 
   async function handleSubmit(e) {
     setLoader(true);
@@ -325,7 +327,7 @@ export default function FirstPage() {
           autoComplete="on"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
-          sx={{ width: "65%", paddingRight: "16px" }}
+          sx={{ paddingRight: "16px", marginBottom: "16px", minWidth: "65%" }}
           required
         />
         <Button
@@ -333,6 +335,7 @@ export default function FirstPage() {
           variant="contained"
           sx={{
             width: "160px",
+            height: "55px",
             backgroundColor: "#4e7a94",
             ":hover": {
               backgroundColor: "white",

@@ -35,7 +35,7 @@ export default function TheBestCard() {
           </Typography>
           <CardContent>
             <Grid container item spacing={2}>
-              {githubData.map((repo) => (
+              {githubData?.map((repo) => (
                 <Grid
                   key={repo.repoName}
                   item
