@@ -21,6 +21,11 @@ React with MUI Material UI
 ### Try it here
 [https://angelinereetua.github.io/github-analyser/](https://angelinereetua.github.io/github-analyser/) 
 
+
+[Frontend-image]: https://img.shields.io/badge/Frontend-Ionic-blue?style=for-the-badge
+[Frontend-url]: https://img.shields.io/badge/Frontend-Ionic-blue?style=for-the-badge
+[Backend-image]: https://img.shields.io/badge/Backend-Java%208-important?style=for-the-badge
+[Backend-url]: https://img.shields.io/badge/Backend-Java%208-important?style=for-the-badge
 ### To reproduce
 1. Clone the repository
 2. Run the following in terminal
