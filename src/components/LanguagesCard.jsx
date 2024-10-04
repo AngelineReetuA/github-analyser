@@ -4,8 +4,8 @@ import { useContext } from "react";
 import { DataContext } from "../../DataContext";
 
 export default function LanguagesCard() {
-  const { data, setData } = useContext(DataContext);
-  const languageData = data.initialAnalysis.stackBarData;
+  const { data } = useContext(DataContext);
+  const languageData = data?.initialAnalysis?.stackBarData;
 
   return (
     <>
