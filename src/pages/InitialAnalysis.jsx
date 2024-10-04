@@ -19,11 +19,8 @@ export default function InitialAnalysis() {
   const initialAnalysisData = data.initialAnalysis;
   const navigate = useNavigate();
 
-  console.log("data",data)
-  console.log("data.initialAnalysis.headlineData.name",data.initialAnalysis.headlineData.name)
   useEffect(()=>{
     if(data.initialAnalysis.headlineData.name === ""){
-      console.log("name null")
       navigate(`/`);
     }
   })

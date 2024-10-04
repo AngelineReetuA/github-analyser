@@ -197,8 +197,6 @@ export default function FirstPage() {
   const [apierror, setApierror] = useState(false);
   const navigate = useNavigate();
 
-  console.log("firstPage", username)
-
   async function handleSubmit(e) {
     setLoader(true);
     e.preventDefault();
@@ -263,7 +261,6 @@ export default function FirstPage() {
           },
         };
         await setData(obj);
-        console.log("obj", obj);
         navigate(`/${username}`);
         setLoader(false);
       } else if (userCheckRes.status === 403) {

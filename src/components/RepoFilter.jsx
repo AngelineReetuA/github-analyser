@@ -15,7 +15,6 @@ export default function RepoFilter() {
   const { data } = useContext(DataContext);
   const [repos, setRepos] = useState(data.codeAnalysis.repos);
   let languagesArray = [];
-  console.log("data", data);
   if (data.codeAnalysis.repos.length > 0) {
     data?.codeAnalysis.repos.map((rep) => {
       if (
