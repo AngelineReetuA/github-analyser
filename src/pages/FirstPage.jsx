@@ -63,6 +63,7 @@ export default function FirstPage() {
               location: userData.location,
               company: userData.company,
               link: userData.html_url,
+              username: userData.login
             },
             statcardData: {
               totalContributions: responses[0].totalContributions,
@@ -85,11 +86,11 @@ export default function FirstPage() {
           },
         };
         await setData(obj);
+        console.log("obj", obj)
         navigate(`/${username}`);
         setLoader(false);
       } else if (userCheckRes.status === 403) {
         setLoader(false);
-        setApierror(true);
         Swal.fire({
           icon: "error",
           title: "API request exceeded",
@@ -100,7 +101,7 @@ export default function FirstPage() {
         Swal.fire({
           icon: "error",
           title: "User not found",
-          text: "Are you sure that username exists? Try with an existing username",
+          text: "Try with an existing username",
         });
       } else {
         setLoader(false);

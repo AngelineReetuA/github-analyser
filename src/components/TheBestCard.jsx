@@ -5,7 +5,10 @@ import { DataContext } from "../../DataContext";
 
 export default function TheBestCard() {
   const { data } = useContext(DataContext);
-  const githubData = data.initialAnalysis.githubData;
+  const githubData = data.initialAnalysis?.githubData;
+  console.log("best card")
+  console.log(githubData)
+  console.log("*********")
 
   return (
     <>

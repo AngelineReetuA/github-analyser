@@ -14,6 +14,7 @@ export const DataProvider = ({ children }) => {
         location:"",
         company: "",
         link: "",
+        username: ""
       },
       statcardData: {
         totalContributions: 0,
@@ -35,6 +36,8 @@ export const DataProvider = ({ children }) => {
       email: "",
     },
   });
+  console.log("data context")
+  console.log(data)
 
   return (
     <DataContext.Provider value={{ data, setData }}>

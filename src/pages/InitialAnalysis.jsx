@@ -13,104 +13,228 @@ import LanguagesCard from "../components/LanguagesCard";
 import TheBestCard from "../components/TheBestCard";
 import RepoFilter from "../components/RepoFilter";
 import { useNavigate } from "react-router-dom";
+import {
+  calculateLanguageData,
+  formatStackBarData,
+  sortGithubRepos,
+  organizeRepos,
+  calculateActivityPercent,
+  setLinks,
+} from "../utils/helper-functions";
+import { useLocation } from "react-router-dom";
+import { Backdrop } from "@mui/material";
+import { CircularProgress } from "@mui/material";
+import { useState } from "react";
+import Swal from "sweetalert2";
 
 export default function InitialAnalysis() {
-  const { data } = useContext(DataContext);
-  const initialAnalysisData = data.initialAnalysis;
+  const { data, setData } = useContext(DataContext);
+  const [initialAnalysisData, setInitialAnalysisData] = useState(
+    data?.initialAnalysis
+  );
   const navigate = useNavigate();
+  const location = useLocation();
+  const username = location.pathname.split("/")[1];
+  const [loader, setLoader] = useState(false);
 
-  useEffect(()=>{
-    if(data.initialAnalysis.headlineData.name === ""){
-      navigate(`/`);
+  useEffect(() => {
+    let usernameEntered = data.initialAnalysis.headlineData.username;
+    console.log("usernameEntered", usernameEntered);
+    if (usernameEntered?.trim()?.length !== 0) {
+      return;
+    } 
+    console.log("no username found, hence refreshing", username);
+    fetchData();
+    async function fetchData() {
+      try {
+        if (username) {
+          const userCheckRes = await fetch(
+            `https://api.github.com/users/${username}`
+          );
+          if (userCheckRes.status === 200) {
+            setLoader(true);
+            const userData = await userCheckRes.json();
+            const responses = await Promise.all([
+              fetch(
+                `https://github-contributions-api.deno.dev/${username}.json`
+              ).then((res) => res.json()),
+              fetch(`https://api.github.com/users/${username}/repos`).then(
+                (res) => res.json()
+              ),
+              fetch(
+                `https://api.github.com/users/${username}/events/public`
+              ).then((res) => res.json()),
+            ]);
+            const githubCardsForInitial = await sortGithubRepos(responses[1]);
+            const { langArray, langCount } = await calculateLanguageData(
+              responses[1]
+            );
+            const codeAnalysisRepos = await organizeRepos(responses[1]);
+            const activityData = await calculateActivityPercent(responses[0]);
+            const freshStackData = await formatStackBarData(langArray);
+            const eventData = await setLinks(responses[2]);
+
+            const obj = {
+              initialAnalysis: {
+                headlineData: {
+                  avatar: userData.avatar_url,
+                  name: userData.name,
+                  bio: userData.bio,
+                  followers: userData.followers,
+                  following: userData.following,
+                  location: userData.location,
+                  company: userData.company,
+                  link: userData.html_url,
+                  username: userData.login,
+                },
+                statcardData: {
+                  totalContributions: responses[0].totalContributions,
+                  yearlyContributions: activityData.yearly,
+                  repositories: userData.public_repos,
+                  languages: langCount,
+                  doughnut: activityData.percentage,
+                  events: eventData.eventsLength,
+                },
+                stackBarData: freshStackData,
+                languagesData: langArray,
+                githubData: githubCardsForInitial,
+                releases: eventData.eventsToShow,
+              },
+              codeAnalysis: {
+                repos: codeAnalysisRepos,
+              },
+              contactDetails: {
+                email: userData.email,
+              },
+            };
+            await setData(obj);
+            console.log("setData in initialAnalysis", obj);
+            setInitialAnalysisData(data.initialAnalysis);
+            setLoader(false);
+          } else if (
+            userCheckRes.status === 403 ||
+            responses[0] === 403 ||
+            responses[1] === 403 ||
+            responses[2] === 403
+          ) {
+            handleError("API request exceeded", "Try again in another hour");
+          } else if (userCheckRes.status === 404) {
+            handleError("User not found", "Try with an existing username");
+          } else {
+            handleError("Unknown server error", "Sorry about that");
+          }
+        }
+      } catch (error) {
+        console.log("error", error);
+      }
+      return
     }
-  })
- 
+  }, [initialAnalysisData]);
+
+  const handleError = (title, text) => {
+    setLoader(false);
+    navigate("/");
+    Swal.fire({
+      icon: "error",
+      title,
+      text,
+    });
+  };
+
   return (
     <>
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <Headline />
-        </Grid>
-
-        <Grid container spacing={2} sx={{ paddingLeft: "15px" }}>
-          <Grid item xs={12} sm={12} md={4}>
-            <ActivityCard />
+      <Backdrop
+        sx={(theme) => ({ color: "#fff", zIndex: theme.zIndex.drawer + 1 })}
+        open={loader}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
+      {!loader && (
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <Headline />
           </Grid>
 
-          <Grid
-            item
-            container
-            xs={12}
-            sm={6}
-            md={4}
-            spacing={2}
-            direction="column"
-          >
-            <Grid item md={4}>
-              <HorizontalStatCard
-                color="#98c1d9"
-                name="REPOSITORIES"
-                value={initialAnalysisData.statcardData.repositories}
-                overlay={FolderOpenIcon}
-              />
+          <Grid container spacing={2} sx={{ paddingLeft: "15px" }}>
+            <Grid item xs={12} sm={12} md={4}>
+              <ActivityCard />
             </Grid>
-            <Grid item md={4}>
-              <HorizontalStatCard
-                color="#eec64d"
-                name="COMMITS"
-                value={initialAnalysisData.statcardData.totalContributions}
-                overlay={CommitIcon}
-              />
+
+            <Grid
+              item
+              container
+              xs={12}
+              sm={6}
+              md={4}
+              spacing={2}
+              direction="column"
+            >
+              <Grid item md={4}>
+                <HorizontalStatCard
+                  color="#98c1d9"
+                  name="REPOSITORIES"
+                  value={initialAnalysisData?.statcardData?.repositories}
+                  overlay={FolderOpenIcon}
+                />
+              </Grid>
+              <Grid item md={4}>
+                <HorizontalStatCard
+                  color="#eec64d"
+                  name="COMMITS"
+                  value={initialAnalysisData?.statcardData?.totalContributions}
+                  overlay={CommitIcon}
+                />
+              </Grid>
+            </Grid>
+
+            <Grid
+              item
+              container
+              xs={12}
+              sm={6}
+              md={4}
+              spacing={2}
+              direction="column"
+            >
+              <Grid item md={4}>
+                <HorizontalStatCard
+                  color="#ee6c4d"
+                  name="LANGUAGES"
+                  value={initialAnalysisData?.statcardData?.languages}
+                  overlay={CodeIcon}
+                />
+              </Grid>
+              <Grid item md={4}>
+                <HorizontalStatCard
+                  color="#e0fbfc"
+                  name="EVENTS"
+                  value={initialAnalysisData?.statcardData?.events}
+                  overlay={NorthWestIcon}
+                />
+              </Grid>
             </Grid>
           </Grid>
 
-          <Grid
-            item
-            container
-            xs={12}
-            sm={6}
-            md={4}
-            spacing={2}
-            direction="column"
-          >
-            <Grid item md={4}>
-              <HorizontalStatCard
-                color="#ee6c4d"
-                name="LANGUAGES"
-                value={initialAnalysisData.statcardData.languages}
-                overlay={CodeIcon}
-              />
+          <Grid container spacing={2} pt={2} sx={{ paddingLeft: "15px" }}>
+            <Grid item xs={12} sm={12} md={6}>
+              <Paper elevation={3} sx={{ borderRadius: "16px" }}>
+                <TheBestCard />
+              </Paper>
             </Grid>
-            <Grid item md={4}>
-              <HorizontalStatCard
-                color="#e0fbfc"
-                name="EVENTS"
-                value={initialAnalysisData.statcardData.events}
-                overlay={NorthWestIcon}
-              />
+            <Grid item xs={12} sm={6} md={2.5}>
+              <Paper elevation={3} sx={{ borderRadius: "16px" }}>
+                <LanguagesCard />
+              </Paper>
+            </Grid>
+            <Grid item xs={12} sm={6} md={3.5}>
+              <Releases />
             </Grid>
           </Grid>
-        </Grid>
-
-        <Grid container spacing={2} pt={2} sx={{ paddingLeft: "15px" }}>
-          <Grid item xs={12} sm={12} md={6}>
-            <Paper elevation={3} sx={{ borderRadius: "16px" }}>
-              <TheBestCard />
-            </Paper>
-          </Grid>
-          <Grid item xs={12} sm={6} md={2.5}>
-            <Paper elevation={3} sx={{ borderRadius: "16px" }}>
-              <LanguagesCard />
-            </Paper>
-          </Grid>
-          <Grid item xs={12} sm={6} md={3.5}>
-            <Releases />
+          <Grid item container sx={{ paddingLeft: "15px", marginTop: "15px" }}>
+            <RepoFilter />
           </Grid>
         </Grid>
-        <Grid item container sx={{ paddingLeft: "15px", marginTop: "15px" }}>
-          <RepoFilter />
-        </Grid>
-      </Grid>
+      )}
     </>
   );
 }
