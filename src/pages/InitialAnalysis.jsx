@@ -62,6 +62,7 @@ export default function InitialAnalysis() {
                 `https://api.github.com/users/${username}/events/public`
               ).then((res) => res.json()),
             ]);
+
             const githubCardsForInitial = await sortGithubRepos(responses[1]);
             const { langArray, langCount } = await calculateLanguageData(
               responses[1]
@@ -105,7 +106,6 @@ export default function InitialAnalysis() {
               },
             };
             await setData(obj);
-            setLoader(false);
           } else if (userCheckRes.status === 403) {
             handleError("API request exceeded", "Try again in another hour");
           } else if (userCheckRes.status === 404) {
@@ -116,6 +116,12 @@ export default function InitialAnalysis() {
         }
       } catch (error) {
         console.log("error", error);
+        handleError(
+          "Network error",
+          "Please check your connection or try again later"
+        );
+      } finally {
+        setLoader(false);
       }
       return;
     }

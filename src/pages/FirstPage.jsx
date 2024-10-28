@@ -27,6 +27,7 @@ import {
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import MailIcon from "@mui/icons-material/Mail";
 import CodeIcon from "@mui/icons-material/Code";
+import InsertLinkIcon from "@mui/icons-material/InsertLink";
 
 export default function FirstPage() {
   const [loader, setLoader] = useState(false);
@@ -44,7 +45,7 @@ export default function FirstPage() {
         const userCheckRes = await fetch(
           `https://api.github.com/users/${username.trim()}`
         );
-        
+
         if (userCheckRes.status === 200) {
           const userData = await userCheckRes.json();
 
@@ -227,6 +228,26 @@ export default function FirstPage() {
             Send
           </Button>
         </Grid>
+        <Grid item paddingTop={2}>
+          <small>
+            <i>
+              <b>Note:</b> You can now use direct links for this tool. For more
+              details, check out the related{" "}
+              <a href="https://github.com/AngelineReetuA/github-analyser/issues/1" target="_blank">
+                GitHub issue
+              </a>
+              .
+            </i>
+            <br />
+            <i>
+              To link directly to a specific profile, use this URL format:
+              <code>
+                {" "}
+                https://angelinereetua.github.io/github-analyser/#/username
+              </code>
+            </i>
+          </small>
+        </Grid>
       </Grid>
       <Box
         component="footer"
@@ -242,7 +263,7 @@ export default function FirstPage() {
           gap: "8px",
         }}
       >
-        <Typography variant="body2">Ping the developer here -</Typography>
+        <Typography variant="body2">Ping me here -</Typography>
         <a
           href="https://www.linkedin.com/in/angeline-reetu-a-175b5221b"
           target="_blank"
