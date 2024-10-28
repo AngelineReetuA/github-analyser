@@ -27,7 +27,7 @@ export default function Header() {
       <AppBar position="fixed" sx={{ height: "60px", bgcolor: "#293241" }}>
         <Toolbar sx={{ justifyContent: "space-between" }}>
           <Typography variant="h6" component="div" sx={{ bgcolor: "#293241" }}>
-            Quick Github Analyser
+            QuickGit
           </Typography>
           <CloseIcon
             size="large"

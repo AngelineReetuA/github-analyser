@@ -126,7 +126,7 @@ export default function FirstPage() {
 
   return (
     <>
-      <AppBar position="fixed" style={{ backgroundColor: "#4e7a94" }}>
+      <AppBar position="fixed" style={{ backgroundColor: "#293241" }}>
         <Toolbar variant="dense" style={{ justifyContent: "space-between" }}>
           <Typography
             variant="h6"
@@ -198,7 +198,7 @@ export default function FirstPage() {
             sx={{
               width: "160px",
               height: "55px",
-              backgroundColor: "#4e7a94",
+              backgroundColor: "#293241",
               ":hover": {
                 backgroundColor: "white",
                 color: "black",

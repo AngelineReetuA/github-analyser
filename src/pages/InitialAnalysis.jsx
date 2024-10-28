@@ -41,10 +41,10 @@ export default function InitialAnalysis() {
     let usernameEntered = data.initialAnalysis.headlineData.username;
     if (usernameEntered?.trim()?.length !== 0) {
       return;
-    } 
+    }
 
     fetchData();
-    
+
     async function fetchData() {
       try {
         if (username) {
@@ -110,15 +110,10 @@ export default function InitialAnalysis() {
             await setData(obj);
             console.log("setData in initialAnalysis", obj);
             setInitialAnalysisData(data.initialAnalysis);
-            console.log("setInitialAnalysisData", initialAnalysisData)
+            console.log("setInitialAnalysisData", initialAnalysisData);
             setLoader(false);
-            console.log("loader", loader)
-          } else if (
-            userCheckRes.status === 403 ||
-            responses[0] === 403 ||
-            responses[1] === 403 ||
-            responses[2] === 403
-          ) {
+            console.log("loader", loader);
+          } else if (userCheckRes.status === 403) {
             handleError("API request exceeded", "Try again in another hour");
           } else if (userCheckRes.status === 404) {
             handleError("User not found", "Try with an existing username");
@@ -129,7 +124,7 @@ export default function InitialAnalysis() {
       } catch (error) {
         console.log("error", error);
       }
-      return
+      return;
     }
   }, [initialAnalysisData]);
 

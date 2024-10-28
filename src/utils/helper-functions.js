@@ -14,7 +14,11 @@ export async function calculateLanguageData(data) {
   data = await data?.filter((d) => {
     return d.fork === false;
   });
-  data = data?.slice(0, 3);
+  data = data
+    .sort((a, b) => {
+      return b.stargazers_count - a.stargazers_count || b.size - a.size;
+    })
+    .slice(0, 3);
   let langArray = [];
   await Promise.all(
     data?.map(async (repo) => {
@@ -87,7 +91,7 @@ export async function sortGithubRepos(repos) {
   });
   let temp = repos
     .sort((a, b) => {
-      return b.size - a.size;
+      return b.stargazers_count - a.stargazers_count || b.size - a.size
     })
     .slice(0, 2);
   return temp?.map((repo) => ({
