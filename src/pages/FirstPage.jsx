@@ -31,6 +31,7 @@ export default function FirstPage() {
         `https://api.github.com/users/${username}`
       );
       if (userCheckRes.status === 200) {
+        setLoader(true);
         const userData = await userCheckRes.json();
         const responses = await Promise.all([
           fetch(
@@ -63,7 +64,7 @@ export default function FirstPage() {
               location: userData.location,
               company: userData.company,
               link: userData.html_url,
-              username: userData.login
+              username: userData.login,
             },
             statcardData: {
               totalContributions: responses[0].totalContributions,
@@ -86,33 +87,32 @@ export default function FirstPage() {
           },
         };
         await setData(obj);
-        console.log("obj", obj)
         navigate(`/${username}`);
         setLoader(false);
-      } else if (userCheckRes.status === 403) {
-        setLoader(false);
-        Swal.fire({
-          icon: "error",
-          title: "API request exceeded",
-          text: "Try again in another hour",
-        });
+      } else if (
+        userCheckRes.status === 403 ||
+        responses[0] === 403 ||
+        responses[1] === 403 ||
+        responses[2] === 403
+      ) {
+        handleError("API request exceeded", "Try again in another hour");
       } else if (userCheckRes.status === 404) {
-        setLoader(false);
-        Swal.fire({
-          icon: "error",
-          title: "User not found",
-          text: "Try with an existing username",
-        });
+        handleError("User not found", "Try with an existing username");
       } else {
-        setLoader(false);
-        Swal.fire({
-          icon: "error",
-          title: "Unknown server error",
-          text: "Sorry about that",
-        });
+        handleError("Unknown server error", "Sorry about that");
       }
     }
   }
+
+  const handleError = (title, text) => {
+    setLoader(false);
+    navigate("/");
+    Swal.fire({
+      icon: "error",
+      title,
+      text,
+    });
+  };
 
   return (
     <Grid container padding={8} sx={{ alignItems: "center" }}>

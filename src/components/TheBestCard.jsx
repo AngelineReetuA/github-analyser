@@ -5,11 +5,7 @@ import { DataContext } from "../../DataContext";
 
 export default function TheBestCard() {
   const { data } = useContext(DataContext);
-  const githubData = data.initialAnalysis?.githubData;
-  console.log("best card")
-  console.log(githubData)
-  console.log("*********")
-
+  
   return (
     <>
       <Card
@@ -38,7 +34,7 @@ export default function TheBestCard() {
           </Typography>
           <CardContent>
             <Grid container item spacing={2}>
-              {githubData?.map((repo) => (
+              {data.initialAnalysis.githubData.map((repo) => (
                 <Grid
                   key={repo.repoName}
                   item

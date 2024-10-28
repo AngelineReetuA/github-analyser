@@ -36,8 +36,6 @@ export const DataProvider = ({ children }) => {
       email: "",
     },
   });
-  console.log("data context")
-  console.log(data)
 
   return (
     <DataContext.Provider value={{ data, setData }}>

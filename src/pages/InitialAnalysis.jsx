@@ -32,19 +32,19 @@ export default function InitialAnalysis() {
   const [initialAnalysisData, setInitialAnalysisData] = useState(
     data?.initialAnalysis
   );
-  const navigate = useNavigate();
   const location = useLocation();
+  const navigate = useNavigate();
   const username = location.pathname.split("/")[1];
   const [loader, setLoader] = useState(false);
 
   useEffect(() => {
     let usernameEntered = data.initialAnalysis.headlineData.username;
-    console.log("usernameEntered", usernameEntered);
     if (usernameEntered?.trim()?.length !== 0) {
       return;
     } 
-    console.log("no username found, hence refreshing", username);
+
     fetchData();
+    
     async function fetchData() {
       try {
         if (username) {
@@ -110,7 +110,9 @@ export default function InitialAnalysis() {
             await setData(obj);
             console.log("setData in initialAnalysis", obj);
             setInitialAnalysisData(data.initialAnalysis);
+            console.log("setInitialAnalysisData", initialAnalysisData)
             setLoader(false);
+            console.log("loader", loader)
           } else if (
             userCheckRes.status === 403 ||
             responses[0] === 403 ||
