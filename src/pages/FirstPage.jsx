@@ -39,75 +39,93 @@ export default function FirstPage() {
     e.preventDefault();
     setUsername(username.trim());
     if (username.trim().length > 0) {
-      setLoader(true);
-      const userCheckRes = await fetch(
-        `https://api.github.com/users/${username.trim()}`
-      );
-      if (userCheckRes.status === 200) {
+      try {
         setLoader(true);
-        const userData = await userCheckRes.json();
-        const responses = await Promise.all([
-          fetch(
-            `https://github-contributions-api.deno.dev/${username.trim()}.json`
-          ).then((res) => res.json()),
-          fetch(`https://api.github.com/users/${username.trim()}/repos`).then((res) =>
-            res.json()
-          ),
-          fetch(`https://api.github.com/users/${username.trim()}/events/public`).then(
-            (res) => res.json()
-          ),
-        ]);
-        const githubCardsForInitial = await sortGithubRepos(responses[1]);
-        const { langArray, langCount } = await calculateLanguageData(
-          responses[1]
+        const userCheckRes = await fetch(
+          `https://api.github.com/users/${username.trim()}`
         );
-        const codeAnalysisRepos = await organizeRepos(responses[1]);
-        const activityData = await calculateActivityPercent(responses[0]);
-        const freshStackData = await formatStackBarData(langArray);
-        const eventData = await setLinks(responses[2]);
+        
+        if (userCheckRes.status === 200) {
+          const userData = await userCheckRes.json();
 
-        const obj = {
-          initialAnalysis: {
-            headlineData: {
-              avatar: userData.avatar_url,
-              name: userData.name,
-              bio: userData.bio,
-              followers: userData.followers,
-              following: userData.following,
-              location: userData.location,
-              company: userData.company,
-              link: userData.html_url,
-              username: userData.login,
-            },
-            statcardData: {
-              totalContributions: responses[0].totalContributions,
-              yearlyContributions: activityData.yearly,
-              repositories: userData.public_repos,
-              languages: langCount,
-              doughnut: activityData.percentage,
-              events: eventData.eventsLength,
-            },
-            stackBarData: freshStackData,
-            languagesData: langArray,
-            githubData: githubCardsForInitial,
-            releases: eventData.eventsToShow,
-          },
-          codeAnalysis: {
-            repos: codeAnalysisRepos,
-          },
-          contactDetails: {
-            email: userData.email,
-          },
-        };
-        await setData(obj);
-        navigate(`/${username}`);
+          try {
+            const responses = await Promise.all([
+              fetch(
+                `https://github-contributions-api.deno.dev/${username.trim()}.json`
+              ).then((res) => res.json()),
+              fetch(
+                `https://api.github.com/users/${username.trim()}/repos`
+              ).then((res) => res.json()),
+              fetch(
+                `https://api.github.com/users/${username.trim()}/events/public`
+              ).then((res) => res.json()),
+            ]);
+
+            const githubCardsForInitial = await sortGithubRepos(responses[1]);
+            const { langArray, langCount } = await calculateLanguageData(
+              responses[1]
+            );
+            const codeAnalysisRepos = await organizeRepos(responses[1]);
+            const activityData = await calculateActivityPercent(responses[0]);
+            const freshStackData = await formatStackBarData(langArray);
+            const eventData = await setLinks(responses[2]);
+
+            const obj = {
+              initialAnalysis: {
+                headlineData: {
+                  avatar: userData.avatar_url,
+                  name: userData.name,
+                  bio: userData.bio,
+                  followers: userData.followers,
+                  following: userData.following,
+                  location: userData.location,
+                  company: userData.company,
+                  link: userData.html_url,
+                  username: userData.login,
+                },
+                statcardData: {
+                  totalContributions: responses[0].totalContributions,
+                  yearlyContributions: activityData.yearly,
+                  repositories: userData.public_repos,
+                  languages: langCount,
+                  doughnut: activityData.percentage,
+                  events: eventData.eventsLength,
+                },
+                stackBarData: freshStackData,
+                languagesData: langArray,
+                githubData: githubCardsForInitial,
+                releases: eventData.eventsToShow,
+              },
+              codeAnalysis: {
+                repos: codeAnalysisRepos,
+              },
+              contactDetails: {
+                email: userData.email,
+              },
+            };
+
+            await setData(obj);
+            navigate(`/${username}`);
+          } catch (error) {
+            handleError(
+              "Error fetching user data",
+              "There was a problem loading additional data"
+            );
+          }
+        } else if (userCheckRes.status === 403) {
+          handleError("API request exceeded", "Try again in another hour");
+        } else if (userCheckRes.status === 404) {
+          handleError("User not found", "Try with an existing username");
+        } else {
+          handleError("Unknown server error", "Sorry about that");
+        }
+      } catch (error) {
+        handleError(
+          "Network error",
+          "Please check your connection and try again"
+        );
+      } finally {
         setLoader(false);
-      } else if (userCheckRes.status === 403) {
-        handleError("API request exceeded", "Try again in another hour");
-      } else if (userCheckRes.status === 404) {
-        handleError("User not found", "Try with an existing username");
-      } else {
-        handleError("Unknown server error", "Sorry about that");
       }
     } else {
       setError({ error: true, text: "Please enter a valid username" });
@@ -159,7 +177,8 @@ export default function FirstPage() {
           sx={(theme) => ({ color: "#fff", zIndex: theme.zIndex.drawer + 1 })}
           open={loader}
         >
-          <CircularProgress color="inherit" />
+          <CircularProgress color="inherit" style={{ marginRight: "10px" }} />
+          <Typography>Analysing the profile.. Please wait</Typography>
         </Backdrop>
         <Grid item>
           <GitHubIcon sx={{ fontSize: "120px" }} />

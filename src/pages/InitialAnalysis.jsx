@@ -1,4 +1,4 @@
-import { Grid, Paper } from "@mui/material";
+import { Grid, Paper, Typography } from "@mui/material";
 import ActivityCard from "../components/ActivityCard";
 import HorizontalStatCard from "../components/HorizontalStatCard";
 import Headline from "../components/Headline";
@@ -29,11 +29,8 @@ import Swal from "sweetalert2";
 
 export default function InitialAnalysis() {
   const { data, setData } = useContext(DataContext);
-  const [initialAnalysisData, setInitialAnalysisData] = useState(
-    data?.initialAnalysis
-  );
-  const location = useLocation();
   const navigate = useNavigate();
+  const location = useLocation();
   const username = location.pathname.split("/")[1];
   const [loader, setLoader] = useState(false);
 
@@ -108,11 +105,7 @@ export default function InitialAnalysis() {
               },
             };
             await setData(obj);
-            console.log("setData in initialAnalysis", obj);
-            setInitialAnalysisData(data.initialAnalysis);
-            console.log("setInitialAnalysisData", initialAnalysisData);
             setLoader(false);
-            console.log("loader", loader);
           } else if (userCheckRes.status === 403) {
             handleError("API request exceeded", "Try again in another hour");
           } else if (userCheckRes.status === 404) {
@@ -126,7 +119,7 @@ export default function InitialAnalysis() {
       }
       return;
     }
-  }, [initialAnalysisData]);
+  }, [data]);
 
   const handleError = (title, text) => {
     setLoader(false);
@@ -144,9 +137,10 @@ export default function InitialAnalysis() {
         sx={(theme) => ({ color: "#fff", zIndex: theme.zIndex.drawer + 1 })}
         open={loader}
       >
-        <CircularProgress color="inherit" />
+        <CircularProgress color="inherit" style={{ marginRight: "10px" }} />
+        <Typography>Analysing the profile.. Please wait</Typography>
       </Backdrop>
-      {!loader && (
+      {!loader && data.initialAnalysis.headlineData.username !== "" && (
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <Headline />
@@ -170,7 +164,7 @@ export default function InitialAnalysis() {
                 <HorizontalStatCard
                   color="#98c1d9"
                   name="REPOSITORIES"
-                  value={initialAnalysisData?.statcardData?.repositories}
+                  value={data.initialAnalysis?.statcardData?.repositories}
                   overlay={FolderOpenIcon}
                 />
               </Grid>
@@ -178,7 +172,7 @@ export default function InitialAnalysis() {
                 <HorizontalStatCard
                   color="#eec64d"
                   name="COMMITS"
-                  value={initialAnalysisData?.statcardData?.totalContributions}
+                  value={data.initialAnalysis?.statcardData?.totalContributions}
                   overlay={CommitIcon}
                 />
               </Grid>
@@ -197,7 +191,7 @@ export default function InitialAnalysis() {
                 <HorizontalStatCard
                   color="#ee6c4d"
                   name="LANGUAGES"
-                  value={initialAnalysisData?.statcardData?.languages}
+                  value={data.initialAnalysis?.statcardData?.languages}
                   overlay={CodeIcon}
                 />
               </Grid>
@@ -205,7 +199,7 @@ export default function InitialAnalysis() {
                 <HorizontalStatCard
                   color="#e0fbfc"
                   name="EVENTS"
-                  value={initialAnalysisData?.statcardData?.events}
+                  value={data.initialAnalysis?.statcardData?.events}
                   overlay={NorthWestIcon}
                 />
               </Grid>
