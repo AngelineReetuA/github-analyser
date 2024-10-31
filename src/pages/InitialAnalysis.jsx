@@ -36,7 +36,7 @@ export default function InitialAnalysis() {
 
   useEffect(() => {
     let usernameEntered = data.initialAnalysis.headlineData.username;
-    if (usernameEntered?.trim()?.length !== 0) {
+    if (usernameEntered?.trim()?.length !== 0 && usernameEntered?.trim() === username) {
       return;
     }
 
@@ -125,7 +125,7 @@ export default function InitialAnalysis() {
       }
       return;
     }
-  }, [data]);
+  }, [data, username]);
 
   const handleError = (title, text) => {
     setLoader(false);
