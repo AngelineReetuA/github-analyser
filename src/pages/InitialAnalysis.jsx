@@ -36,7 +36,7 @@ export default function InitialAnalysis() {
 
   useEffect(() => {
     let usernameEntered = data.initialAnalysis.headlineData.username;
-    if (usernameEntered?.trim()?.length !== 0 && usernameEntered?.trim() === username) {
+    if (usernameEntered?.trim()?.length !== 0) {
       return;
     }
 
@@ -117,15 +117,15 @@ export default function InitialAnalysis() {
       } catch (error) {
         console.log("error", error);
         handleError(
-          "Network error",
-          "Please check your connection or try again later"
+          "Unexpected error",
+          "Please try again later"
         );
       } finally {
         setLoader(false);
       }
       return;
     }
-  }, [data, username]);
+  }, [data]);
 
   const handleError = (title, text) => {
     setLoader(false);
